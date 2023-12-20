@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ajdmom.mdl_2fsv.cov &#8212; ajdmom 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ajdmom.mdl_2fsv.euler" href="ajdmom.mdl_2fsv.euler.html" />
+    <link rel="prev" title="ajdmom.mdl_2fsv.mom" href="ajdmom.mdl_2fsv.mom.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ajdmom.mdl_2fsv.cov">
+<span id="ajdmom-mdl-2fsv-cov"></span><h1>ajdmom.mdl_2fsv.cov<a class="headerlink" href="#module-ajdmom.mdl_2fsv.cov" title="Permalink to this heading">¶</a></h1>
+<p>Covariances for Two-Factor SV</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.cov" title="ajdmom.mdl_2fsv.cov.cov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cov</span></code></a>(l1, l2, par)</p></td>
+<td><p>Covariance in scalar</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.cov_yy" title="ajdmom.mdl_2fsv.cov.cov_yy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cov_yy</span></code></a>(l1, l2)</p></td>
+<td><p>Covariance <span class="math notranslate nohighlight">\(cov(y_n^{l_1},y_{n+1}^{l_2})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.dcov" title="ajdmom.mdl_2fsv.cov.dcov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcov</span></code></a>(l1, l2, par, wrt)</p></td>
+<td><p>Partial derivative of covariance w.r.t.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.moment_inner_comb" title="ajdmom.mdl_2fsv.cov.moment_inner_comb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moment_inner_comb</span></code></a>(l1, m1, m2, m3, m4, m5, ...)</p></td>
+<td><p>Moment for this inner combination in expansion of <span class="math notranslate nohighlight">\(y_n^{l_1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.moment_outer_comb" title="ajdmom.mdl_2fsv.cov.moment_outer_comb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moment_outer_comb</span></code></a>(l2, n1, n2, n3, n4, n5, ...)</p></td>
+<td><p>Moment for this outer combination in expansion of <span class="math notranslate nohighlight">\(y_{n+1}^{l_2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.moment_yy" title="ajdmom.mdl_2fsv.cov.moment_yy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moment_yy</span></code></a>(l1, l2)</p></td>
+<td><p>Co-Moment <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../2fsv.html#ajdmom.mdl_2fsv.cov.vvee_IEI_IEII_vnvn" title="ajdmom.mdl_2fsv.cov.vvee_IEI_IEII_vnvn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vvee_IEI_IEII_vnvn</span></code></a>(n2, n3, n4, n5, n6, n7, n8)</p></td>
+<td><p>Multiply <span class="math notranslate nohighlight">\(IEI\_IEII\)</span> by <span class="math notranslate nohighlight">\(v_{1,n}v_{2,n}e^{-k_1(n+1)h}e^{-k_2(n+1)h}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">ajdmom</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Program Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1fsv.html"><abbr title="One-Factor Stochastic Volatility">1FSV</abbr> Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1fsvj.html"><abbr title="One-Factor Stochastic Volatility with Jumps">1FSVJ</abbr> Model</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../2fsv.html"><abbr title="Two-Factor Stochastic Volatility">2FSV</abbr> Model</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../2fsv.html#notations">Notations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2fsv.html#central-moments">Central Moments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2fsv.html#moments">Moments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2fsv.html#covariances">Covariances</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../2fsv.html#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2fsvj.html"><abbr title="Two-Factor Stochastic Volatility with Jumps">2FSVJ</abbr> Model</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../2fsv.html"><abbr title="Two-Factor Stochastic Volatility">2FSV</abbr> Model</a><ul>
+      <li>Previous: <a href="ajdmom.mdl_2fsv.mom.html" title="previous chapter">ajdmom.mdl_2fsv.mom</a></li>
+      <li>Next: <a href="ajdmom.mdl_2fsv.euler.html" title="next chapter">ajdmom.mdl_2fsv.euler</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Yan-Feng Wu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/ajdmom.mdl_2fsv.cov.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,535 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>1FSVJ Model &#8212; ajdmom 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ajdmom.mdl_1fsvj.cmom" href="generated/ajdmom.mdl_1fsvj.cmom.html" />
+    <link rel="prev" title="ajdmom.mdl_1fsv.euler" href="generated/ajdmom.mdl_1fsv.euler.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fsvj-model">
+<h1><abbr title="One-Factor Stochastic Volatility with Jumps">1FSVJ</abbr> Model<a class="headerlink" href="#fsvj-model" title="Permalink to this heading">¶</a></h1>
+<p>In this subpackage (<code class="docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsvj</span></code>), we consider the following
+<abbr title="Stochastic Volatility">SV</abbr> model,
+which adds a jump component in the log price process of the Heston model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}d\log s(t) &amp;= (\mu- v(t)/2) dt + \sqrt{v(t)}dw^s(t) + dz(t),\\
+dv(t)      &amp;= k(\theta - v(t))dt + \sigma_v \sqrt{v(t)}dw^v(t),\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(z(t)\)</span> is a <abbr title="Compound Poisson Process">CPP</abbr> with
+a constant arrival rate <span class="math notranslate nohighlight">\(\lambda\)</span> and jump distribution
+<span class="math notranslate nohighlight">\(F_j(\cdot,\boldsymbol{\theta}_j)\)</span> with parameter
+<span class="math notranslate nohighlight">\(\boldsymbol{\theta}_j\)</span>.
+We take normal distribution with mean
+<span class="math notranslate nohighlight">\(\mu_j\)</span> and variance <span class="math notranslate nohighlight">\(\sigma_j^2\)</span> as an example of
+<span class="math notranslate nohighlight">\(F_j(\cdot,\boldsymbol{\theta}_j)\)</span>. For this model,</p>
+<div class="math notranslate nohighlight">
+\[y_n = y_{o,n} + J_n,\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}y_{o,n} &amp;\triangleq \mu h - \frac{1}{2}IV_{n} + \rho I_n +
+\sqrt{1-\rho^2}I_n^{*}, \\
+J_n &amp;\triangleq z(nh) - z((n-1)h) = \sum_{i=N((n-1)h)+1}^{N(nh)}j_i,\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(N(t)\)</span> is a Poisson process with rate <span class="math notranslate nohighlight">\(\lambda\)</span>,
+<span class="math notranslate nohighlight">\(j_i\sim\mathcal{N}(\mu_j,\sigma_j^2)\)</span>.</p>
+<section id="moments">
+<h2>Moments<a class="headerlink" href="#moments" title="Permalink to this heading">¶</a></h2>
+<p>Moments and Central Moments</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}E[\overline{y}_{n}^l]
+&amp;= E[(\overline{y}_{o,n} + \overline{J}_n)^l]
+= \sum_{i=0}^{l} C_l^i E[\overline{y}_{o,n}^i]E[\overline{J}_n^{l-i}],\\
+E[y_n^l]
+&amp;= E[(y_{o,n} + J_n)^l]
+= \sum_{i=0}^{l} C_l^i E[y_{o,n}^i] E[J_n^{l-i}].\end{split}\]</div>
+<p>Functions <a class="reference internal" href="1fsv.html#ajdmom.mdl_1fsv.mom.moment_y" title="ajdmom.mdl_1fsv.mom.moment_y"><code class="xref py py-func docutils literal notranslate"><span class="pre">moment_y()</span></code></a> and
+<a class="reference internal" href="1fsv.html#ajdmom.mdl_1fsv.cmom.cmoment_y" title="ajdmom.mdl_1fsv.cmom.cmoment_y"><code class="xref py py-func docutils literal notranslate"><span class="pre">cmoment_y()</span></code></a> can be used to compute
+<span class="math notranslate nohighlight">\(E[y_{o,n}^i]\)</span> and
+<span class="math notranslate nohighlight">\(E[\overline{y}_{o,n}^i]\)</span>, respectively.
+Meanwhile, functions <a class="reference internal" href="api.html#ajdmom.cpp_mom.mcpp" title="ajdmom.cpp_mom.mcpp"><code class="xref py py-func docutils literal notranslate"><span class="pre">mcpp()</span></code></a> and
+<a class="reference internal" href="api.html#ajdmom.cpp_mom.cmcpp" title="ajdmom.cpp_mom.cmcpp"><code class="xref py py-func docutils literal notranslate"><span class="pre">cmcpp()</span></code></a> can be used to compute
+<span class="math notranslate nohighlight">\(E[J_n^{l-i}]\)</span> and
+<span class="math notranslate nohighlight">\(E[\overline{J}_n^{l-i}]\)</span>, respectively.</p>
+</section>
+<section id="covariances">
+<h2>Covariances<a class="headerlink" href="#covariances" title="Permalink to this heading">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[cov(y_n^{l_1}, y_{n+1}^{l_2})
+= E[y_n^{l_1}y_{n+1}^{l_2}] - E[y_n^{l_1}]E[y_{n+1}^{l_2}]\]</div>
+<p>which reduces to</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}&amp;E[y_n^{l_1}y_{n+1}^{l_2}]\\
+&amp;= \sum_{i=0}^{l_2}C_{l_2}^i E[y_n^{l_1}y_{o,n+1}^i]E[J_{n+1}^{l_2-i}]\\
+&amp;= \sum_{i=0}^{l_2}C_{l_2}^i \sum_{j=0}^{l_1}C_{l_1}^j
+E[y_{o,n}^jy_{o,n+1}^i] E[J_n^{l_1-j}]E[J_{n+1}^{l_2-i}].\end{split}\]</div>
+<p>Function <a class="reference internal" href="1fsv.html#ajdmom.mdl_1fsv.cov.moment_yy" title="ajdmom.mdl_1fsv.cov.moment_yy"><code class="xref py py-func docutils literal notranslate"><span class="pre">moment_yy()</span></code></a> in module
+<a class="reference internal" href="generated/ajdmom.mdl_1fsv.cov.html#module-ajdmom.mdl_1fsv.cov" title="ajdmom.mdl_1fsv.cov"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsv.cov</span></code></a> can be used to compute
+<span class="math notranslate nohighlight">\(E[y_{o,n}^jy_{o,n+1}^i]\)</span>.</p>
+<p>In summary, I defined</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#ajdmom.mdl_1fsvj.mom.moment_y" title="ajdmom.mdl_1fsvj.mom.moment_y"><code class="xref py py-func docutils literal notranslate"><span class="pre">moment_y()</span></code></a> for moment <span class="math notranslate nohighlight">\(E[y_n^l]\)</span>.</p></li>
+<li><p><a class="reference internal" href="#ajdmom.mdl_1fsvj.cmom.cmoment_y" title="ajdmom.mdl_1fsvj.cmom.cmoment_y"><code class="xref py py-func docutils literal notranslate"><span class="pre">cmoment_y()</span></code></a> for central moment
+<span class="math notranslate nohighlight">\(E[\overline{y}_{n}^l]\)</span>.</p></li>
+<li><p><a class="reference internal" href="#ajdmom.mdl_1fsvj.cov.cov_yy" title="ajdmom.mdl_1fsvj.cov.cov_yy"><code class="xref py py-func docutils literal notranslate"><span class="pre">cov_yy()</span></code></a> for covariance
+<span class="math notranslate nohighlight">\(cov(y_n^{l_1}, y_{n+1}^{l_2})\)</span>.</p></li>
+</ol>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ajdmom.mdl_1fsvj.cmom.html#module-ajdmom.mdl_1fsvj.cmom" title="ajdmom.mdl_1fsvj.cmom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsvj.cmom</span></code></a></p></td>
+<td><p>Central Moments for One-Factor SV with jumps</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ajdmom.mdl_1fsvj.mom.html#module-ajdmom.mdl_1fsvj.mom" title="ajdmom.mdl_1fsvj.mom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsvj.mom</span></code></a></p></td>
+<td><p>Moments for One-Factor SV with jumps</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/ajdmom.mdl_1fsvj.cov.html#module-ajdmom.mdl_1fsvj.cov" title="ajdmom.mdl_1fsvj.cov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsvj.cov</span></code></a></p></td>
+<td><p>Covariance for One-Factor SV with jumps</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/ajdmom.mdl_1fsvj.euler.html#module-ajdmom.mdl_1fsvj.euler" title="ajdmom.mdl_1fsvj.euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ajdmom.mdl_1fsvj.euler</span></code></a></p></td>
+<td><p>Module for generating samples from mdl_1fsvj by Euler approximation</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-ajdmom.mdl_1fsvj.mom"></span><p>Moments for One-Factor SV with jumps</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.mom.dm">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.mom.</span></span><span class="sig-name descname"><span class="pre">dm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.mom.dm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial derivative of moment w.r.t. parameter wrt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> – order of the moment.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+<li><p><strong>wrt</strong> – with respect to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the partial derivative.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.mom.dpoly">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.mom.</span></span><span class="sig-name descname"><span class="pre">dpoly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.mom.dpoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial derivative of central moment w.r.t. parameter wrt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> – poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’)</p></li>
+<li><p><strong>wrt</strong> – with respect to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.mom.m">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.mom.</span></span><span class="sig-name descname"><span class="pre">m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.mom.m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moment in scalar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> – order of the moment.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the moment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.mom.moment_y">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.mom.</span></span><span class="sig-name descname"><span class="pre">moment_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.mom.moment_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moment of <span class="math notranslate nohighlight">\(y_n\)</span> of order <span class="math notranslate nohighlight">\(l\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>l</strong> – order of the moment.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.mom.poly2num">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.mom.</span></span><span class="sig-name descname"><span class="pre">poly2num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.mom.poly2num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode poly back to scalar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> – poly to be decoded with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’).</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the poly.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-ajdmom.mdl_1fsvj.cmom"></span><p>Central Moments for One-Factor SV with jumps</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cmom.cm">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cmom.</span></span><span class="sig-name descname"><span class="pre">cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cmom.cm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Central moment in scalar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> – order of the central moment.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the central moment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cmom.cmoment_y">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cmom.</span></span><span class="sig-name descname"><span class="pre">cmoment_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cmom.cmoment_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Central moment of <span class="math notranslate nohighlight">\(y_n\)</span> of order <span class="math notranslate nohighlight">\(l\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>l</strong> – order of the moment.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,’lambda’,
+‘mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cmom.dcm">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cmom.</span></span><span class="sig-name descname"><span class="pre">dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cmom.dcm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial derivative of central moment w.r.t. parameter wrt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> – order of the central moment.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+<li><p><strong>wrt</strong> – with respect to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the partial derivative.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cmom.dpoly">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cmom.</span></span><span class="sig-name descname"><span class="pre">dpoly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cmom.dpoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial derivative of central moment w.r.t. parameter wrt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> – poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,’lambda’,
+‘mu_j’,’sigma_j’)</p></li>
+<li><p><strong>wrt</strong> – with respect to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,’lambda’,
+‘mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cmom.poly2num">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cmom.</span></span><span class="sig-name descname"><span class="pre">poly2num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cmom.poly2num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode poly back to scalar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> – poly to be decoded with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,’lambda’,
+‘mu_j’,’sigma_j’)</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the poly.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-ajdmom.mdl_1fsvj.cov"></span><p>Covariance for One-Factor SV with jumps</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cov.cov">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cov.</span></span><span class="sig-name descname"><span class="pre">cov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cov.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance in scalar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1</strong> – <em>l1</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>l2</strong> – <em>l2</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the covariance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cov.cov_yy">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cov.</span></span><span class="sig-name descname"><span class="pre">cov_yy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cov.cov_yy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moment <span class="math notranslate nohighlight">\(cov(y_n^{l_1},y_{n+1}^{l_2})\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1</strong> – <em>l1</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>l2</strong> – <em>l2</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cov.dcov">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cov.</span></span><span class="sig-name descname"><span class="pre">dcov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cov.dcov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial derivative of covariance w.r.t. parameter wrt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1</strong> – <em>l1</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>l2</strong> – <em>l2</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>par</strong> – parameters in dict.</p></li>
+<li><p><strong>wrt</strong> – with respect to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar of the partial derivative.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.cov.moment_yy">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.cov.</span></span><span class="sig-name descname"><span class="pre">moment_yy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.cov.moment_yy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moment <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l1</strong> – <em>l1</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+<li><p><strong>l2</strong> – <em>l2</em> in <span class="math notranslate nohighlight">\(E[y_n^{l_1}y_{n+1}^{l_2}]\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>poly with attribute <code class="docutils literal notranslate"><span class="pre">keyfor</span></code> =
+(‘e^{-kh}’,’h’,’k^{-}’,’mu’,’theta’,’sigma_v’,’rho’,’sqrt(1-rho^2)’,
+‘lambda’,’mu_j’,’sigma_j’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api.html#ajdmom.poly.Poly" title="ajdmom.poly.Poly">Poly</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-ajdmom.mdl_1fsvj.euler"></span><p>Module for generating samples from mdl_1fsvj by Euler approximation</p>
+<p>To facilitate the verification of the correctness of our codes 
+by comparison the population moments (given by our package) and
+their sample counterparts. 
+Here I define function <a class="reference internal" href="#ajdmom.mdl_1fsvj.euler.r1FSVJ" title="ajdmom.mdl_1fsvj.euler.r1FSVJ"><code class="xref py py-func docutils literal notranslate"><span class="pre">r1FSVJ()</span></code></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ajdmom.mdl_1fsvj.euler.r1FSVJ">
+<span class="sig-prename descclassname"><span class="pre">ajdmom.mdl_1fsvj.euler.</span></span><span class="sig-name descname"><span class="pre">r1FSVJ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_segment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ajdmom.mdl_1fsvj.euler.r1FSVJ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate samples from mdl_1fsvj by Euler approximation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_0</strong> – value of the initial variance <span class="math notranslate nohighlight">\(v(0)\)</span>.</p></li>
+<li><p><strong>par</strong> – parameters in a dict.</p></li>
+<li><p><strong>N</strong> – target length of samples to generate.</p></li>
+<li><p><strong>n_segment</strong> – number of segments each interval is splitted into.</p></li>
+<li><p><strong>h</strong> – time interval between each two consecutive samples.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a sequence of samples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy 1-D array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ajdmom</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Program Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1fsv.html"><abbr title="One-Factor Stochastic Volatility">1FSV</abbr> Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><abbr title="One-Factor Stochastic Volatility with Jumps">1FSVJ</abbr> Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#moments">Moments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#covariances">Covariances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="2fsv.html"><abbr title="Two-Factor Stochastic Volatility">2FSV</abbr> Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2fsvj.html"><abbr title="Two-Factor Stochastic Volatility with Jumps">2FSVJ</abbr> Model</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="generated/ajdmom.mdl_1fsv.euler.html" title="previous chapter">ajdmom.mdl_1fsv.euler</a></li>
+      <li>Next: <a href="generated/ajdmom.mdl_1fsvj.cmom.html" title="next chapter">ajdmom.mdl_1fsvj.cmom</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Yan-Feng Wu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/1fsvj.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

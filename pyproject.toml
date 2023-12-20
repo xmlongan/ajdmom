@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ajdmom"
+version = "1.0"
+authors = [
+  { name="Yan-Feng Wu", email="wuyf@fudan.edu.cn" },
+]
+description = "Derivation of moment and covariance formula of Affine Jump Diffusion processes."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["affine jump diffusion", "Heston model", "stochastic volatility", 
+  "moment computation", "method of moments"]
+dependencies = [
+  "pytest",
+  "numpy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/xmlongan/ajdmom"
+"Bug Tracker" = "https://github.com/xmlongan/ajdmom/issues"
