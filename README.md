@@ -11,7 +11,7 @@ and data that were used in the research reported on in the paper
 [ajdmom: a Python Package for Deriving Moments and Covariances of some
 Affine Jump Diffusion Processes](https://doi.org/10.1287/ijoc.2019.0000)
 by Yan-Feng Wu and Jian-Qiang Hu. The snapshot is based on [this
-SHA](https://github.com/tkralphs/JoCTemplate/commit/f7f30c63adbcb0811e5a133e1def696b74f3ba15)
+SHA](https://github.com/xmlongan/ajdmom/commit/b3d45993d489ee15e66783f6d4f3af32551c1b86)
 in the development repository.
 
 **Important: This code is being developed on an on-going basis at
