@@ -5,7 +5,7 @@ Theory
 -----------------------------------------
 
 AJD process is a class of n-dimensional Markov processes, denoted by 
-:math:`\boldsymbol{x}(t)`, in some state space :math:`D\subset \mathbb{R}^n` and described by the following stochastic differential equation 
+:math:`\boldsymbol{x}(t)`, in some state space :math:`D\subset \mathbb{R}^n` and described by the following stochastic differential equation: 
 
 .. math::
    d \boldsymbol{x}(t) = \boldsymbol{\mu}(\boldsymbol{x}(t))dt + \boldsymbol{\sigma}(\boldsymbol{x}(t))d \boldsymbol{w}(t) + d\boldsymbol{z}(t),
@@ -18,10 +18,10 @@ All of the drift :math:`\boldsymbol{\mu}(\cdot)`, instantaneous covariance matri
 * :math:`\lambda(\boldsymbol{x}) = l_0 + l_1\cdot \boldsymbol{x}`, for :math:`l=(l_0,l_1)\in \mathbb{R}\times\mathbb{R}^{n}`.
 
 
-Since AJD models mainly find applications in a range of financial asset valuation and econometric problems due to its tractability, we take Heston SV model and its AJD extensions as examples. Under the settings of SV models, including the Heston one, only part of the state is observable because the other part of the state, i.e., volatility, is usually latent. The partially observed state is no longer Markovian and the tractability of Heston SV models has been limited to only having a closed-form conditional CF. However, we have found a recursive way to derive the moments and covariances in closed-form of the Heston SV models and its AJD extensions. 
+Since AJD models mainly find applications in a range of financial asset valuation and econometric problems due to its tractability, we take the Heston SV model and its AJD extensions as examples. Under the settings of SV models, including the Heston one, only part of the state is observable because the other part of the state, i.e., volatility, is usually latent. The partially observed state is no longer Markovian and the tractability of the Heston SV models has been limited to only having a closed-form conditional :abbr:`CF(Characteristic Function)`. However, we have found a recursive way to derive the moments and covariances in closed-form of the Heston SV models and its AJD extensions. 
 
-As a typical :abbr:`AJD(Affine Jump Diffusion)` process, Heston :abbr:`SV(Stochastic Volatility)` model is seen as a baseline model hereafter. 
-And I will focus on derivation of this model's moments and covariances.
+As a typical :abbr:`AJD(Affine Jump Diffusion)` process, the Heston :abbr:`SV(Stochastic Volatility)` model is seen as a baseline model hereafter. 
+And I will focus on the derivation of moments and covariances for this baseline model.
 
 Heston :abbr:`SV(Stochastic Volatility)` Model
 -----------------------------------------------
@@ -60,7 +60,7 @@ Based on Itô formula, the log price process can be written as:
    d\log s(t) = (\mu-\frac{1}{2}v(t))dt + \sqrt{v(t)}dw^s(t).
 
 
-Let :math:`s_i \triangleq s(ih)` [#f5]_ . For return of the
+Let :math:`s_i \triangleq s(ih)` [#f5]_ . For the return over the
 *i*\ th interval, denoted by :math:`y_i`, it's defined as 
 
 .. math::
@@ -99,7 +99,7 @@ and
 Usually, :math:`IV_{s,t}, IV_i`, and :math:`IV_{i,t}` are referred to 
 as *Integrated Variance* (volatility).  
 
-Then, :math:`y_i` is expressed as
+Then, :math:`y_i` can be expressed as
 
 .. math::
    
@@ -164,15 +164,21 @@ The *l*\ th central moment of :math:`y_{n-1,t}`, denoted by
 
 where :math:`n_i\geq 0` ( :math:`i=1,2,3,4,5` ) are integers and
 :math:`\sum_{i=1}^{5}n_i=l`.
-I can calculate quantity :eq:`comb-moment` in the following two steps:
+I can calculate quantity :eq:`comb-moment` via a two-step process:
 
-.. math::
-   
-   E[\theta^{n_1}v_{n-1}^{n_2}E[(e^{-kt}I\!E_{n-1,t})^{n_3}I_{n-1,t}^{n_4}
-   I_{n-1,t}^{*n_{5}}|v_{n-1}]],
+1. Compute the conditional expectation by fixing :math:`v_{n-1}`:
+  
+  .. math::
+     E[(e^{-kt}I\!E_{n-1,t})^{n_3}I_{n-1,t}^{n_4}
+     I_{n-1,t}^{*n_{5}}|v_{n-1}].
 
-i.e., first take expectation conditioning on :math:`v_{n-1}`, and then take 
-expectation w.r.t. :math:`v_{n-1}`. It will be shown later that the conditional 
+2. Follow with the unconditional expectation with respect to :math:`v_{n−1}`:
+
+  .. math::
+     E[\theta^{n_1}v_{n-1}^{n_2}E[(e^{-kt}I\!E_{n-1,t})^{n_3}I_{n-1,t}^{n_4}
+     I_{n-1,t}^{*n_{5}}|v_{n-1}]].
+
+It will be shown later that the conditional 
 moment :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_{5}}|v_{n-1}]` is 
 a polynomial of :math:`v_{n-1}`, which implies that quantity 
 :eq:`comb-moment` can be expressed as a function of moments of 

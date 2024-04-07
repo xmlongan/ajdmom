@@ -3,8 +3,7 @@ User Guide
 ============
 
 Currently, the ``adjmom`` package supports the auto-derivation of moment,
-central moment
-and covariance formulas of any order of 
+central moment and covariance formulas of any order for
 Heston :abbr:`SV(Stochastic Volatility)` Model,
 a typical :abbr:`AJD(Affine Jump Diffusion)` model, 
 and its three AJD extensions.
@@ -27,7 +26,7 @@ Heston :abbr:`SV(Stochastic Volatility)` model
 ===============================================
 
 The most well-known example of :abbr:`AJD(Affine Jump Diffusion)` model should 
-be Heston :abbr:`SV(Stochastic Volatility)` model.
+be the Heston :abbr:`SV(Stochastic Volatility)` model.
 In the ``ajdmom`` package, 
 it is treated as the baseline model and described by the following 
 :abbr:`SDEs(Stochastic Differential Equations)` [#f1]_ ,
@@ -37,27 +36,27 @@ it is treated as the baseline model and described by the following
     dv(t) &= k(\theta - v(t))dt + \sigma_v\sqrt{v(t)}dw^v(t),
 
 where :math:`s(t)` is the asset price at time :math:`t`. 
-The details refer to the :doc:`theory` page. The return :math:`y_i` of the 
-*i*\ th interval with length :math:`h` is defined as,
+The details refer to the :doc:`theory` page. The return :math:`y_i` over the 
+*i*\ th interval of length :math:`h` is defined as,
 
 .. math::
    y_i \triangleq \log s(ih) - \log s((i-1)h).
 
-Heston SV model is implemented in the ``mdl_1fsv`` subpackage of the ``ajdmom``
-package.
+The derivation for the Heston SV model is implemented in the ``mdl_1fsv``
+subpackage of the ``ajdmom`` package.
 
 Formula Deriving
 ===================
 
 The moment and covariance formulas are encoded in objects of class
-:py:class:`~ajdmom.poly.Poly` which is a customized dictionary data structure,
-and derived from the
+:py:class:`~ajdmom.poly.Poly` which is a customized dictionary data structure
+derived from the
 :class:`~collections.UserDict` class in the Python Standard Library 
 `collections <https://docs.python.org/3/library/collections.html>`_.
 
 **Moment Formulas**
 
-To get the formula of the first moment :math:`E[y_n]`: 
+To get the formula for the first moment :math:`E[y_n]`: 
 
 >>> from ajdmom import mdl_1fsv # mdl_1fsv -> mdl_1fsvj, mdl_2fsv, mdl_2fsvj
 >>> from pprint import pprint
@@ -86,7 +85,7 @@ stand for
    \left(\sqrt{1-\rho^2}\right)^0,
 
 respectively. Adding together the two terms reproduces the first moment of 
-Heston SV model, i.e., :math:`E[y_n] = (\mu-\theta/2)h`.
+the Heston SV model, i.e., :math:`E[y_n] = (\mu-\theta/2)h`.
 
 **Covariance Formulas**
 
@@ -95,7 +94,7 @@ and its lag-1 counterpart :math:`y_{n+1}` with orders
 :math:`(l_1,l_2)`, i.e., 
 :math:`cov(y_n^{l_1}, y_{n+1}^{l_2})`. 
 
-To derive the formula of covariance :math:`cov(y_n^2,y_{n+1})`:
+To derive the formula for the covariance :math:`cov(y_n^2,y_{n+1})`:
 
 >>> from ajdmom import mdl_1fsv # mdl_1fsv -> mdl_1fsvj, mdl_2fsv, mdl_2fsvj
 >>> from pprint import pprint
@@ -194,28 +193,28 @@ given :math:`(\mu=0.125, k=0.1, \theta=0.25, \sigma_v=0.1, \rho=-0.7, h=1)`:
 :abbr:`AJD(Affine Jump Diffusion)` Extensions
 ==============================================
 
-Besides, there are three extendsions, which are summarized in the 
-following table with the Heston SV model:
+In addition to the Heston SV model, there are three extensions, which are
+summarized in the following table:
 
 +------------+----------------------------------------------------------+
 | Model      |    Description                                           |
 +============+==========================================================+
-|mdl_1fsv    | - baseline model, i.e., Heston SV model                  |
+|mdl_1fsv    | - baseline model, i.e., the Heston SV model              |
 |            | - refers to :doc:`theory` or :doc:`1fsv`                 |
 +------------+----------------------------------------------------------+
-|mdl_1fsvj   | - with jumps in the return process of model mdl_1fsv     |
+|mdl_1fsvj   | - with jumps in the return process of the model mdl_1fsv |
 |            | - refers to :doc:`1fsvj`                                 |
 +------------+----------------------------------------------------------+
 |mdl_2fsv    | - with volatility consisting of superposition of two SRDs|
 |            | - refers to :doc:`2fsv`                                  |
 +------------+----------------------------------------------------------+
-|mdl_2fsvj   | - with jumps in the return process of model mdl_2fsv     |
+|mdl_2fsvj   | - with jumps in the return process of the model mdl_2fsv |
 |            | - refers to :doc:`2fsvj`                                 |
 +------------+----------------------------------------------------------+
 
 Notes: SRD is short for Square-Root Diffusion.
 
-The derivation of (central) moments and covariances of the four 
+The derivation of (central) moments and covariances for the four 
 :abbr:`SV(Stochastic Volatility)` models are
 implemented in four subpackages of the :code:`ajdmom` package, 
 respectively, as

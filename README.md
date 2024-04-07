@@ -43,22 +43,30 @@ Below is the BibTex for citing this snapshot of the repository.
 
 ## Description
 
-This package can automatically derive closed-form moment and covariance
-formulas of any order for some Affine Jump Diffusion (AJD) models based
-on a recursive moment-computing equation given by the authors. Thus, it
-extends the tractability of these AJD models beyond closed-form
-conditional Characteristic Function, which is our main contribution.
+The `ajdmom` package represents an advancement in the analysis of Affine
+Jump Diffusion (AJD) models. It enables the automated derivation of 
+closed-form moment and covariance formulas of any order, which is facilitated
+by a recursive moment-computing equation developed by the authors. The package
+advances the analytical capabilities of AJD models, surpassing the limitations
+of closed-form conditional Characteristic Function (CF). This advancement 
+constitutes the core contribution of our work.
 
-The `ajdmom` package currently supports the derivation of moment,
-central moment and covariance formulas of any order for Heston
-Stochastic Volatility model and its three AJD extensions. Their partial
-derivatives with respect to parameters in the models can also be
-derived. A typical usage of these moments and partial derivatives is to
-help design method of moments estimators for the parameters of these
-models. This plays an important role for estimating AJD models,
-considering the facts that the likelihood function of AJD models does
-not have a closed-form and is also non-convex. Of course, moments of AJD
-models may have other applications.
+Currently, `ajdmom` supports computations of moments,
+central moments, and covariances for the Heston Stochastic Volatility model
+and its three AJD extensions. Moreover, the package can compute partial
+derivatives of these quantities with respect to model parameters.
+
+The moments and covariances obtained through `ajdmom` have far-reaching
+implications for multiple domains, including financial modelling, 
+simulation and parameter estimation. For simulations, 
+these moments can establish the underlying probability distributions,
+leading to significant reductions in computational time when contrasted with
+conventional numerical CF inversion techniques. In parameter estimation, the
+moments serve to formulate explicit moment estimators while the likelihood
+functions are not analytically solvable. Consequently, `ajdmom` has the 
+potential to become an essential instrument for researchers and practitioners
+demanding comprehensive AJD model analysis.
+
 
 ## Building
 

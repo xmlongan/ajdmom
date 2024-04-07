@@ -10,9 +10,10 @@ AJD: Affine Jump Diffusion -----------------------------
 ``ajdmom`` (AJD **mom**\ ents) 
 *Release* v1.0
 
-**AJDmom** is a Python Package for auto-deriving moment and covariance formulas
-of some :abbr:`AJD(Affine Jump Diffusion)` processes, such as the well-known
-Heston :abbr:`SV(Stochastic Volatility)` model and its AJD extensions.
+**AJDmom** is a Python Package for auto-deriving the moment and covariance
+formulas for some :abbr:`AJD(Affine Jump Diffusion)` processes, such as 
+the well-known Heston :abbr:`SV(Stochastic Volatility)` model and its AJD
+extensions.
 
 
 The User Guide
