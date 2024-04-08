@@ -10,7 +10,7 @@ The moments and covariances obtained through `ajdmom` have far-reaching implicat
 
 ## Simple Usage
 
-To get the formula for the first moment $E[y_n]$ for the Heston Stochastic Volatility model ( $y_n$ denotes the return over the nth interval of length $h$ ), run the following code snippet:
+To get the formula for the first moment $\mathbb{E}[y_n]$ for the Heston Stochastic Volatility model ( $y_n$ denotes the return over the nth interval of length $h$ ), run the following code snippet:
 
 ``` python
 from ajdmom import mdl_1fsv # mdl_1fsv -> mdl_1fsvj, mdl_2fsv, mdl_2fsvj
