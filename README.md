@@ -164,7 +164,8 @@ per simulation.
 ## Ongoing Development
 
 This code is being developed on an on-going basis at the author's
-[Github site](https://github.com/xmlongan/ajdmom).
+[Github site](https://github.com/xmlongan/ajdmom). The documentation is hosted 
+on [http://www.yyschools.com/ajdmom/](http://www.yyschools.com/ajdmom/)
 
 ## Support
 
