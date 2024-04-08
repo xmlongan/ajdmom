@@ -37,10 +37,13 @@ which is a Poly with attribute keyfor =
 
 Within the produced results, the two principal key-value pairs, namely (0,1,0,0,1,0,0,0): Fraction(-1,2) and (0,1,0,1,0,0,0,0): Fraction(1,1), correspond to the following expressions:
 
-\begin{align*}
-    -\frac{1}{2}\times & e^{-0kh}h^1k^{-0}\mu^0\theta^1\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,\\
-    1\times & e^{-0kh}h^1k^{-0}\mu^1\theta^0\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,
-\end{align*}
+$$
+-\frac{1}{2}\times e^{-0kh}h^1k^{-0}\mu^0\theta^1\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,
+$$
+
+$$
+1\times e^{-0kh}h^1k^{-0}\mu^1\theta^0\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,
+$$
 
 respectively. The summation of these terms yields the first moment of the One-Factor SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the *ajdmom* package successfully encapsulates the model's dynamics into a computationally manipulable form, specifically leveraging a custom dictionary data structure, referred to as *Poly*, to encode the moment's expression.
 
