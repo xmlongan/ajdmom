@@ -8,7 +8,7 @@ version = "1.0"
 authors = [
   { name="Yan-Feng Wu", email="wuyf@fudan.edu.cn" },
 ]
-description = "Derivation of moment and covariance formula of Affine Jump Diffusion processes."
+description = "Derivation of moment and covariance formulas for Affine Jump Diffusion processes."
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -17,7 +17,7 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 keywords = ["affine jump diffusion", "Heston model", "stochastic volatility", 
-  "moment computation", "method of moments"]
+  "moment computation"]
 dependencies = [
   "pytest",
   "numpy",

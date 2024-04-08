@@ -8,7 +8,7 @@ License](LICENSE).
 
 The software and data in this repository are a snapshot of the software
 and data that were used in the research reported on in the paper
-[ajdmom: a Python Package for Deriving Moments and Covariances of some
+[ajdmom: a Python Package for Deriving Moments and Covariances of
 Affine Jump Diffusion Processes](https://doi.org/10.1287/ijoc.2019.0000)
 by Yan-Feng Wu and Jian-Qiang Hu. The snapshot is based on [this
 SHA](https://github.com/xmlongan/ajdmom/commit/958ffaa07eea293d83076368eea129c55efb1aac)
