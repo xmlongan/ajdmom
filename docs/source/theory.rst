@@ -191,7 +191,7 @@ First, I consider
 I separate :math:`I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_{5}}` into two 
 parts: :math:`I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}` and :math:`I_{n-1,t}^{*n_{5}}`, 
 since they are driven by two different Wiener processes :math:`w^v(t)` and 
-:math:`w^s(t)`, respectively. For :math:`I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}`, 
+:math:`w(t)`, respectively. For :math:`I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}`, 
 I have
 
 .. math::
