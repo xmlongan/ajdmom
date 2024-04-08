@@ -286,11 +286,11 @@ For :math:`I_{n-1,t}^{*n_5}`, its derivative
 .. math::
    
    dI_{n-1,t}^{*n_5}
-   = n_5I_{n-1,t}^{*n_5-1}\sqrt{v(t)} dw^s(t) + \frac{1}{2}n_5(n_5-1)
+   = n_5I_{n-1,t}^{*n_5-1}\sqrt{v(t)} dw(t) + \frac{1}{2}n_5(n_5-1)
    I_{n-1,t}^{*n_5-2}v(t)dt.
 
 Note that :math:`d(I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4})dI_{n-1,t}^{*n_5} = 0` 
-because :math:`dw^v(t)dw^s(t) = 0`.
+because :math:`dw^v(t)dw(t) = 0`.
 Hence, 
 
 .. math::
@@ -299,7 +299,7 @@ Hence,
    &= (I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4})dI_{n-1,t}^{*n_5} + I_{n-1,t}^{*n_5}
    d(I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4})\\
    &= n_5I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5-1}\sqrt{v(t)} 
-   dw^s(t) + c_w(t)I_{n-1,t}^{*n_5}dw^v(t)\\
+   dw(t) + c_w(t)I_{n-1,t}^{*n_5}dw^v(t)\\
    &\quad + \left[\frac{1}{2}n_5(n_5-1) I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}
    I_{n-1,t}^{*n_5-2}v(t)+ c(t)I_{n-1,t}^{*n_5}\right]dt.
 
@@ -311,7 +311,7 @@ Therefore,
    & = \int_{(n-1)h}^tE\left[\frac{1}{2}n_5(n_5-1) I\!E_{n-1,s}^{n_3}
    I_{n-1,s}^{n_4}I_{n-1,s}^{*n_5-2}v(s)+ c(s)I_{n-1,s}^{*n_5}|v_{n-1}\right]ds
 
-where quantities having :math:`dw^s(t)` and :math:`dw^v(t)` have been deleted
+where quantities having :math:`dw(t)` and :math:`dw^v(t)` have been deleted
 because their expectations are 0.
 
 
