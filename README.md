@@ -45,15 +45,15 @@ $$
 1\times e^{-0kh}h^1k^{-0}\mu^1\theta^0\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,
 $$
 
-respectively. The summation of these terms yields the first moment of the One-Factor SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the *ajdmom* package successfully encapsulates the model's dynamics into a computationally manipulable form, specifically leveraging a custom dictionary data structure, referred to as *Poly*, to encode the moment's expression.
-
-## Ongoing Development
-
-This code is being developed on an on-going basis at the author's [Github site](https://github.com/xmlongan/ajdmom).
+respectively. The summation of these terms yields the first moment of the One-Factor SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` package successfully encapsulates the model's dynamics into a computationally manipulable form, specifically leveraging a custom dictionary data structure, referred to as `Poly`, to encode the moment's expression.
 
 ## Documentation
 
 The documentation is hosted on <http://www.yyschools.com/ajdmom/>
+
+## Ongoing Development
+
+This code is being developed on an on-going basis at the author's [Github site](https://github.com/xmlongan/ajdmom).
 
 ## Support
 
