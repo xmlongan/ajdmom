@@ -8,8 +8,7 @@ A Short Story
 It's not straightforward for ordinary programmers to write codes to automate
 the moment and covariance derivation in the :doc:`theory` page.
 
-The recursive equations :math:numref:`ito-moment-i` and 
-:math:numref:`ito-moment-ii` in the :doc:`theory` page contain integral 
+The recursive equations :math:numref:`ito-moment` in the :doc:`theory` page contain integral
 operations.
 The integrals are not that concise. What makes things worse is that the 
 integrals grow recursively. Meanwhile, :math:`v_{n-1}` will get buried in
@@ -56,9 +55,8 @@ dictionary data structure, derived from the
 Essential Integral
 ===================
 
-The essential computation in recursive equations :eq:`ito-moment-i` 
-and :eq:`ito-moment-ii` of the :doc:`theory` page is that of 
-the following integral
+The essential computation in recursive equation :eq:`ito-moment` of
+the :doc:`theory` page is that of the following integral
 
 .. math::
    
@@ -121,14 +119,15 @@ with ``key`` = :math:`(i,j^{'},l)` and ``value`` = :math:`c_{ij^{'}l}`.
 Code Design
 ============
 
-Itô process moment - I
+Itô process moment
 -----------------------
 
-With :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]` represented as a "polynomial" of the following form
+With :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]` represented
+as a "polynomial" of the following form
 
 .. math::
    
-   &E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]\\
+   &E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{n_3k(n-1)h} e^{ik[t-(n-1)h]}
    [t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,
 
@@ -136,22 +135,22 @@ consequently, we have
 
 .. math::
    
-   &e^{-kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]\\
+   &e^{-kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3-1)k(n-1)h}
    e^{(i-1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,\\
-   &e^{kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]\\
+   &e^{kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+1)k(n-1)h}
    e^{(i+1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,\\
-   &e^{2kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]\\
+   &e^{2kt}E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+2)k(n-1)h}
    e^{(i+2)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q.
 
 Therefore, it's profitable to consider the following generic integral
 
 .. math::
-   :label: int-mIEI
+   :label: int-e-poly
    
-   &\int_{(n-1)h}^t e^{mks}E[I\!E_{n-1,s}^{n_3}I_{n-1,s}^{n_4}|v_{n-1}]ds\\ 
+   &\int_{(n-1)h}^t e^{mks}E[I\!E_{n-1,s}^{n_3}I_{n-1,s}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]ds\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+m)k(n-1)h} \cdot int\_et(i+m,j)\cdot v_{n-1}^l k^{-o}\theta^p\sigma_v^q\\
    &= \sum_{n_3+m,i+m,j^{'},l,o^{'},p,q} b_{(n_3+m)(i+m)j^{'}l o^{'}pq} e^{(n_3+m)k(n-1)h} e^{(i+m)k[t-(n-1)h]}
    [t-(n-1)h]^{j^{'}}\\
@@ -166,17 +165,17 @@ where
 
 Implementation:
 
-1. Function :py:func:`~ajdmom.ito_mom.int_mIEI` in module 
+1. Function :py:func:`~ajdmom.ito_mom.int_e_poly` in module
    :py:mod:`~ajdmom.ito_mom` is defined to accomplish the computation in
-   equation :eq:`int-mIEI`.
+   equation :eq:`int-e-poly`.
 
-2. Function :py:func:`~ajdmom.ito_mom.recursive_IEI` in module
+2. Function :py:func:`~ajdmom.ito_mom.recursive_IEII` in module
    :py:mod:`~ajdmom.ito_mom` is defined to realize
-   the recursive step in equation :eq:`ito-moment-i` of the :doc:`theory` page.
+   the recursive step in equation :eq:`ito-moment` of the :doc:`theory` page.
 
-3. Function :py:func:`~ajdmom.ito_mom.moment_IEI` in module
+3. Function :py:func:`~ajdmom.ito_mom.moment_IEII` in module
    :py:mod:`~ajdmom.ito_mom` is implemented to calculate
-   :math:`E[I\!E_n^{n_3}I_n^{n_4}|v_{n-1}]`.
+   :math:`E[I\!E_n^{n_3}I_n^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]`.
 
 To demonstration, I re-write the following initial three moments in
 :ref:`ito-recursive-i` in the :doc:`theory` page according to the "polynomial"
@@ -217,20 +216,6 @@ representation
    k^{-1}\theta^0\sigma_v^0\\
    && -&e^{0k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
    k^{-1}\theta^1\sigma_v^0.
-
-
-Itô process moment - II
-------------------------
-
-Implementation:
-
-1. Define :py:func:`~ajdmom.ito_mom.int_mIEII` similarly.
-
-2. Define :py:func:`~ajdmom.ito_mom.recursive_IEII` to realize the 
-   recursive step in equation :eq:`ito-moment-ii` of the :doc:`theory` page.
-
-3. Define :py:func:`~ajdmom.ito_mom.moment_IEII` to finish the computation 
-   of  :math:`E[I\!E_n^{n_3}I_n^{n_4}I_n^{*n_5}|v_{n-1}]`.
 
 
 Moments

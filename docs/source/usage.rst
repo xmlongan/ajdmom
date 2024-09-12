@@ -4,9 +4,23 @@ User Guide
 
 Currently, the ``adjmom`` package supports the auto-derivation of moment,
 central moment and covariance formulas of any order for
-Heston :abbr:`SV(Stochastic Volatility)` Model,
+Heston :abbr:`SV(Stochastic Volatility)` Model (1FSV),
 a typical :abbr:`AJD(Affine Jump Diffusion)` model, 
-and its three AJD extensions.
+and its three AJD extensions, :abbr:`SVJ(Stochastic Volatility with Jumps in
+the price process)` (1FSVJ), Two-Factor SV (2FSV), Two-Factor SV with jumps in
+the price process (2FSVJ). 
+(Conditional versions are also available with slight adaptation for these 
+four models.)
+The package also supports the auto-derivation of conditional moment and
+conditional central moment formulas of any order for 
+models 
+:abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
+:abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the variance and
+price)`,
+:abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
+and price)`
+and 
+:abbr:`SRJD(Square-Root Jump Diffusion)`.
 
 Installing ajdmom
 ==================
@@ -193,30 +207,42 @@ given :math:`(\mu=0.125, k=0.1, \theta=0.25, \sigma_v=0.1, \rho=-0.7, h=1)`:
 :abbr:`AJD(Affine Jump Diffusion)` Extensions
 ==============================================
 
-In addition to the Heston SV model, there are three extensions, which are
+In addition to the Heston SV model, there are some extensions, which are
 summarized in the following table:
 
-+------------+----------------------------------------------------------+
-| Model      |    Description                                           |
-+============+==========================================================+
-|mdl_1fsv    | - baseline model, i.e., the Heston SV model              |
-|            | - refers to :doc:`theory` or :doc:`1fsv`                 |
-+------------+----------------------------------------------------------+
-|mdl_1fsvj   | - with jumps in the return process of the model mdl_1fsv |
-|            | - refers to :doc:`1fsvj`                                 |
-+------------+----------------------------------------------------------+
-|mdl_2fsv    | - with volatility consisting of superposition of two SRDs|
-|            | - refers to :doc:`2fsv`                                  |
-+------------+----------------------------------------------------------+
-|mdl_2fsvj   | - with jumps in the return process of the model mdl_2fsv |
-|            | - refers to :doc:`2fsvj`                                 |
-+------------+----------------------------------------------------------+
++------------+-----------------------------------------------------------------+
+| Model      |    Description                                                  |
++============+=================================================================+
+|mdl_1fsv    | - baseline model, i.e., the Heston SV model                     |
+|            | - refers to :doc:`theory` or :doc:`1fsv`                        |
++------------+-----------------------------------------------------------------+
+|mdl_1fsvj   | - with jumps in the return process of the model mdl_1fsv        |
+|            | - refers to :doc:`1fsvj`                                        |
++------------+-----------------------------------------------------------------+
+|mdl_2fsv    | - with volatility consisting of superposition of two SRDs       |
+|            | - refers to :doc:`2fsv`                                         |
++------------+-----------------------------------------------------------------+
+|mdl_2fsvj   | - with jumps in the return process of the model mdl_2fsv        |
+|            | - refers to :doc:`2fsvj`                                        |
++------------+-----------------------------------------------------------------+
+|mdl_svvj    | - with jumps in the variance of the Heston model                |
+|            | - refers to :doc:`svvj`                                         |
++------------+-----------------------------------------------------------------+
+|mdl_svij    | - with independent jumps in the price and variance of Heston    |
+|            | - refers to :doc:`svij`                                         |
++------------+-----------------------------------------------------------------+
+|mdl_svcj    | - with contemporaneous jumps in the price and variance of Heston|
+|            | - refers to :doc:`svcj`                                         |
++------------+-----------------------------------------------------------------+
+|mdl_srjd    | - Square-Root Jump Diffusion                                    |
+|            | - refers to :doc:`srjd`                                         |
++------------+-----------------------------------------------------------------+
 
 Notes: SRD is short for Square-Root Diffusion.
 
-The derivation of (central) moments and covariances for the four 
+The derivation of (central) moments and covariances for the 
 :abbr:`SV(Stochastic Volatility)` models are
-implemented in four subpackages of the :code:`ajdmom` package, 
+implemented in the following subpackages of the :code:`ajdmom` package, 
 respectively, as
 
 +---------+--------------------------+----------------------------------+
@@ -238,9 +264,25 @@ respectively, as
 |         |                          | - :py:mod:`ajdmom.mdl_2fsvj.mom` |
 |         |                          | - :py:mod:`ajdmom.mdl_2fsvj.cov` |
 +---------+--------------------------+----------------------------------+
+|mdl_svvj |  :code:`ajdmom.mdl_svvj` | - :py:mod:`ajdmom.mdl_svvj.cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_svvj.mom`  |
++---------+--------------------------+----------------------------------+
+|mdl_svij |  :code:`ajdmom.mdl_svij` | - :py:mod:`ajdmom.mdl_svij.cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_svij.mom`  |
++---------+--------------------------+----------------------------------+
+|mdl_svcj |  :code:`ajdmom.mdl_svcj` | - :py:mod:`ajdmom.mdl_svcj.cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_svcj.mom`  |
++---------+--------------------------+----------------------------------+
+|mdl_srjd |  :code:`ajdmom.mdl_srjd` | - :py:mod:`ajdmom.mdl_srjd.cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_srjd.mom`  |
++---------+--------------------------+----------------------------------+
 
-The corresponding quantities for other models (mdl_1fsvj, mdl_2fsv, mdl_2fsvj)
+The corresponding quantities for other models (mdl_1fsvj, mdl_2fsv, mdl_2fsvj,
+mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd)
 can be computed by using the counterparts within their subpackages.
+It should be noted that only **conditional** moments|central moments 
+(given initial variance and jumps in the variance) can be derived for models
+including jumps in the variance, i.e., mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd.
 
 ----------
 

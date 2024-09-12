@@ -87,14 +87,3 @@ API
    ajdmom.mdl_2fsvj.cov
    ajdmom.mdl_2fsvj.euler
 
-.. automodule:: ajdmom.mdl_2fsvj.mom
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsvj.cmom
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsvj.cov
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsvj.euler
-   :members:

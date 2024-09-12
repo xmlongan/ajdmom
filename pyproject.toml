@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ajdmom"
-version = "1.0"
+version = "2.0"
 authors = [
   { name="Yan-Feng Wu", email="wuyf@fudan.edu.cn" },
 ]

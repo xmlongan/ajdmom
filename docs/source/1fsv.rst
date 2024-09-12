@@ -25,14 +25,3 @@ API
    ajdmom.mdl_1fsv.cov
    ajdmom.mdl_1fsv.euler
 
-.. automodule:: ajdmom.mdl_1fsv.mom
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsv.cmom
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsv.cov
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsv.euler
-   :members:

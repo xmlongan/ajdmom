@@ -234,7 +234,6 @@ If :math:`v(t)` is expanded as
 then, :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]` can be expressed as
 
 .. math::
-   :label: ito-moment-i
    
    &E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]\\
    &= \frac{n_3(n_3-1)}{2}e^{k(n-1)h}(v_{n-1} - \theta) 
@@ -319,7 +318,7 @@ Hence, :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]` can
 be expressed as
 
 .. math::
-   :label: ito-moment-ii
+   :label: ito-moment
 
    &E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \frac{n_3(n_3-1)}{2}e^{k(n-1)h}(v_{n-1}-\theta) 
@@ -370,8 +369,8 @@ Order 2, i.e., :math:`n_3 + n_4 + n_5= 2`.
 * :math:`(n_3,n_4,n_5)=(0,0,2)` reduces to :math:`(n_3, n_4)=(0,2)`,
   i.e., :math:`E[I_{n-1,t}^{2}|v_{n-1}]`.
 
-.. note:: The two recursive equations :math:numref:`ito-moment-i` and 
-   :eq:`ito-moment-ii` can be used to compute the central moment of any order 
+.. note:: The two recursive equations and can be used to compute the central moment
+   of any order
    of :math:`y_{n-1,t}` recursively, from lower order ones to high
    order ones. For example, we can start with the combinations 
    :math:`\{(n_3,n_4,n_5), l=1\}`, then 

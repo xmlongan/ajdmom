@@ -101,14 +101,3 @@ API
    ajdmom.mdl_1fsvj.cov
    ajdmom.mdl_1fsvj.euler
 
-.. automodule:: ajdmom.mdl_1fsvj.mom
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsvj.cmom
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsvj.cov
-   :members:
-
-.. automodule:: ajdmom.mdl_1fsvj.euler
-   :members:

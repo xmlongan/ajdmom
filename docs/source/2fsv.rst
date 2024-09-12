@@ -122,8 +122,7 @@ Function
 
 In summary, I defined
 
-1. :py:func:`~ajdmom.mdl_2fsv.cmom.c_n`, 
-   :py:func:`~ajdmom.mdl_2fsv.cmom.b_n`,
+1. :py:func:`~ajdmom.mdl_2fsv.cmom.b_n`,
 
 2. :py:func:`~ajdmom.mdl_2fsv.cmom.vvee_IEI_IEII`,
 
@@ -367,14 +366,3 @@ API
    ajdmom.mdl_2fsv.cov
    ajdmom.mdl_2fsv.euler
 
-.. automodule:: ajdmom.mdl_2fsv.mom
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsv.cmom
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsv.cov
-   :members:
-
-.. automodule:: ajdmom.mdl_2fsv.euler
-   :members:
