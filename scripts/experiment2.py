@@ -1,3 +1,4 @@
+import math
 import numpy as np
 
 from ajdmom.mdl_1fsvj.euler import r1FSVJ
