@@ -5,11 +5,10 @@ Conditional central moments are derived simultaneously because the one-by-one
 procedure is not efficient.
 """
 import math
-from collections import OrderedDict
 from fractions import Fraction as Frac
 
 from ajdmom.poly import Poly
-from ajdmom.utils import simplify_rho, comb, write_to_txt, fZ
+from ajdmom.utils import simplify_rho, comb, fZ
 from ajdmom.ito_cond_mom import recursive_IEII
 
 
@@ -38,12 +37,9 @@ def simplify(poly, tp=0):
     #
     if tp == 0:
         poln.set_keyfor(keyfor)
-        for k in poly:
-            key = list(k)
-            key[0] = -key[0]
-            key = tuple(key)
-            poln.add_keyval(key, poly[k])
-        return (poln)
+        for k, v in poly.items():
+            poln.add_keyval((-k[0],) + k[1:], v)
+        return poln
     #
     # tp = 1: simplify more
     #   from 'sigma/2k' (10), 'rho-sigma/2k' (11) to 'rho'
@@ -200,24 +196,28 @@ def classify(poly):
      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}')
      and the second part may be ('sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
      or ('rho')
-    :return: list of ordered subpolys
-    :rtype: Poly
+    :return: list of subpolys
+    :rtype: list
     """
     # record levels of summations
     N_sum = []
     for k in poly:
         if len(k[6]) not in N_sum: N_sum.append(len(k[6]))
     N_sum = sorted(N_sum)  # 0,1,2,...
+    #
+    # excludes l_{1:n}, o_{1:n}, p_{2:n}, q_{2:n}
+    kf0 = poly.keyfor[:6] + poly.keyfor[10:]
+    subpolys = [Poly() for n in N_sum]
+    #
+    subpolys[0].set_keyfor(kf0 if N_sum[0] == 0 else poly.keyfor)
+    # exclude the sub-keyfor if the sub-key corresponding to 'l_{1:n}' is empty
+    for i in range(1, len(N_sum)): subpolys[i].set_keyfor(poly.keyfor)
+    #
     # classify
-    subpolys = [{} for n in N_sum]
-    for k in poly:
-        n = len(k[6])
-        subpoly = subpolys[n]
-        key = k[0:6] + k[10:] if n == 0 else k
-        subpoly[key] = poly[k]
-    # sort
-    for n in N_sum:
-        subpolys[n] = OrderedDict(sorted(subpolys[n].items()))
+    for k, v in poly.items():
+        subpoly = subpolys[len(k[6])]
+        subpoly[k[0:6] + k[10:] if len(k[6]) == 0 else k] = v
+        # exclude the empty subkey (),(),(),()
     return subpolys
 
 
@@ -235,16 +235,10 @@ def write_to_subpolys(poly, nth):
     # only changes from e^{kt} to e^{-kt}
     poly = simplify(poly, tp=0)  # do not over simplify
     subpolys = classify(poly)
-    N_sum = range(len(subpolys))
-    #
-    # excludes l_{1:n}, o_{1:n}, p_{2:n}, q_{2:n}
-    kf0 = poly.keyfor[:6] + poly.keyfor[10:]
-    #
-    for n in N_sum:
+    for n in range(len(subpolys)):
         subpoly = subpolys[n]
         fname = f"svvj-cond-cmoment-{nth}-formula-{n}.txt"
-        kf = kf0 if n == 0 else poly.keyfor
-        write_to_txt(subpoly, kf, fname)
+        subpoly.write_to_txt(fname)
 
 
 ##########

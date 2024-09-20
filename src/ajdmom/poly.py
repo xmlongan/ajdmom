@@ -48,6 +48,8 @@ Besides, I defined following methods:
 +------------------------------------------+------------------------------------------------------------------+
 |:py:meth:`~ajdmom.poly.Poly.write_to_txt` |Write the poly to a txt file with the ``keyfor`` as the title line|
 +------------------------------------------+------------------------------------------------------------------+
+|:py:meth:`~ajdmom.poly.Poly.write_to_csv` |Write the poly to a csv file with the ``keyfor`` as the title line|
++------------------------------------------+------------------------------------------------------------------+
 
 Note that :py:meth:`~ajdmom.poly.Poly.merge` (in-place) is different from
 the magic method :code:`__add__()` (not-in-place). The former changes the
@@ -263,13 +265,86 @@ class Poly(UserDict):
 
     def write_to_txt(self, filename):
         """Write the poly to a txt file with the ``keyfor`` as the title line."""
+        # applies to all models: mdl_1fsv,...,mdl_svcj
+        if not filename.endswith(".txt"): filename += ".txt"
+        #
+        title = f"{str(self.keyfor)}: value(in fraction)\n"
         with open(filename, 'w', encoding='utf-8') as f:
-            txt = ','.join(self.keyfor)
-            f.write(f"({txt}): value(in fraction)\n")
-            for key in self:
-                num, den = self[key].numerator, self[key].denominator
-                f.write(f"{str(key)}: ({str(num)},{str(den)})\n")
-        return "complete the writing."
+            f.write(title)
+            for k, v in self.items():
+                f.write(f"{str(k)}: ({str(v.numerator)},{str(v.denominator)})\n")
+        print(f"complete the writing of {filename}.")
+
+    def write_to_csv(self, filename):
+        """Write the poly to a csv file with the ``keyfor`` as the title line."""
+        if not filename.endswith(".csv"): filename += ".csv"
+        #
+        # for cases without 'l_{1:n}',...: mdl_1fsv, mdl_1fsvj, mdl_2fsv, mdl_2fsvj
+        #
+        if 'l_{1:n}' not in self.keyfor:
+            title = ','.join(self.keyfor) + ',num,den\n'
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(title)
+                for k, v in self.items():
+                    num, den = v.numerator, v.denominator
+                    row = ','.join([str(s) for s in k]) + f',{str(num)},{str(den)}\n'
+                    f.write(row)
+            print(f"complete the writing of {filename}.")
+            return
+        #
+        # find the index for 'l_{1:n}' in keyfor
+        #
+        i = 0
+        while i < len(self.keyfor):
+            if self.keyfor[i] == 'l_{1:n}':
+                break
+            else:
+                i += 1
+        # find one sub-key corresponding to 'l_{1:n}'
+        for k in self.keys():
+            l = k[i]
+            break
+        #
+        # It is assumed that all sub-keys corresponding to 'l_{1:n}' have the same length
+        #
+        # make sure the assumption is already meet
+        for k in self.keys():
+            if len(k[i]) != len(l):
+                msg = "The sub-keys corresponding to 'l_{1:n}' have different lengths!"
+                msg += "You should first classify the poly into sub-polys according to the lengths."
+                msg += "Then write each of the sub-polys to csv files."
+                raise Exception(msg)
+        #
+        # for cases 'l_{1:m}', 'o_{2:n}': mdl_srjd
+        #
+        if 'p_{2:n}' not in self.keyfor:
+            sub1 = ['l' + str(j) for j in range(1, len(l) + 1)]
+            sub2 = ['o' + str(j) for j in range(2, len(l) + 1)]
+            title = ','.join(self.keyfor[:i]) + ',' + ','.join(sub1 + sub2) + ','
+            title += ','.join(self.keyfor[i + 2:]) + ',num,den\n'
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(title)
+                for k, v in self.items():
+                    row = ','.join([str(s) for s in k[:i] + k[i] + k[i + 1] + k[i + 2:]])
+                    row += f',{v.numerator},{v.denominator}\n'
+                    f.write(row)
+        #
+        # for cases 'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}': mdl_svvj, mdl_svij, mdl_svcj
+        #
+        else:
+            sub1 = ['l' + str(j) for j in range(1, len(l) + 1)]
+            sub2 = ['o' + str(j) for j in range(1, len(l) + 1)]
+            sub3 = ['p' + str(j) for j in range(2, len(l) + 1)]
+            sub4 = ['q' + str(j) for j in range(2, len(l) + 1)]
+            title = ','.join(self.keyfor[:i]) + ',' + ','.join(sub1 + sub2 + sub3 + sub4) + ','
+            title += ','.join(self.keyfor[i + 4:]) + ',num,den\n'
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(title)
+                for k, v in self.items():
+                    row = ','.join([str(s) for s in k[:i] + k[i] + k[i + 1] + k[i + 2] + k[i + 3] + k[i + 4:]])
+                    row += f',{v.numerator},{v.denominator}\n'
+                    f.write(row)
+        print(f"complete the writing of {filename}.")
 
 
 if __name__ == "__main__":

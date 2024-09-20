@@ -11,7 +11,7 @@ def comb(n, ns):
     """number of occurrences for an exact combination
 
     :param int n: total power, = ``sum(ns)``
-    :param list ns: list of powers, :math:`n_1 + \cdots + n_N = n`
+    :param list ns: list of powers, :math:`n_1 + \\cdots + n_N = n`
     :return: number of occurrences for this exact combination
     :return: float
     """
@@ -115,8 +115,8 @@ def dbfactorial(n):
     """double factorial :math:`n!!`
 
     :param int n: number :math:`n`
-    :return: value of :math:`n!! = n(n-2)(n-4)\cdots 4 \cdot 2` for
-      even :math:`n`, :math:`n!! = n(n-2)(n-4)\cdots 3 \cdot 1` for odd :math:`n`
+    :return: value of :math:`n!! = n(n-2)(n-4)\\cdots 4 \\cdot 2` for
+      even :math:`n`, :math:`n!! = n(n-2)(n-4)\\cdots 3 \\cdot 1` for odd :math:`n`
     :rtype: float
     """
     if n == 0 or n == 1:
@@ -279,26 +279,6 @@ def simplify_rho(poly, n):
             raise Exception("can not reduce the 'sqrt(1-rho^2)' dimension!")
     poln.remove_zero()
     return poln
-
-
-def write_to_txt(ordered_poly, keyfor, filename):
-    """Write ordered dict to txt file
-
-    :param OrderedDict ordered_poly: an ordered dictionary
-    :param tuple keyfor: title line
-    :param str filename: file name for the output txt file
-    :return: None
-    :rtype: None
-    """
-    with open(filename, 'w', encoding='utf-8') as f:
-        title = ','.join(keyfor)
-        f.write(f"({title}): value(in fraction)\n")
-        for key in ordered_poly:
-            val = ordered_poly[key]
-            num = val.numerator
-            den = val.denominator
-            f.write(f"{str(key)}: ({str(num)},{str(den)})\n")
-    print(f"complete the writing to {filename}.")
 
 
 if __name__ == "__main__":
