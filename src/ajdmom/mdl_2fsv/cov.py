@@ -17,7 +17,7 @@ from ajdmom.mdl_2fsv.mom import (
 
 
 def vvee_IEI_IEII_vnvn(n2, n3, n4, n5, n6, n7, n8):
-    """Multiply :math:`IEI\_IEII` by :math:`v_{1,n}v_{2,n}e^{-k_1(n+1)h}e^{-k_2(n+1)h}`
+    r"""Multiply :math:`IEI\_IEII` by :math:`v_{1,n}v_{2,n}e^{-k_1(n+1)h}e^{-k_2(n+1)h}`
 
     Compute
     :math:`E[v_{1,n}^{n_2}v_{2,n}^{n_3}e^{-n_4k_1(n+1)h}e^{-n_6k_2(n+1)h}

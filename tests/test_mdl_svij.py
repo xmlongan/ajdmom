@@ -3,8 +3,8 @@ import pytest
 import math
 
 from ajdmom.mdl_svij.euler import rSVIJ
-from ajdmom.mdl_svij.cmom import cm
-from ajdmom.mdl_svij.mom import m
+from ajdmom.mdl_svij.cond2_cmom import cm
+from ajdmom.mdl_svij.cond2_mom import m
 
 rng = np.random.default_rng()
 
@@ -115,7 +115,7 @@ def test_cm(settings):
             expected = np.mean(diff ** n)
             expected = pytest.approx(expected, rel=rel_err, abs=abs_err)
             actual = cm(n, par)
-            msg = "Diff in the {}th conditional moment is > {:} or {:.0%} "
+            msg = "Diff in the {}th conditional central moment is > {:} or {:.0%} "
             msg += "between theory and sample."
             devi = max(expected.abs, expected.rel * abs(expected.expected))
             temp = "{:d}-th central moment: actual({: f}) V.S. expected({: f} ± {:f})"

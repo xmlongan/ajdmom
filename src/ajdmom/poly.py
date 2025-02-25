@@ -192,7 +192,7 @@ class Poly(UserDict):
         """Insert a new key-val or add val to the existing key.
 
         :param tuple key: key for the poly, a tuple.
-        :param float val: corresponding value.
+        :param Fraction val: corresponding value.
         """
         if key in self:
             self[key] += val

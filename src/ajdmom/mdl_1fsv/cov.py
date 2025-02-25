@@ -107,10 +107,10 @@ def moment_inner_comb(l1, m1, m2, m3, m4, m5, poly_eIv):
 
 
 def moment_outer_comb(l2, n1, n2, n3, n4, n5, l1):
-    """Moment for this outer combination in expansion of :math:`y_{n+1}^{l_2}`
+    r"""Moment for this outer combination in expansion of :math:`y_{n+1}^{l_2}`
 
     :param int l2: *l2* in :math:`y_{n+1}^{l_2}`.
-    :param int n1: times of :math:`\\theta` being selected.
+    :param int n1: times of :math:`\theta` being selected.
     :param int n2: times of :math:`v_{n}` being selected.
     :param int n3: times of :math:`eI_{n+1}` being selected.
     :param int n4: times of :math:`I_{n+1}` being selected.

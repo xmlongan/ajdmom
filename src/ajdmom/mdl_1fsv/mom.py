@@ -11,14 +11,14 @@ from ajdmom.mdl_1fsv.cmom import ve_IEII
 
 
 def b_n(n1, n2, n3, n4, n5):
-    """Represent :math:`b_2(\\boldsymbol{n})` in :eq:`b2-n` in Poly
+    r"""Represent :math:`b_2(\boldsymbol{n})` in :eq:`b2-n` in Poly
 
     :param int n1: times of constant being selected.
     :param int n2: times of :math:`v_{n-1}` being selected.
     :param int n3: times of :math:`eI_n` being selected.
     :param int n4: times of :math:`I_n` being selected.
     :param int n5: times of :math:`I_n^{*}` being selected.
-    :return: a poly with attibute ``keyfor`` =
+    :return: a poly with attribute ``keyfor`` =
        ('e^{-kh}','h','k^{-}','mu','theta','sigma_v','rho','sqrt(1-rho^2)').
     :rtype: Poly
     """
@@ -44,7 +44,7 @@ def b_n(n1, n2, n3, n4, n5):
 
 
 def moment_comb(n, n1, n2, n3, n4, n5):
-    """Moment for this combination in expansion of :math:`y_n^l`
+    r"""Moment for this combination in expansion of :math:`y_n^l`
 
     :param int n: l in :math:`E[\overline{y}_{n}^l]`.
     :param int n1: times of constant being selected.
@@ -76,10 +76,10 @@ def moment_comb(n, n1, n2, n3, n4, n5):
 def sub_v(poly):
     """Substitute :math:`v_{n-1}` with its moment (poly) in Moment of y_n
 
-    :param Poly poly: poly with attibute ``keyfor`` =
+    :param Poly poly: poly with attribute ``keyfor`` =
        ('e^{-kh}','h','v_{n-1}','k^{-}','mu','theta','sigma_v','rho',
        'sqrt(1-rho^2)').
-    :return: poly with attibute ``keyfor`` =
+    :return: poly with attribute ``keyfor`` =
        ('e^{-kh}','h','k^{-}','mu','theta','sigma_v','rho','sqrt(1-rho^2)').
     :rtype: Poly
     """
@@ -101,7 +101,7 @@ def moment_y(l):
     """Moment of :math:`y_n` of order :math:`l`
 
     :param int l: order of the moment.
-    :return: poly with attibute ``keyfor`` =
+    :return: poly with attribute ``keyfor`` =
        ('e^{-kh}','h','k^{-}','mu','theta','sigma_v','rho','sqrt(1-rho^2)').
     :rtype: Poly
     """
@@ -126,7 +126,7 @@ def moment_y(l):
 def dpoly(poly, wrt):
     """Partial derivative of central moment w.r.t. parameter wrt
 
-    :param Poly poly: central moment represented by the poly whoes attribute
+    :param Poly poly: central moment represented by the poly whose attribute
        ``keyfor`` =
        ('e^{-kh}','h','k^{-}','mu','theta','sigma_v','rho','sqrt(1-rho^2)').
     :param str wrt: with respect to.

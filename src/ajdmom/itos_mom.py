@@ -1,4 +1,4 @@
-"""
+r"""
 Itô process moments under Superposition of Two Square-Root Diffusion Processes
 
 See :doc:`../2fsv` for superposition of two square-root diffusion processes.
@@ -8,7 +8,7 @@ I will demonstrate how to compute
    :label: IEI_IEII
 
    \mathbb{E}[m_4m_5m_6m_7m_8]
-   \\triangleq
+   \triangleq
    \mathbb{E}[I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7}
    I_{n-1,t}^{*m_8}|v_{1,n-1},v_{2,n-1}].
 
@@ -35,10 +35,10 @@ i.e., with key components standing for
 
 * :code:`key[3]`: :math:`i` for :math:`[t-(n-1)h]^i`,
 
-* :code:`key[4],key[5],key[6]`: :math:`v_{1,n-1}, \\theta_1, \sigma_{v1}`
+* :code:`key[4],key[5],key[6]`: :math:`v_{1,n-1}, \theta_1, \sigma_{v1}`
   raised to the respective power,
 
-* :code:`key[7],key[8],key[9]`: :math:`v_{2,n-1}, \\theta_2, \sigma_{v2}`
+* :code:`key[7],key[8],key[9]`: :math:`v_{2,n-1}, \theta_2, \sigma_{v2}`
   raised to the respective power.
 
 
@@ -46,15 +46,15 @@ Therefore, I write the result of equation :eq:`IEI_IEII` as
 
 .. math::
 
-   &\mathbb{E}[m_4m_5m_6m_7m_8]\\\\
+   &\mathbb{E}[m_4m_5m_6m_7m_8]\\
    &= \sum_{t0,(m_4,m_6),(i,i'),j,l,p,q,l',p',q'}
-   b_{t0(m_4,m_6)(i,i')jlpql'p'q'} \cdot \\\\
+   b_{t0(m_4,m_6)(i,i')jlpql'p'q'} \cdot \\
    &\quad (n_{1m}k_1+n_{2m}k_2)^{-i_m}
    \cdots (n_{11}k_1+n_{21}k_2)^{-i_1}\cdot
-   e^{(m_4k_1+m_6k_2)(n-1)h}\cdot\\\\
+   e^{(m_4k_1+m_6k_2)(n-1)h}\cdot\\
    &\quad e^{(ik_1+i'k_2)[t-(n-1)h]} [t-(n-1)h]^{j}
-   v_{1,n-1}^{l}\\theta_1^{p}\sigma_{v1}^{q}
-   v_{2,n-1}^{l'}\\theta_2^{p'}\sigma_{v2}^{q'}
+   v_{1,n-1}^{l}\theta_1^{p}\sigma_{v1}^{q}
+   v_{2,n-1}^{l'}\theta_2^{p'}\sigma_{v2}^{q'}
 
 where :math:`t0 = ((n_{1m},n_{2m},i_{m}),...,(n_{11},n_{21},i_{1}))`.
 
@@ -74,18 +74,18 @@ shows
 .. math::
 
    &d(I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7}
-   I_{n-1,t}^{*m_8})\\\\
-   &\\approx \\frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7}
-   I_{n-1,t}^{*m_8-2})v(t)dt\\\\
-   &\quad + c_1(t) I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} dt\\\\
-   &\quad + c_2(t) I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} dt\\\\
-   &\\approx \\frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8-2})v_1(t)dt\\\\
-   &\quad + \\frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8-2})v_2(t)dt\\\\
-   &\quad + \\frac{1}{2}m_4(m_4-1)e^{2k_1t}I\!E_{1,n-1,t}^{m_4-2}I_{1,n-1,t}^{m_5}I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\\\
-   &\quad + \\frac{1}{2}m_5(m_5-1)I\!E_{1,n-1,t}^{m_4}  I_{1,n-1,t}^{m_5-2} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\\\
-   &\quad + m_4m_5e^{k_1t}I\!E_{1,n-1,t}^{m_4-1}I_{1,n-1,t}^{m_5-1}I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\\\
-   &\quad + \\frac{1}{2}m_6(m_6-1)e^{2k_2t} I\!E_{2,n-1,t}^{m_6-2}I_{2,n-1,t}^{m_7}I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} v_2(t)dt\\\\
-   &\quad + \\frac{1}{2}m_7(m_7-1)I\!E_{2,n-1,t}^{m_6}  I_{2,n-1,t}^{m_7-2}I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} v_2(t)dt\\\\
+   I_{n-1,t}^{*m_8})\\
+   &\approx \frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7}
+   I_{n-1,t}^{*m_8-2})v(t)dt\\
+   &\quad + c_1(t) I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} dt\\
+   &\quad + c_2(t) I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} dt\\
+   &\approx \frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8-2})v_1(t)dt\\
+   &\quad + \frac{1}{2}m_8(m_8-1)I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8-2})v_2(t)dt\\
+   &\quad + \frac{1}{2}m_4(m_4-1)e^{2k_1t}I\!E_{1,n-1,t}^{m_4-2}I_{1,n-1,t}^{m_5}I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\
+   &\quad + \frac{1}{2}m_5(m_5-1)I\!E_{1,n-1,t}^{m_4}  I_{1,n-1,t}^{m_5-2} I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\
+   &\quad + m_4m_5e^{k_1t}I\!E_{1,n-1,t}^{m_4-1}I_{1,n-1,t}^{m_5-1}I\!E_{2,n-1,t}^{m_6} I_{2,n-1,t}^{m_7} I_{n-1,t}^{*m_8} v_1(t)dt\\
+   &\quad + \frac{1}{2}m_6(m_6-1)e^{2k_2t} I\!E_{2,n-1,t}^{m_6-2}I_{2,n-1,t}^{m_7}I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} v_2(t)dt\\
+   &\quad + \frac{1}{2}m_7(m_7-1)I\!E_{2,n-1,t}^{m_6}  I_{2,n-1,t}^{m_7-2}I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} v_2(t)dt\\
    &\quad + m_6m_7e^{k_2t}I\!E_{2,n-1,t}^{m_6-1}I_{2,n-1,t}^{m_7-1}I\!E_{1,n-1,t}^{m_4} I_{1,n-1,t}^{m_5} I_{n-1,t}^{*m_8} v_2(t)dt
 
 where
@@ -93,26 +93,26 @@ where
 .. math::
 
    c_1(t)
-   &\\triangleq \\bigg[
-     \\frac{1}{2}m_4(m_4-1)I\!E_{1,n-1,t}^{m_4-2}I_{1,n-1,t}^{m_5}e^{2k_1t}
-   + \\frac{1}{2}m_5(m_5-1)I\!E_{1,n-1,t}^{m_4}  I_{1,n-1,t}^{m_5-2}\\\\
+   &\triangleq \bigg[
+     \frac{1}{2}m_4(m_4-1)I\!E_{1,n-1,t}^{m_4-2}I_{1,n-1,t}^{m_5}e^{2k_1t}
+   + \frac{1}{2}m_5(m_5-1)I\!E_{1,n-1,t}^{m_4}  I_{1,n-1,t}^{m_5-2}\\
    &\qquad + m_4m_5I\!E_{1,n-1,t}^{m_4-1}I_{1,n-1,t}^{m_5-1}e^{k_1t}
-   \\bigg] v_1(t),\\\\
+   \bigg] v_1(t),\\
    c_2(t)
-   &\\triangleq \\bigg[
-     \\frac{1}{2}m_6(m_6-1)I\!E_{2,n-1,t}^{m_6-2}I_{2,n-1,t}^{m_7}e^{2k_2t}
-   + \\frac{1}{2}m_7(m_7-1)I\!E_{2,n-1,t}^{m_6}  I_{2,n-1,t}^{m_7-2}\\\\
+   &\triangleq \bigg[
+     \frac{1}{2}m_6(m_6-1)I\!E_{2,n-1,t}^{m_6-2}I_{2,n-1,t}^{m_7}e^{2k_2t}
+   + \frac{1}{2}m_7(m_7-1)I\!E_{2,n-1,t}^{m_6}  I_{2,n-1,t}^{m_7-2}\\
    &\qquad + m_6m_7I\!E_{2,n-1,t}^{m_6-1}I_{2,n-1,t}^{m_7-1}e^{k_2t}
-   \\bigg] v_2(t),
+   \bigg] v_2(t),
 
 and
 
 .. math::
 
    v_{1}(t)
-   &= e^{-k_1t}e^{k_1(n-1)h}(v_{1,n-1} - \\theta_1) + \\theta_1 + \sigma_{v1} e^{-k_1t}I\!E_{1,n-1,t},\\\\
+   &= e^{-k_1t}e^{k_1(n-1)h}(v_{1,n-1} - \theta_1) + \theta_1 + \sigma_{v1} e^{-k_1t}I\!E_{1,n-1,t},\\
    v_{2}(t)
-   &= e^{-k_2t}e^{k_2(n-1)h}(v_{2,n-1} - \\theta_2) + \\theta_2 + \sigma_{v2} e^{-k_2t}I\!E_{2,n-1,t}.
+   &= e^{-k_2t}e^{k_2(n-1)h}(v_{2,n-1} - \theta_2) + \theta_2 + \sigma_{v2} e^{-k_2t}I\!E_{2,n-1,t}.
 
 Recursive Equation
 -------------------
@@ -122,31 +122,31 @@ Thus, we have the following *recursive equation*
 .. math::
    :label: ito-moment-m4m5m6m7m8
 
-   &\mathbb{E}[m_4m_5m_6m_7m_8]&\\\\
-   &= \\frac{m_4(m_4-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \\theta_1) &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-2)m_5m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_4(m_4-1)}{2}\\theta_1 &\int_{(n-1)h}^t e^{2k_1s}\mathbb{E}[(m_4-2)m_5m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_4(m_4-1)}{2}\sigma_{v1} &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-1)m_5m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_5(m_5-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \\theta_1) &\color{blue}\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[m_4(m_5-2)m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_5(m_5-1)}{2}\\theta_1 &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4(m_5-2)m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_5(m_5-1)}{2}\sigma_{v1} &\color{blue}\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[(m_4+1)(m_5-2)m_6m_7m_8]ds\\\\
-   &\quad + m_4m_5e^{k_1(n-1)h}(v_{1,n-1} - \\theta_1) &\int_{(n-1)h}^t \mathbb{E}[(m_4-1)(m_5-1)m_6m_7m_8]ds\\\\
-   &\quad + m_4m_5\\theta_1 &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-1)(m_5-1)m_6m_7m_8]ds\\\\
-   &\quad + m_4m_5\sigma_{v1} &\int_{(n-1)h}^t \mathbb{E}[m_4(m_5-1)m_6m_7m_8]ds\\\\
-   &\quad + \\frac{m_6(m_6-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \\theta_2) &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-2)m_7m_8]ds\\\\
-   &\quad + \\frac{m_6(m_6-1)}{2}\\theta_2 &\color{blue}\int_{(n-1)h}^t e^{2k_2s}\mathbb{E}[m_4m_5(m_6-2)m_7m_8]ds\\\\
-   &\quad + \\frac{m_6(m_6-1)}{2}\sigma_{v2} &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-1)m_7m_8]ds\\\\
-   &\quad + \\frac{m_7(m_7-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \\theta_2) &\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5m_6(m_7-2)m_8]ds\\\\
-   &\quad + \\frac{m_7(m_7-1)}{2}\\theta_2 &\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6(m_7-2)m_8]ds\\\\
-   &\quad + \\frac{m_7(m_7-1)}{2}\sigma_{v2} &\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5(m_6+1)(m_7-2)m_8]ds\\\\
-   &\quad + m_6m_7e^{k_2(n-1)h}(v_{2,n-1} - \\theta_2) &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5(m_6-1)(m_7-1)m_8]ds\\\\
-   &\quad + m_6m_7\\theta_2 &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-1)(m_7-1)m_8]ds\\\\
-   &\quad + m_6m_7\sigma_{v2} &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6(m_7-1)m_8]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \\theta_1) &\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}\\theta_1 &\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}\sigma_{v1} &\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[(m_4+1)m_5m_6m_7(m_8-2)]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \\theta_2) &\color{blue}\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}\\theta_2 &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\\\
-   &\quad + \\frac{m_8(m_8-1)}{2}\sigma_{v2} &\color{blue}\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5(m_6+1)m_7(m_8-2)]ds.
+   &\mathbb{E}[m_4m_5m_6m_7m_8]&\\
+   &= \frac{m_4(m_4-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \theta_1) &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-2)m_5m_6m_7m_8]ds\\
+   &\quad + \frac{m_4(m_4-1)}{2}\theta_1 &\int_{(n-1)h}^t e^{2k_1s}\mathbb{E}[(m_4-2)m_5m_6m_7m_8]ds\\
+   &\quad + \frac{m_4(m_4-1)}{2}\sigma_{v1} &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-1)m_5m_6m_7m_8]ds\\
+   &\quad + \frac{m_5(m_5-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \theta_1) &\color{blue}\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[m_4(m_5-2)m_6m_7m_8]ds\\
+   &\quad + \frac{m_5(m_5-1)}{2}\theta_1 &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4(m_5-2)m_6m_7m_8]ds\\
+   &\quad + \frac{m_5(m_5-1)}{2}\sigma_{v1} &\color{blue}\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[(m_4+1)(m_5-2)m_6m_7m_8]ds\\
+   &\quad + m_4m_5e^{k_1(n-1)h}(v_{1,n-1} - \theta_1) &\int_{(n-1)h}^t \mathbb{E}[(m_4-1)(m_5-1)m_6m_7m_8]ds\\
+   &\quad + m_4m_5\theta_1 &\int_{(n-1)h}^t e^{k_1s}\mathbb{E}[(m_4-1)(m_5-1)m_6m_7m_8]ds\\
+   &\quad + m_4m_5\sigma_{v1} &\int_{(n-1)h}^t \mathbb{E}[m_4(m_5-1)m_6m_7m_8]ds\\
+   &\quad + \frac{m_6(m_6-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \theta_2) &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-2)m_7m_8]ds\\
+   &\quad + \frac{m_6(m_6-1)}{2}\theta_2 &\color{blue}\int_{(n-1)h}^t e^{2k_2s}\mathbb{E}[m_4m_5(m_6-2)m_7m_8]ds\\
+   &\quad + \frac{m_6(m_6-1)}{2}\sigma_{v2} &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-1)m_7m_8]ds\\
+   &\quad + \frac{m_7(m_7-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \theta_2) &\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5m_6(m_7-2)m_8]ds\\
+   &\quad + \frac{m_7(m_7-1)}{2}\theta_2 &\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6(m_7-2)m_8]ds\\
+   &\quad + \frac{m_7(m_7-1)}{2}\sigma_{v2} &\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5(m_6+1)(m_7-2)m_8]ds\\
+   &\quad + m_6m_7e^{k_2(n-1)h}(v_{2,n-1} - \theta_2) &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5(m_6-1)(m_7-1)m_8]ds\\
+   &\quad + m_6m_7\theta_2 &\color{blue}\int_{(n-1)h}^t e^{k_2s}\mathbb{E}[m_4m_5(m_6-1)(m_7-1)m_8]ds\\
+   &\quad + m_6m_7\sigma_{v2} &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6(m_7-1)m_8]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}e^{k_1(n-1)h}(v_{1,n-1} - \theta_1) &\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}\theta_1 &\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}\sigma_{v1} &\int_{(n-1)h}^t e^{-k_1s}\mathbb{E}[(m_4+1)m_5m_6m_7(m_8-2)]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}e^{k_2(n-1)h}(v_{2,n-1} - \theta_2) &\color{blue}\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}\theta_2 &\color{blue}\int_{(n-1)h}^t \mathbb{E}[m_4m_5m_6m_7(m_8-2)]ds\\
+   &\quad + \frac{m_8(m_8-1)}{2}\sigma_{v2} &\color{blue}\int_{(n-1)h}^t e^{-k_2s}\mathbb{E}[m_4m_5(m_6+1)m_7(m_8-2)]ds.
 
 
 Initial Moments
@@ -162,47 +162,47 @@ except for
 
   .. math::
 
-     &\mathbb{E}[I\!E_{1,n-1,t}^2|v_{1,n-1}]\\\\
-     &= e^{2k_1t}\\frac{1}{2k_1}\\theta_1 + e^{k_1t + k_1(n-1)h}\\frac{1}{k_1}
-     (v_{1,n-1}-\\theta_1) - e^{2k_1(n-1)h}\\frac{1}{2k_1}\left(2v_{1,n-1}
-     - \\theta_1 \\right),\\\\
+     &\mathbb{E}[I\!E_{1,n-1,t}^2|v_{1,n-1}]\\
+     &= e^{2k_1t}\frac{1}{2k_1}\theta_1 + e^{k_1t + k_1(n-1)h}\frac{1}{k_1}
+     (v_{1,n-1}-\theta_1) - e^{2k_1(n-1)h}\frac{1}{2k_1}\left(2v_{1,n-1}
+     - \theta_1 \right),\\
      %
-     &\mathbb{E}[I\!E_{1,n-1,t}I_{1,n-1,t}|v_{1,n-1}]\\\\
-     &=e^{k_1t}\\frac{1}{k_1}\\theta_1
-       + e^{k_1(n-1)h}(v_{1,n-1}-\\theta_1)[t-(n-1)h]
-       - e^{k_1(n-1)h}\\frac{1}{k_1}\\theta_1,\\\\
+     &\mathbb{E}[I\!E_{1,n-1,t}I_{1,n-1,t}|v_{1,n-1}]\\
+     &=e^{k_1t}\frac{1}{k_1}\theta_1
+       + e^{k_1(n-1)h}(v_{1,n-1}-\theta_1)[t-(n-1)h]
+       - e^{k_1(n-1)h}\frac{1}{k_1}\theta_1,\\
      %
-     &\mathbb{E}[I_{1,n-1,t}^2|v_{1,n-1}]\\\\
-     &= -e^{-k_1t + k_1(n-1)h}\\frac{1}{k_1}(v_{1,n-1}-\\theta_1)
-       + \\theta_1[t-(n-1)h] + (v_{1,n-1}-\\theta_1)\\frac{1}{k_1};
+     &\mathbb{E}[I_{1,n-1,t}^2|v_{1,n-1}]\\
+     &= -e^{-k_1t + k_1(n-1)h}\frac{1}{k_1}(v_{1,n-1}-\theta_1)
+       + \theta_1[t-(n-1)h] + (v_{1,n-1}-\theta_1)\frac{1}{k_1};
 
 * :math:`m_6+m_7=2`:
 
   .. math::
 
-     &\mathbb{E}[I\!E_{2,n-1,t}^2|v_{2,n-1}]\\\\
-     &= e^{2k_2t}\\frac{1}{2k_2}\\theta_2 + e^{k_2t + k_2(n-1)h}\\frac{1}{k_2}
-     (v_{2,n-1}-\\theta_2) - e^{2k_2(n-1)h}\\frac{1}{2k_2}\left(2v_{2,n-1}
-     - \\theta_2 \\right),\\\\
+     &\mathbb{E}[I\!E_{2,n-1,t}^2|v_{2,n-1}]\\
+     &= e^{2k_2t}\frac{1}{2k_2}\theta_2 + e^{k_2t + k_2(n-1)h}\frac{1}{k_2}
+     (v_{2,n-1}-\theta_2) - e^{2k_2(n-1)h}\frac{1}{2k_2}\left(2v_{2,n-1}
+     - \theta_2 \right),\\
      %
-     &\mathbb{E}[I\!E_{2,n-1,t}I_{2,n-1,t}|v_{2,n-1}]\\\\
-     &=e^{k_2t}\\frac{1}{k_2}\\theta_2
-       + e^{k_2(n-1)h}(v_{2,n-1}-\\theta_2)[t-(n-1)h]
-     - e^{k_2(n-1)h}\\frac{1}{k_2}\\theta_2,\\\\
+     &\mathbb{E}[I\!E_{2,n-1,t}I_{2,n-1,t}|v_{2,n-1}]\\
+     &=e^{k_2t}\frac{1}{k_2}\theta_2
+       + e^{k_2(n-1)h}(v_{2,n-1}-\theta_2)[t-(n-1)h]
+     - e^{k_2(n-1)h}\frac{1}{k_2}\theta_2,\\
      %
-     &\mathbb{E}[I_{2,n-1,t}^2|v_{2,n-1}]\\\\
-     &= -e^{-k_2t + k_2(n-1)h}\\frac{1}{k_2}(v_{2,n-1}-\\theta_2)
-        + \\theta_2[t-(n-1)h] + (v_{2,n-1}-\\theta_2)\\frac{1}{k_2};
+     &\mathbb{E}[I_{2,n-1,t}^2|v_{2,n-1}]\\
+     &= -e^{-k_2t + k_2(n-1)h}\frac{1}{k_2}(v_{2,n-1}-\theta_2)
+        + \theta_2[t-(n-1)h] + (v_{2,n-1}-\theta_2)\frac{1}{k_2};
 
 * :math:`m_8=2`:
 
   .. math::
 
-     &\mathbb{E}[I_{n-1,t}^{*2}|v_{1,n-1},v_{2,n-1}]\\\\
-     &= -e^{k_1(n-1)h}(v_{1,n-1}-\\theta_1)\\frac{1}{k_1}(e^{-k_1t} -
-     e^{-k_1(n-1)h}) +\\theta_1 [t-(n-1)h]\\\\
-     &\quad -e^{k_2(n-1)h}(v_{2,n-1}-\\theta_2)\\frac{1}{k_2}(e^{-k_2t} -
-     e^{-k_2(n-1)h}) +\\theta_2 [t-(n-1)h].
+     &\mathbb{E}[I_{n-1,t}^{*2}|v_{1,n-1},v_{2,n-1}]\\
+     &= -e^{k_1(n-1)h}(v_{1,n-1}-\theta_1)\frac{1}{k_1}(e^{-k_1t} -
+     e^{-k_1(n-1)h}) +\theta_1 [t-(n-1)h]\\
+     &\quad -e^{k_2(n-1)h}(v_{2,n-1}-\theta_2)\frac{1}{k_2}(e^{-k_2t} -
+     e^{-k_2(n-1)h}) +\theta_2 [t-(n-1)h].
 
 Implementation
 ---------------
@@ -212,19 +212,19 @@ We have [#f1]_,
 .. math::
 
    \int e^{(n_1k_1+n_2k_2)t} t^m dt =
-   \\begin{cases}
-   \sum_{i=0}^m c_{n_1n_2mi} e^{(n_1k_1+n_2k_2)t} t^{m-i} & \\text{if } n_1k_1+n_2k_2\\neq 0, m \\neq 0,\\\\
-   \\frac{1}{n_1k_1+n_2k_2}e^{(n_1k_1+n_2k_2)t}t^0 & \\text{if } n_1k_1+n_2k_2\\neq 0, m = 0,\\\\
-   \\frac{1}{m+1}e^{0kt}t^{m+1} & \\text{if } n_1k_1+n_2k_2 = 0, m \\neq 0,\\\\
-   e^{0kt}t^1 & \\text{if } n_1k_1+n_2k_2 =0 , m=0,
+   \begin{cases}
+   \sum_{i=0}^m c_{n_1n_2mi} e^{(n_1k_1+n_2k_2)t} t^{m-i} & \text{if } n_1k_1+n_2k_2\neq 0, m \neq 0,\\
+   \frac{1}{n_1k_1+n_2k_2}e^{(n_1k_1+n_2k_2)t}t^0 & \text{if } n_1k_1+n_2k_2\neq 0, m = 0,\\
+   \frac{1}{m+1}e^{0kt}t^{m+1} & \text{if } n_1k_1+n_2k_2 = 0, m \neq 0,\\
+   e^{0kt}t^1 & \text{if } n_1k_1+n_2k_2 =0 , m=0,
    \end{cases}
 
-where :math:`c_{n_1n_2m0} \\triangleq \\frac{1}{n_1k_1+n_2k_2}` and
+where :math:`c_{n_1n_2m0} \triangleq \frac{1}{n_1k_1+n_2k_2}` and
 
 .. math::
    :label: c-n_1n_2mi
 
-   c_{n_1n_2mi} \\triangleq \\frac{(-1)^{i}}{(n_1k_1+n_2k_2)^{i+1}}
+   c_{n_1n_2mi} \triangleq \frac{(-1)^{i}}{(n_1k_1+n_2k_2)^{i+1}}
    \prod_{j=m-i+1}^{m} j,~~ 1\le i \le m.
 
 The coefficient :math:`c_{n_1n_2mi}` is implemented in function
@@ -253,7 +253,7 @@ In summary, I defined
 
 -------------
 
-.. [#f1] It's assumed :math:`n_1k_1 + n_2k_2\\neq 0`.
+.. [#f1] It's assumed :math:`n_1k_1 + n_2k_2\neq 0`.
 
 -------------
 """
@@ -263,7 +263,7 @@ from ajdmom.poly import Poly
 
 
 def c(n1, n2, m, i):
-    """Constant :math:`c_{n_1n_2mi}` in :eq:`c-n_1n_2mi`
+    r"""Constant :math:`c_{n_1n_2mi}` in :eq:`c-n_1n_2mi`
 
     :param int n1: :math:`n_1` in :math:`\int_{(n-1)h}^t e^{(n_1k_1+n_2k_2)s}s^mds`.
     :param int n2: :math:`n_2` in above integral.
@@ -282,7 +282,7 @@ def c(n1, n2, m, i):
 
 
 def int_et(n1, n2, m):
-    """:math:`\int_{(n-1)h}^t e^{(n_1k_1+n_2k_2)[s-(n-1)h]}[s-(n-1)h]^mds`
+    r""":math:`\int_{(n-1)h}^t e^{(n_1k_1+n_2k_2)[s-(n-1)h]}[s-(n-1)h]^mds`
 
     :param int n1: :math:`n_1` in above integral.
     :param int n2: :math:`n_2` in above integral.
@@ -356,7 +356,7 @@ def t_mul_t0(t, t0):
 
 
 def int_mIEI_IEII(i, m, n4, n5, n6, n7, n8, IEI_IEII):
-    """:math:`\int_{(n-1)h}^te^{mk_is}\mathbb{E}[n_4n_5n_6n_7n_8]ds`
+    r""":math:`\int_{(n-1)h}^te^{mk_is}\mathbb{E}[n_4n_5n_6n_7n_8]ds`
 
     :param int i: :math:`i` in :math:`e^{mk_is} (i=1,2)`.
     :param int m: :math:`m` in :math:`e^{mk_is} (i=1,2)`.
@@ -409,7 +409,7 @@ def int_mIEI_IEII(i, m, n4, n5, n6, n7, n8, IEI_IEII):
 
 
 def coef_poly(coef, poly, tp):
-    """Multiply poly with different type coefficients
+    r"""Multiply poly with different type coefficients
 
     :param int coef: integer, such as the leading :math:`m_4(m_4-1)/2`.
     :param Poly poly: poly returned by :py:func:`~ajdmom.itos_mom.int_mIEI_IEII`.
@@ -420,11 +420,11 @@ def coef_poly(coef, poly, tp):
        +===+===============================+===+===============================+
        | 1 |:math:`e^{k_1(n-1)h}v_{1,n-1}` | 5 |:math:`e^{k_2(n-1)h}v_{2,n-1}` |
        +---+-------------------------------+---+-------------------------------+
-       | 2 |:math:`-e^{k_1(n-1)h}\\theta_1` | 6 |:math:`-e^{k_2(n-1)h}\\theta_2` |
+       | 2 |:math:`-e^{k_1(n-1)h}\theta_1` | 6 |:math:`-e^{k_2(n-1)h}\theta_2` |
        +---+-------------------------------+---+-------------------------------+
-       | 3 |:math:`\\theta_1`               | 7 |:math:`\\theta_2`               |
+       | 3 |:math:`\theta_1`               | 7 |:math:`\theta_2`               |
        +---+-------------------------------+---+-------------------------------+
-       | 4 |:math:`\\sigma_{v1}`            | 8 |:math:`\\sigma_{v2}`            |
+       | 4 |:math:`\sigma_{v1}`            | 8 |:math:`\sigma_{v2}`            |
        +---+-------------------------------+---+-------------------------------+
 
     :return: poly with attribute ``keyfor`` =
@@ -488,7 +488,7 @@ def coef_poly(coef, poly, tp):
 
 
 def recursive_IEI_IEII(n4, n5, n6, n7, n8, IEI_IEII):
-    """Recursive equation :eq:`ito-moment-m4m5m6m7m8`
+    r"""Recursive equation :eq:`ito-moment-m4m5m6m7m8`
 
     :param int n4: :math:`m_4` in :math:`I\!E_{1,n-1,t}^{m_4}`.
     :param int n5: :math:`m_5` in :math:`I_{1,n-1,t}^{m_5}`.
@@ -562,7 +562,7 @@ def recursive_IEI_IEII(n4, n5, n6, n7, n8, IEI_IEII):
 
 
 def moment_IEI_IEII(n4, n5, n6, n7, n8, return_all=False):
-    """Moment of :math:`\mathbb{E}[m_4m_5m_6m_7m_8]`
+    r"""Moment of :math:`\mathbb{E}[m_4m_5m_6m_7m_8]`
 
     Moment of the combination of Ito processes, conditioning on the previous
     volatility components, i.e.,

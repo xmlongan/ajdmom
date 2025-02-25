@@ -12,9 +12,9 @@ sys.path.insert(0, os.path.abspath('../../src'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ajdmom'
-copyright = '2023, Yan-Feng Wu'
+copyright = '2023-2025, Yan-Feng Wu'
 author = 'Yan-Feng Wu'
-release = '2.0'
+release = '3.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

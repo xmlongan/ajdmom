@@ -8,16 +8,16 @@ AJD Moment Derivation
 
 AJD: Affine Jump Diffusion -----------------------------
 ``ajdmom`` (AJD **mom**\ ents) 
-*Release* v2.0
+*Release* v3.0
 
 **AJDmom** is a Python Package designed for auto-deriving the moment and covariance
-formulas for :abbr:`AJD(Affine Jump Diffusion)` processes, such as
-the well-known Heston :abbr:`SV(Stochastic Volatility)` model and its AJD
-extensions, :abbr:`SVJ(SV with jumps in the price)`, Two-Factor SV, Two-Factor SV
-with jumps in the price, :abbr:`SVVJ(SV with jumps in the variance)`,
+formulas for :abbr:`AJD(Affine Jump Diffusion)` processes. The AJDs include the
+:abbr:`SRJD(Square-Root Jump Diffusion)` processes (or called Square-Root Diffusions
+with Jumps), the well-known Heston :abbr:`SV(Stochastic Volatility)` model and its AJD
+extensions (:abbr:`SVJ(SV with jumps in the price)`, Two-Factor SV,
+Two-Factor SV with jumps in the price, :abbr:`SVVJ(SV with jumps in the variance)`,
 :abbr:`SVIJ(SV with independent jumps in the price and variance)`,
-:abbr:`SVCJ(SV with contemporaneous jumps in the price and variance)`,
-and :abbr:`SRJD(Square-Root Jump Diffusion)` processes.
+:abbr:`SVCJ(SV with contemporaneous jumps in the price and variance)`).
 
 
 Table of Contents

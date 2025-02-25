@@ -3,9 +3,8 @@
 =====================================================================
 
 In this subpackage (``ajdmom.mdl_svcj``), we consider the following 
-:abbr:`SV(Stochastic Volatility)` model,
-which adds contemporaneous jumps in the price and variance of 
-the Heston model: 
+:abbr:`SV(Stochastic Volatility)` model, which adds contemporaneous jumps
+in the price and variance of the Heston model:
 
 .. math::
    
@@ -29,27 +28,148 @@ where
   variance :math:`\sigma_s^2`, i.e., 
   :math:`J_i^s|J_i^v \sim \mathcal{N}(\mu_s+\rho_J J_i^v, \sigma_s^2)`.
 
-Define :math:`y_t \triangleq \log s(t) - \log s(0)`, and 
-:math:`I\!Z_t^s\triangleq \int_0^t dz^s(u)`. Then, we have
+For models including jumps in the variance, both conditional and unconditional
+moments can be derived.
+
+Conditional Moments (I)
+=========================
+
+We now introduce the following notation:
 
 .. math::
-   
+
+    \begin{equation*}
+        I\!E_t \mathrel{:=} \int_0^t e^{ks}\sqrt{v(s)}\mathrm{d} w^v(s),~
+        I_t \mathrel{:=} \int_0^t \sqrt{v(s)} \mathrm{d} w^v(s), ~
+        I\!E\!Z_t \mathrel{:=} \int_0^t e^{ks}\mathrm{d} z^v(s), ~
+        I\!Z_t \mathrel{:=} \int_0^t \mathrm{d} z^v(s).
+    \end{equation*}
+
+Additionally, we define
+
+.. math::
+
+   \quad I\!Z_t^s \mathrel{:=} \int_0^t \mathrm{d} z^s(t), \quad I\!Z_t^* \mathrel{:=} \int_0^t\mathrm{d} z^*(t),
+
+where :math:`z^*(t)` is another compound Poisson process sharing the same arrival process as
+:math:`z^v(t)` and :math:`z^s(t)`, but with independent jumps :math:`J_i^*\sim \mathcal{N}(\mu_s, \sigma_s^2)`.
+Since the jumps of :math:`z^s(t)` are distributed as
+:math:`J_i^s|J_i^v \sim \mathcal{N}(\mu_s + \rho_J J_i^v, \sigma_s^2)`, the compound Poisson process
+in the return can be decomposed into another two compound Poisson processes, i.e.,
+:math:`I\!Z_{t}^s = \rho_J I\!Z_t + I\!Z_t^*`. The solution to the variance process now is given by:
+
+.. math::
+
+    \begin{equation*}
+        e^{kt}v_t = (v_0-\theta) + e^{kt}\theta + \sigma_v I\!E_t + I\!E\!Z_t.
+    \end{equation*}
+
+For the return :math:`y_t` (:math:`y_t \mathrel{:=} p(t) - p(0)`), we have the following
+decomposition:
+
+.. math::
+
+    \begin{align*}
+        y_t
+        &= \frac{\sigma_v}{2k} e^{-kt}I\!E_t +
+         \left(\rho -\frac{\sigma_v}{2k} \right)I_t + \sqrt{1-\rho^2}I_t^{*}
+         + \frac{1}{2k}e^{-kt}I\!E\!Z_t + \left(\rho_J - \frac{1}{2k}\right)I\!Z_t + I\!Z_t^{*}\\
+        &\quad + \left(\mu-\frac{\theta}{2}\right)t - (v_0 - \theta)\beta_t,
+    \end{align*}
+
+where :math:`\beta_t = (1-e^{-kt})/(2k)` by definition.
+The :math:`m`-th conditional moment of :math:`y_t`, given :math:`v_0`, can be derived through
+
+.. math::
+
+    \begin{align*}
+        \mathbb{E}[y_t^m|v_0]
+        &= \sum_{m_1+\cdots+m_8=m}c_{\boldsymbol{m}} b_{\boldsymbol{m}}
+        \mathbb{E}[I\!E_t^{m_1}I_t^{m_2}I_t^{*m_3}I\!E\!Z_t^{m_4}I\!Z_t^{m_5}I\!Z_t^{*m_6}|v_0],
+    \end{align*}
+
+where :math:`\boldsymbol{m} \mathrel{:=} (m_1, \dots, m_8)`,
+:math:`c(\boldsymbol{m}) \mathrel{:=} \binom{m}{m_1,\dots,m_8}` and
+
+.. math::
+
+    \begin{align*}
+        &b(\boldsymbol{m}) \\
+        &\mathrel{:=} \frac{e^{-(m_1+m_4)kt}}{(2k)^{m_1+m_4}}\sigma_v^{m_1}\left(\rho - \frac{\sigma_v}{2k}\right)^{m_2}\left(\sqrt{1-\rho^2}\right)^{m_3}\left(\rho_J - \frac{1}{2k} \right)^{m_5}\left[\left(\mu-\frac{\theta}{2}\right)t\right]^{m_7} \left[-(v_0-\theta)\beta_t\right]^{m_8}\\
+        &=\sum_{i_1=0}^{m_2}\sum_{i_2=0}^{m_5}\sum_{i_3=0}^{m_7}\sum_{i_4=0}^{m_8} c_{\boldsymbol{i}} b_{\boldsymbol{m},\boldsymbol{i}},
+    \end{align*}
+
+where :math:`\boldsymbol{i} \mathrel{:=} (i_1,i_2, i_3,i_4)`,
+
+.. math::
+
+    \begin{align*}
+        c_{\boldsymbol{i}}
+        &\mathrel{:=} \binom{m_2}{i_1}\binom{m_5}{i_2}\binom{m_7}{i_3}\binom{m_8}{i_4} \frac{(-1)^{i_1+\cdots+i_4}}{2^{m_1+m_4+i_1+i_2+i_3+m_8}},\\
+        b_{\boldsymbol{m},\boldsymbol{i}}
+        &\mathrel{:=} \frac{e^{-(m_1+m_4+m_8-i_4)kt} t^{m_7}}{k^{m_1+m_4+i_1+i_2+m_8}} \mu^{m_7-i_3}(v_0-\theta)^{m_8}\theta^{i_3}\sigma_v^{m_1+i_1} \rho^{m_2-i_1} \left(\sqrt{1-\rho^2}\right)^{m_3} \rho_J^{m_5-i_2}.
+    \end{align*}
+
+The first conditional moment is straightforward to compute and is given by:
+
+.. math::
+
+    \begin{equation*}
+        \mathbb{E}[y_t|v_0] %= \frac{1- e^{-kt}}{2k^2}\lambda \mu_v + \left(\rho_J - \frac{1}{2k} \right) \lambda t \mu_v  + \lambda t \mu_s + (\mu -\theta/2)t - (v_0-\theta)\beta_t.
+        = (\mu - \mathbb{E}[v]/2)t - (v_0 - \mathbb{E}[v])\beta_{t} + \lambda t (\mu_s + \rho_J\mu_v),
+    \end{equation*}
+
+where :math:`\mathbb{E}[v] = \theta + \lambda \mu_v /k`.
+To compute higher-order conditional moments of :math:`y_t`, it suffices to evaluate the
+conditional joint moment:
+
+.. math::
+
+    \begin{equation}%\label{eqn:joint-ieii-ieziziz}
+        \mathbb{E}[I\!E_t^{m_1}I_t^{m_2}I_t^{*m_3}I\!E\!Z_t^{m_4}I\!Z_t^{m_5}I\!Z_t^{*m_6}|v_0].
+    \end{equation}
+
+Before addressing the computation of this joint moment, we outline the derivation of conditional
+central moment of :math:`y_t`. Define the centralized return as
+
+.. math::
+
+    \begin{equation*}
+        \bar{y}_t \mathrel{:=} y_t - \mathbb{E}[y_t|v_0].
+    \end{equation*}
+
+The :math:`m`-th conditional central moment of :math:`\bar{y}_t` can then be expressed as:
+
+.. math::
+
+    \begin{align*}
+        \mathbb{E}[\bar{y}_t^m|v_0] = \sum_{i=0}^m\binom{m}{i}(-1)^i \mathbb{E}^i[y_t|v_0]\mathbb{E}[y_t^{m-i}|v_0].
+    \end{align*}
+
+This decomposition demonstrates that the computation of conditional central moments relies
+on the computation of conditional moments.
+
+Moments
+=========================
+
+Consequently, the conditional moment of the return,
+$\mathbb{E}[y_t^m|v_0]$, is also a polynomial in $v_0$. This property allows us to leverage
+the polynomial structure to compute the unconditional moments of the return,
+:math:`\mathbb{E}[y_t^m]`, as demonstrated in :doc:`srjd`.
+
+Conditional Moments (II)
+=========================
+
+Note that :math:`y_t \triangleq \log s(t) - \log s(0)`.
+Define :math:`I\!Z_t^s\triangleq \int_0^t dz^s(u)`. Then, we have
+
+.. math::
+
    y_t = y_{svvj,t} + I\!Z_t^s,
 
 where :math:`y_{svvj,t}` denotes the yield :math:`y_t` in Equation
 :eq:`y_svvj_t` from the :abbr:`SVVJ(Stochastic Volatility with
 Jumps in the Variance process)` model.
-
-
-For models including jumps in the variance, it seems that only conditional
-moments and conditional central moments 
-(given :math:`v_0, z^v(u), 0\le u \le t`)
-can be derived in closed-form for any order. Therefore, for those models, 
-the package will focus on the derivation of conditional moments and conditional
-central moments.
-
-Conditional Moments
-====================
 
 Given the initial variance :math:`v_0` and the 
 :abbr:`CPP(Compound Poisson Process)` in the variance over interval 
@@ -123,4 +243,8 @@ API
    
    ajdmom.mdl_svcj.cmom
    ajdmom.mdl_svcj.mom
+   ajdmom.mdl_svcj.cond_cmom
+   ajdmom.mdl_svcj.cond_mom
+   ajdmom.mdl_svcj.cond2_cmom
+   ajdmom.mdl_svcj.cond2_mom
 

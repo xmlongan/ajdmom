@@ -1,20 +1,21 @@
 """
-Conditional Moments for SVVJ model
+Conditional Moments for the SVVJ model, given the initial variance
+and jump time points and jump sizes of the CPP in the variance
 """
 import math
 from fractions import Fraction as Frac
 
 from ajdmom.poly import Poly
 from ajdmom.utils import comb, fZ
-from ajdmom.mdl_svvj.cmom import cmoments_y_to
+from ajdmom.mdl_svvj.cond2_cmom import cmoments_y_to
 
 
 def moment_comb(n, n1, n2, n3, n4, PY):
-    """moment for this combination in the expansion of :math:`y_t^n`
+    r"""moment for this combination in the expansion of :math:`y_t^n`
 
     :param int n: n in :math:`E[y_t^n]`
-    :param int n1: power of :math:`(\mu -\\theta/2)t`
-    :param int n2: power of :math:`(v_0 - \\theta)\\beta_t`
+    :param int n1: power of :math:`(\mu -\theta/2)t`
+    :param int n2: power of :math:`(v_0 - \theta)\beta_t`
     :param int n3: power of :math:`I\!E\!Z_t`
     :param int n4: power of :math:`I\!Z_t`
     :param Poly PY: poly of :math:`E[\overline{y}_t^{n_5}|v_0, z_s, 0\le s\le t]`
@@ -107,7 +108,7 @@ def moment_y(l):
 def poly2num(poly, par):
     """Decode poly back to scalar
 
-    :param Poly poly: poly to be decoded with attibute ``keyfor`` =
+    :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
       'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')

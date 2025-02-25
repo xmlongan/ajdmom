@@ -23,7 +23,7 @@ def rSRD(v0, tau, k, theta, sigma):
     """
     d = 4 * theta * k / (sigma ** 2)  # degrees of freedom
     c = (sigma ** 2) * (1 - math.exp(-k * tau)) / (4 * k)  # leading constant
-    lmbd = v0 * math.exp(-k * tau) / c  # noncentrality parameter
+    lmbd = v0 * math.exp(-k * tau) / c  # non-centrality parameter
     return c * rng.noncentral_chisquare(d, lmbd)
 
 

@@ -8,10 +8,10 @@ from ajdmom.poly import Poly
 
 # ----------------------------combination----------------------------------------
 def comb(n, ns):
-    """number of occurrences for an exact combination
+    r"""number of occurrences for an exact combination
 
     :param int n: total power, = ``sum(ns)``
-    :param list ns: list of powers, :math:`n_1 + \\cdots + n_N = n`
+    :param list ns: list of powers, :math:`n_1 + \cdots + n_N = n`
     :return: number of occurrences for this exact combination
     :return: float
     """
@@ -75,7 +75,8 @@ def multilevel_comb(n, m, show=False):
     if n == 1:
         return m
     elif n == 2:
-        index = [[i, m - i] for i in range(m)]
+        index = [[i, m - i] for i in range(m+1)]
+        if show: print(index)
         return index
     # N > 2
     index = []
@@ -112,11 +113,11 @@ def multilevel_comb(n, m, show=False):
 
 # -----------------------------norm distribution---------------------------------
 def dbfactorial(n):
-    """double factorial :math:`n!!`
+    r"""double factorial :math:`n!!`
 
     :param int n: number :math:`n`
-    :return: value of :math:`n!! = n(n-2)(n-4)\\cdots 4 \\cdot 2` for
-      even :math:`n`, :math:`n!! = n(n-2)(n-4)\\cdots 3 \\cdot 1` for odd :math:`n`
+    :return: value of :math:`n!! = n(n-2)(n-4)\cdots 4 \cdot 2` for
+      even :math:`n`, :math:`n!! = n(n-2)(n-4)\cdots 3 \cdot 1` for odd :math:`n`
     :rtype: float
     """
     if n == 0 or n == 1:
@@ -156,13 +157,13 @@ def cmnorm(n):
 
 # --------------------------------misc-------------------------------------------
 def fZ_each_index(l, o, p, q, k, s, J, index):
-    """function value :math:`f_{Z_t}(\\boldsymbol{l},\\boldsymbol{o},
-    \\boldsymbol{p}, \\boldsymbol{q})` as defined in :eq:`fZ` for an index
+    r"""function value :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},
+    \boldsymbol{p}, \boldsymbol{q})` as defined in :eq:`fZ` for an index
 
-    :param tuple l: vector :math:`\\boldsymbol{l}`, should be a tuple
-    :param tuple o: vector :math:`\\boldsymbol{o}`, should be a tuple
-    :param tuple p: vector :math:`\\boldsymbol{p}`, should be a tuple
-    :param tuple q: vector :math:`\\boldsymbol{q}`, should be a tuple
+    :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
+    :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
+    :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
+    :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
     :param float k: parameter :math:`k`
     :param tuple s: jump time points
     :param tuple J: jump sizes
@@ -183,13 +184,13 @@ def fZ_each_index(l, o, p, q, k, s, J, index):
 
 
 def fZ(l, o, p, q, k, s, J):
-    """function :math:`f_{Z_t}(\\boldsymbol{l},\\boldsymbol{o},\\boldsymbol{p},
-    \\boldsymbol{q})` as defined in :eq:`fZ`
+    r"""function :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},
+    \boldsymbol{q})` as defined in :eq:`fZ`
 
-    :param tuple l: vector :math:`\\boldsymbol{l}`, should be a tuple
-    :param tuple o: vector :math:`\\boldsymbol{o}`, should be a tuple
-    :param tuple p: vector :math:`\\boldsymbol{p}`, should be a tuple
-    :param tuple q: vector :math:`\\boldsymbol{q}`, should be a tuple
+    :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
+    :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
+    :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
+    :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
     :param float k: parameter :math:`k`
     :param tuple s: jump time points
     :param tuple J: jump sizes

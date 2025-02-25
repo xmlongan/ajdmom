@@ -1,13 +1,22 @@
-"""
+r"""
 Itô process conditional moments under Square-Root Jump-Diffusion Process
 
 Condition on the starting variance and jumps occurred over the interval.
 
+Note that
+
+- The unconditional moment derivation is supported within
+  :py:mod:`ajdmom.mdl_srjd.mom` and :py:mod:`ajdmom.mdl_srjd.cmom`.
+
+- The conditional (given :math:`v_0`) moment derivation is supported within
+  :py:mod:`ajdmom.mdl_srjd.cond_mom` and :py:mod:`ajdmom.mdl_srjd.cond_cmom`.
+
+
 Highlights
 ===========
 
-- Currently, we are limited to deriving the conditional moments for models
-  including jumps in the variance (
+- Offer supports for deriving the conditional moments for models including
+  jumps in the variance (
   :abbr:`SRJD(Square-Root Jump Diffusion)`,
   :abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
   :abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the price and
@@ -27,7 +36,7 @@ The Square-Root Jump Diffusion (SRJD) is described by the following
 
 .. math::
 
-   dv(t) = k(\\theta - v(t))dt + \sigma_v\sqrt{v(t)}dw^v(t) + dz(t),
+   dv(t) = k(\theta - v(t))dt + \sigma_v\sqrt{v(t)}dw^v(t) + dz(t),
 
 which adds a jump component :math:`z(t)`
 (a :abbr:`CPP(Compound Poisson Process)`) into the CIR diffusion.
@@ -35,18 +44,18 @@ We introduce the following notations for simplification,
 
 .. math::
 
-   \\begin{align*}
-   I\!Z_t &\\triangleq \int_0^tdz(s)
-   ~~\left(\equiv \sum_{i=1}^{N(t)} J_i\\right),\\\\
-   I\!E\!Z_t &\\triangleq \int_0^te^{ks}dz(s)
-   ~~\left(\equiv \sum_{i=1}^{N(t)} e^{ks_i}J_i\\right).
+   \begin{align*}
+   I\!Z_t &\triangleq \int_0^tdz(s)
+   ~~\left(\equiv \sum_{i=1}^{N(t)} J_i\right),\\
+   I\!E\!Z_t &\triangleq \int_0^te^{ks}dz(s)
+   ~~\left(\equiv \sum_{i=1}^{N(t)} e^{ks_i}J_i\right).
    \end{align*}
 
 The solution of the SDE can then be expressed as
 
 .. math::
 
-  e^{kt}v(t)  = (v_0-\\theta) + e^{kt}\\theta + \sigma_v I\!E_t + I\!E\!Z_t,
+  e^{kt}v(t)  = (v_0-\theta) + e^{kt}\theta + \sigma_v I\!E_t + I\!E\!Z_t,
 
 noting that :math:`v_0 \equiv v(0)` and
 :math:`I\!E_t \equiv \int_0^t e^{ks}\sqrt{v(s)} dw^v(s)`.
@@ -54,7 +63,7 @@ Further,
 
 .. math::
 
-   e^{kt}(v(t) - \\theta) - (v_0-\\theta) = \sigma_v I\!E_t + I\!E\!Z_t.
+   e^{kt}(v(t) - \theta) - (v_0-\theta) = \sigma_v I\!E_t + I\!E\!Z_t.
 
 In order to derive moment formulas for models including jumps in
 the variance, SVVJ, SVIJ and SVCJ, we first compute the condtional
@@ -67,7 +76,7 @@ moments
 noting that :math:`I_t \equiv \int_0^t \sqrt{v(s)} dw^v(s)`,
 :math:`I_t^{*} \equiv \int_0^t \sqrt{v(s)} dw(s)` and the Brownian motion in
 the price process is decomposed as
-:math:`w^s(t) = \\rho w^v(t) + \sqrt{1-\\rho^2}w(t)`, refer to the
+:math:`w^s(t) = \rho w^v(t) + \sqrt{1-\rho^2}w(t)`, refer to the
 :doc:`../theory` page
 for the definitions of these quantities.
 
@@ -80,24 +89,24 @@ Itô process moment
 .. math::
   :label: ito-jmp-moment-ii
 
-  \\begin{align*}
-  &\mathbb{E}[ I\!E_t^{n_1} I_t^{n_2} (I_t^{*})^{n_3}|v_0, z(s), 0\le s\le t ] \\\\
-  &= \\frac{1}{2} n_1(n_1-1)(v_0-\\theta)\\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + \\frac{1}{2} n_1(n_1-1)\\theta    \\times&\int_0^t e^{2ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + \\frac{1}{2} n_1(n_1-1)\sigma_v   \\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + \\frac{1}{2} n_1(n_1-1)       \\times&\int_0^t e^{ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2} n_2(n_2-1)(v_0-\\theta)  \\times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2} n_2(n_2-1)\\theta  \\times&\color{blue}\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2} n_2(n_2-1)\sigma_v  \\times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2} n_2(n_2-1)  \\times&\color{blue}\int_0^t e^{-ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + n_1n_2(v_0-\\theta) \\times&\int_0^t \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + n_1n_2\\theta         \\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + n_1n_2\sigma_v       \\times&\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\\\
-  &\quad + n_1n_2                 \\times&\int_0^t I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2}n_3(n_3-1)(v_0-\\theta)  \\times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2}n_3(n_3-1)\\theta  \\times&\color{blue} \int_0^t  \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2}n_3(n_3-1)\sigma_v  \\times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\\\
-  &\color{blue}\quad + \\frac{1}{2}n_3(n_3-1)  \\times&\color{blue} \int_0^t e^{-ks} I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds,
+  \begin{align*}
+  &\mathbb{E}[ I\!E_t^{n_1} I_t^{n_2} (I_t^{*})^{n_3}|v_0, z(s), 0\le s\le t ] \\
+  &= \frac{1}{2} n_1(n_1-1)(v_0-\theta)\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)\theta    \times&\int_0^t e^{2ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)\sigma_v   \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)       \times&\int_0^t e^{ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)(v_0-\theta)  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\theta  \times&\color{blue}\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\sigma_v  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)  \times&\color{blue}\int_0^t e^{-ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
+  &\quad + n_1n_2(v_0-\theta) \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
+  &\quad + n_1n_2\theta         \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
+  &\quad + n_1n_2\sigma_v       \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
+  &\quad + n_1n_2                 \times&\int_0^t I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)(v_0-\theta)  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\theta  \times&\color{blue} \int_0^t  \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\sigma_v  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)  \times&\color{blue} \int_0^t e^{-ks} I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds,
   \end{align*}
 
 in which, for notation simplification, the condition notation
@@ -110,79 +119,79 @@ as the following :py:class:`~ajdmom.poly.Poly`,
 
 .. math::
 
-  \\begin{align*}
-  &\mathbb{E}[I\!E_t^{n_1} I_t^{n_2}|v_0, z(s), 0\le s\le t]\\\\
-  &= \sum_{\\boldsymbol{j}, \\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},
-  \\boldsymbol{q}}
-  c_{\\boldsymbol{j}, \\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},
-  \\boldsymbol{q}}
-  e^{j_1kt} t^{j_2} k^{-j_3} (v_0-\\theta)^{j_4} \\theta^{j_5} \sigma_v^{j_6}
-  f_{Z_t}(\\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},\\boldsymbol{q}),
+  \begin{align*}
+  &\mathbb{E}[I\!E_t^{n_1} I_t^{n_2}|v_0, z(s), 0\le s\le t]\\
+  &= \sum_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
+  \boldsymbol{q}}
+  c_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
+  \boldsymbol{q}}
+  e^{j_1kt} t^{j_2} k^{-j_3} (v_0-\theta)^{j_4} \theta^{j_5} \sigma_v^{j_6}
+  f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},\boldsymbol{q}),
   \end{align*}
 
-where vectors :math:`\\boldsymbol{j}, \\boldsymbol{l}, \\boldsymbol{o},
-\\boldsymbol{p}, \\boldsymbol{q}` denote
+where vectors :math:`\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o},
+\boldsymbol{p}, \boldsymbol{q}` denote
 
 .. math::
 
-   \\begin{align*}
-   \\boldsymbol{j} \equiv (j_1, \cdots, j_6),\\\\
-   \\boldsymbol{l} \equiv (l_1, \cdots, l_n),\quad
-   \\boldsymbol{o} \equiv (o_1, \cdots, o_n),\\\\
-   \\boldsymbol{p} \equiv (p_2, \cdots, p_n),\quad
-   \\boldsymbol{q} \equiv (q_2, \cdots, q_n),
+   \begin{align*}
+   \boldsymbol{j} \equiv (j_1, \cdots, j_6),\\
+   \boldsymbol{l} \equiv (l_1, \cdots, l_n),\quad
+   \boldsymbol{o} \equiv (o_1, \cdots, o_n),\\
+   \boldsymbol{p} \equiv (p_2, \cdots, p_n),\quad
+   \boldsymbol{q} \equiv (q_2, \cdots, q_n),
    \end{align*}
 
 respectively,
-:math:`c_{\\boldsymbol{j}, \\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},\\boldsymbol{q}}`
+:math:`c_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},\boldsymbol{q}}`
 denotes the corresponding constant coefficient
-and function :math:`f_{Z_t}(\\boldsymbol{l}, \\boldsymbol{o},
-\\boldsymbol{p}, \\boldsymbol{q})` is defined as
+and function :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o},
+\boldsymbol{p}, \boldsymbol{q})` is defined as
 
 .. math::
   :label: fZ
 
-   \\begin{align*}
-   &f_{Z_t}(\\boldsymbol{l},\\boldsymbol{o},\\boldsymbol{p},\\boldsymbol{q})\\\\
-   &\\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
+   \begin{align*}
+   &f_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},\boldsymbol{q})\\
+   &\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
      e^{l_1ks_{i_1} + \cdots + l_nks_{i_n}} J_{i_1} \cdots J_{i_n}
-     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\\\
+     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\
    &\qquad\qquad\qquad \cdot
-    e^{p_2k(s_{i_1}\\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\\vee \cdots
-       \\vee s_{i_n})}\\\\
+    e^{p_2k(s_{i_1}\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\vee \cdots
+       \vee s_{i_n})}\\
    &\qquad\qquad\qquad \cdot
-    (s_{i_1}\\vee s_{i_2})^{q_2}\cdots
-    (s_{i_1}\\vee \cdots \\vee s_{i_n})^{q_n}.
+    (s_{i_1}\vee s_{i_2})^{q_2}\cdots
+    (s_{i_1}\vee \cdots \vee s_{i_n})^{q_n}.
     \end{align*}
 
 It should be noted that
 
-- :math:`s_{i1}\\vee s_{i2} \equiv \max\{s_{i1}, s_{i2}\}`,
-  :math:`s_{i1}\\vee s_{i2} \\vee s_{i3} \equiv \max\{s_{i1}, s_{i2}, s_{i3}\}`,
+- :math:`s_{i1}\vee s_{i2} \equiv \max\{s_{i1}, s_{i2}\}`,
+  :math:`s_{i1}\vee s_{i2} \vee s_{i3} \equiv \max\{s_{i1}, s_{i2}, s_{i3}\}`,
   so on and so forth.
 
-- when :math:`n=1`, :math:`\\boldsymbol{p} = \\boldsymbol{q} = ()`,
-  :math:`f_{Z_t}(\\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},
-  \\boldsymbol{q}) = \sum_{i_1=1}^{N(t)} e^{l_1ks_{i_1}}J_{i_1} s_{i_1}^{o_1}`.
+- when :math:`n=1`, :math:`\boldsymbol{p} = \boldsymbol{q} = ()`,
+  :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
+  \boldsymbol{q}) = \sum_{i_1=1}^{N(t)} e^{l_1ks_{i_1}}J_{i_1} s_{i_1}^{o_1}`.
 
-- when :math:`n=0`, :math:`\\boldsymbol{l} = \\boldsymbol{o} =
-  \\boldsymbol{p} = \\boldsymbol{q} = ()`,
-  :math:`f_{Z_t}(\\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p},
-  \\boldsymbol{q}) = 1`.
+- when :math:`n=0`, :math:`\boldsymbol{l} = \boldsymbol{o} =
+  \boldsymbol{p} = \boldsymbol{q} = ()`,
+  :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
+  \boldsymbol{q}) = 1`.
 
 Example formulas for :math:`n_1+n_2=2` combinations,
 
 .. math::
 
-  \\begin{align*}
-  &\mathbb{E}[I\!E_t^2 |v_0, z(s), 0\le s\le t] \\\\
-  &= (v_0-\\theta)k^{-1}(e^{kt}-1) + \\frac{1}{2}\\theta k^{-1} (e^{2kt} - 1)
-  + k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{kt} - e^{ks_i}),\\\\
-  &\mathbb{E}[I\!E_t I_t |v_0, z(s), 0\le s\le t] \\\\
-  &= (v_0-\\theta) t + \\theta k^{-1} (e^{kt} - 1)
-  + \sum_{i=1}^{N(t)} e^{ks_i}J_i (t-s_i),\\\\
-  &\mathbb{E}[I_t^2 |v_0, z(s), 0\le s\le t] \\\\
-  &= -(v_0-\\theta)k^{-1}(e^{-kt} - 1) + \\theta t
+  \begin{align*}
+  &\mathbb{E}[I\!E_t^2 |v_0, z(s), 0\le s\le t] \\
+  &= (v_0-\theta)k^{-1}(e^{kt}-1) + \frac{1}{2}\theta k^{-1} (e^{2kt} - 1)
+  + k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{kt} - e^{ks_i}),\\
+  &\mathbb{E}[I\!E_t I_t |v_0, z(s), 0\le s\le t] \\
+  &= (v_0-\theta) t + \theta k^{-1} (e^{kt} - 1)
+  + \sum_{i=1}^{N(t)} e^{ks_i}J_i (t-s_i),\\
+  &\mathbb{E}[I_t^2 |v_0, z(s), 0\le s\le t] \\
+  &= -(v_0-\theta)k^{-1}(e^{-kt} - 1) + \theta t
   - k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{-kt} - e^{-ks_i}).
   \end{align*}
 
@@ -195,42 +204,42 @@ The essential computation now becomes
 .. math::
    :label: int_et_fZ
 
-   \int_{0}^t e^{iks} s^j f_{Z_s}(\\boldsymbol{l}, \\boldsymbol{o},
-    \\boldsymbol{p}, \\boldsymbol{q}) ds.
+   \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o},
+    \boldsymbol{p}, \boldsymbol{q}) ds.
 
 We present the result and implementation first.
 
 .. math::
 
-  \int_{0}^t e^{iks} s^j f_{Z_s}(\\boldsymbol{l}, \\boldsymbol{o},
-    \\boldsymbol{p}, \\boldsymbol{q}) ds
-  = F_{Z_t}(\\boldsymbol{l}, \\boldsymbol{o}, \\boldsymbol{p}, \\boldsymbol{q},
+  \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o},
+    \boldsymbol{p}, \boldsymbol{q}) ds
+  = F_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p}, \boldsymbol{q},
   i, j),
 
 where the function on the right-hand side is defined as
 
 .. math::
 
-  \\begin{align*}
-   &F_{Z_t}(\\boldsymbol{l},\\boldsymbol{o},\\boldsymbol{p},\\boldsymbol{q},
-    i, j)\\\\
-   &\\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
+  \begin{align*}
+   &F_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},\boldsymbol{q},
+    i, j)\\
+   &\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
      e^{l_1ks_{i_1} + \cdots + l_nks_{i_n}} J_{i_1} \cdots J_{i_n}
-     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\\\
+     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\
    &\qquad\qquad\qquad \cdot
-    e^{p_2k(s_{i_1}\\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\\vee \cdots
-       \\vee s_{i_n})}\\\\
+    e^{p_2k(s_{i_1}\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\vee \cdots
+       \vee s_{i_n})}\\
    &\qquad\qquad\qquad \cdot
-    (s_{i_1}\\vee s_{i_2})^{q_2}\cdots
-    (s_{i_1}\\vee \cdots \\vee s_{i_n})^{q_n}\\\\
+    (s_{i_1}\vee s_{i_2})^{q_2}\cdots
+    (s_{i_1}\vee \cdots \vee s_{i_n})^{q_n}\\
    &\qquad\qquad\qquad \cdot
-   \int_{s_{i_1}\\vee \cdots \\vee s_{i_n}}^t e^{iks} s^j ds.
+   \int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds.
    \end{align*}
 
 The integral in :eq:`int_et_fZ` is implemented in
 :py:func:`~ajdmom.ito_cond_mom.int_et_fZ` in module
 :py:mod:`~ajdmom.ito_cond_mom`. The integral
-:math:`\int_{s_{i_1}\\vee \cdots \\vee s_{i_n}}^t e^{iks} s^j ds` can be
+:math:`\int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds` can be
 calculated as we did for :math:`\int_0^t e^{iks} s^j ds` in
 :doc:`../generated/ajdmom.ito_mom`.
 
@@ -241,34 +250,34 @@ Let's take a look at a simple example,
 .. math::
 
   e^{ks}I\!E\!Z_s =
-   \\begin{cases}
-     0,                                     &0 ~~~~     \le s<s_1,\\\\
-     e^{ks}\sum_{i=1}^1 e^{ks_i}J_i,        &s_1~~~     \le s<s_2,\\\\
-                                                  &   \\vdots     \\\\
-     e^{ks}\sum_{i=1}^{N(t)-1} e^{ks_i}J_i, &s_{N(t)-1}  \le s<s_{N(t)},\\\\
+   \begin{cases}
+     0,                                     &0 ~~~~     \le s<s_1,\\
+     e^{ks}\sum_{i=1}^1 e^{ks_i}J_i,        &s_1~~~     \le s<s_2,\\
+                                                  &   \vdots     \\
+     e^{ks}\sum_{i=1}^{N(t)-1} e^{ks_i}J_i, &s_{N(t)-1}  \le s<s_{N(t)},\\
      e^{ks}\sum_{i=1}^{N(t)} e^{ks_i}J_i,   &s_{N(t)}~~~     \le s< t.
    \end{cases}
 
 .. math::
 
-  \\begin{align*}
-  &\int_0^t e^{ks}I\!E\!Z_s ds\\\\
+  \begin{align*}
+  &\int_0^t e^{ks}I\!E\!Z_s ds\\
   &= \int_0^{s_1} e^{ks}I\!E\!Z_s ds + \int_{s_1}^{s_2} e^{ks}I\!E\!Z_s ds
-    + \cdots + \int_{s_n}^{t} e^{ks}I\!E\!Z_s ds\\\\
-  &= \\frac{1}{k}(e^{ks_2} - e^{ks_1}) \sum_{i=1}^{1}e^{ks_i}J_i + \cdots
-    + \\frac{1}{k}(e^{ks_n} - e^{ks_{n-1}})\sum_{i=1}^{N(t)-1}e^{ks_i}J_i\\\\
-  &  \quad + \\frac{1}{k}(e^{kt} - e^{ks_n})\sum_{i=1}^{N(t)}e^{ks_i}J_i\\\\
-  &= \sum_{i=1}^{N(t)} e^{ks_i}J_i \\frac{1}{k}(e^{kt} - e^{ks_i}).
+    + \cdots + \int_{s_n}^{t} e^{ks}I\!E\!Z_s ds\\
+  &= \frac{1}{k}(e^{ks_2} - e^{ks_1}) \sum_{i=1}^{1}e^{ks_i}J_i + \cdots
+    + \frac{1}{k}(e^{ks_n} - e^{ks_{n-1}})\sum_{i=1}^{N(t)-1}e^{ks_i}J_i\\
+  &  \quad + \frac{1}{k}(e^{kt} - e^{ks_n})\sum_{i=1}^{N(t)}e^{ks_i}J_i\\
+  &= \sum_{i=1}^{N(t)} e^{ks_i}J_i \frac{1}{k}(e^{kt} - e^{ks_i}).
   \end{align*}
 
 In short,
 
 .. math::
 
-  \\begin{align*}
-  I\!E\!Z_t &= \sum_{i=1}^{N(t)} e^{ks_i}J_i,\\\\
+  \begin{align*}
+  I\!E\!Z_t &= \sum_{i=1}^{N(t)} e^{ks_i}J_i,\\
   \int_0^t e^{ks}I\!E\!Z_s ds &= \sum_{i=1}^{N(t)} e^{ks_i}J_i
-  \\frac{1}{k} (e^{kt} - e^{ks_i}).
+  \frac{1}{k} (e^{kt} - e^{ks_i}).
   \end{align*}
 
 Another example
@@ -279,10 +288,10 @@ Another example
 
 .. math::
 
-  \\begin{align*}
-  &\int_0^t e^{ks} \sum_{i=1}^{N(s)}\sum_{j=1}^{N(s)} e^{ks_i+ks_j}J_iJ_jds\\\\
-  &= \sum_{i=1}^{N(t)}\sum_{j=1}^{N(t)}e^{ks_i+ks_j}J_iJ_j \\frac{1}{k}
-  (e^{kt} -e^{k(s_i\\vee s_j)}).
+  \begin{align*}
+  &\int_0^t e^{ks} \sum_{i=1}^{N(s)}\sum_{j=1}^{N(s)} e^{ks_i+ks_j}J_iJ_jds\\
+  &= \sum_{i=1}^{N(t)}\sum_{j=1}^{N(t)}e^{ks_i+ks_j}J_iJ_j \frac{1}{k}
+  (e^{kt} -e^{k(s_i\vee s_j)}).
   \end{align*}
 
 The two examples should have explained the derivation well.
@@ -305,11 +314,11 @@ from ajdmom.ito_mom import c_nmi
 
 
 def int_et_fZ(n, m, N_sum):
-    """integral of :math:`\int_0^t e^{iks} s^j f_{Z_s}(l,o,p,q)ds`
+    r"""integral of :math:`\int_0^t e^{iks} s^j f_{Z_s}(l,o,p,q)ds`
 
     For each element with index :math:`(s_{i1},\dots,s_{in})`,
     the integral becomes
-    :math:`\int_{s_{i1}\\vee\cdots\\vee s_{in}}^t e^{iks} s^j ds`.
+    :math:`\int_{s_{i1}\vee\cdots\vee s_{in}}^t e^{iks} s^j ds`.
     When there is no summation at all in :math:`f_{Z_s}(l,o,p,q)`,
     the whole integral simplifies to :math:`\int_0^t e^{iks} s^jds`.
 
@@ -359,7 +368,7 @@ def int_et_fZ(n, m, N_sum):
 
 
 def int_e_poly(coef, tp, m, poly):
-    """integral of :math:`coef \\times tp \\times \int_0^t e^{mks} poly ds`
+    r"""integral of :math:`coef \times tp \times \int_0^t e^{mks} poly ds`
 
     :param float coef: coefficient to multiply with
     :param int tp: type of the multiplication,
@@ -367,11 +376,11 @@ def int_e_poly(coef, tp, m, poly):
        +----+----------------------------+
        | tp | multiply with              |
        +====+============================+
-       | 1  | :math:`v_0-\\theta`         |
+       | 1  | :math:`v_0-\theta`         |
        +----+----------------------------+
-       | 2  | :math:`\\theta`             |
+       | 2  | :math:`\theta`             |
        +----+----------------------------+
-       | 3  | :math:`\\sigma_v`           |
+       | 3  | :math:`\sigma_v`           |
        +----+----------------------------+
 
     :param int m: power of :math:`e^{ks}` in the integrand
@@ -416,7 +425,7 @@ def int_e_poly(coef, tp, m, poly):
 
 
 def int_e_IEZ_poly(coef, m, poly):
-    """integral of :math:`coef \\times \int_0^t e^{mks} I\!E\!Z_s poly ds`
+    r"""integral of :math:`coef \times \int_0^t e^{mks} I\!E\!Z_s poly ds`
 
     :param int coef: coefficient to multiply with
     :param int m: power of :math:`e^{ks}` in the integrand
@@ -462,7 +471,7 @@ def int_e_IEZ_poly(coef, m, poly):
 
 
 def recursive_IEII(n1, n2, n3, IEII):
-    """Recursive step in equation :eq:`ito-jmp-moment-ii`
+    r"""Recursive step in equation :eq:`ito-jmp-moment-ii`
 
     :param int n1: power of :math:`I\!E_s` in the integrand.
     :param int n2: power of :math:`I_s` in the integrand.
@@ -508,7 +517,7 @@ def recursive_IEII(n1, n2, n3, IEII):
 
 
 def moment_IEII(n1, n2, n3):
-    """:math:`\mathbb{E}[I\!E_t^{n_1}I_t^{n_2}(I_t^{*})^{n_3}
+    r""":math:`\mathbb{E}[I\!E_t^{n_1}I_t^{n_2}(I_t^{*})^{n_3}
     |v_0, z(s), 0\le s\le t]`
 
     :param int n1: power of :math:`I\!E_t`.

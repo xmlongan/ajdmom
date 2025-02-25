@@ -16,17 +16,24 @@ Stochastic Volatility (SV) model and its three AJD extensions:
 - Two-Factor SV, 
 - Two-Factor SV with jumps in the price. 
 
-Moreover, the package can compute partial 
-derivatives of these quantities with respect to model parameters. 
+Moreover, the package can compute partial derivatives of these quantities with respect to model parameters. 
 
-In addition, the package supports 
-computations of *conditional* moments and *conditional* central moments for another three AJD extensions:
-- SVVJ (SV with jumps in the variance), 
-- SVIJ (SV with independent jumps in the price and variance),
-- SVCJ (SV with contemporaneous jumps in the price and variance). 
+In addition, the package supports computations of 
 
-The computations of *conditional* moments and *conditional* central moments is also supported for
-- SRJD (Square-Root Jump Diffusion) process.
+- both *conditional* and *unconditional* moments and central moments for 
+
+  + SRJDs (Square-Root Jump Diffusions, also may be called Square-Root Diffusions with Jumps),
+  + SVCJ (SV with contemporaneous jumps in the price and variance). 
+
+- *conditional* moments and *conditional* central moments for
+
+  + SVVJ (SV with jumps in the variance), 
+  + SVIJ (SV with independent jumps in the price and variance).
+
+Note that the *unconditional* moments can also be derived for the SVVJ and SVIJ models
+with slight modification, according to the method employed in the SRJD and SVCJ models.
+(However, I currently have not implemented them in the package.)
+
 
 The moments and covariances obtained through `ajdmom` have far-reaching implications for multiple domains, 
 including financial modelling, simulation and parameter estimation. For simulations, these moments can 

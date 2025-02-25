@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 
 from ajdmom.mdl_srjd.euler import rSRJD
-from ajdmom.mdl_srjd.mom import m
-from ajdmom.mdl_srjd.cmom import cm
+from ajdmom.mdl_srjd.cond2_mom import m
+from ajdmom.mdl_srjd.cond2_cmom import cm
 
 rng = np.random.default_rng()
 

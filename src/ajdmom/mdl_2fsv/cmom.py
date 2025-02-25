@@ -50,7 +50,7 @@ def b_n(n1, n2, n3, n4, n5, n6, n7):
 
 
 def vvee_IEI_IEII(n2, n3, n4, n5, n6, n7, n8):
-    """Multiply :math:`IEI\_IEII` by :math:`v_{1,n-1}v_{2,n-1}e^{-k_1nh}e^{-k_2nh}`
+    r"""Multiply :math:`IEI\_IEII` by :math:`v_{1,n-1}v_{2,n-1}e^{-k_1nh}e^{-k_2nh}`
 
     :math:`E[v_{1,n-1}^{n_2}v_{2,n-1}^{n_3}e^{-n_4k_1 nh}e^{-n_6k_2 nh} IEI\_IEII]`
        where
@@ -93,7 +93,7 @@ def vvee_IEI_IEII(n2, n3, n4, n5, n6, n7, n8):
 
 
 def moment_comb(n, n1, n2, n3, n4, n5, n6, n7, n8):
-    """Moment for this combination of given n1 to n8 with n.
+    r"""Moment for this combination of given n1 to n8 with n.
 
     :param int n: l in :math:`E[\overline{y}_{n}^l]`.
     :param int n1: times of constant being selected.

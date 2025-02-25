@@ -24,4 +24,5 @@ API
    ajdmom.mdl_1fsv.mom
    ajdmom.mdl_1fsv.cov
    ajdmom.mdl_1fsv.euler
+   ajdmom.mdl_1fsv.cond_cmom
 

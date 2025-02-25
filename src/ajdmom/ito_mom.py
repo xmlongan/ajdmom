@@ -1,4 +1,4 @@
-"""
+r"""
 Itô process moments under Single Square-Root Diffusion Process
 
 The content has also been explained in :doc:`../design` page.
@@ -13,9 +13,9 @@ can be represented as a "Polynomial" of the following form
 
 .. math::
 
-   &\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\\\
+   &\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{n_3k(n-1)h} e^{ik[t-(n-1)h]}
-   [t-(n-1)h]^jv_{n-1}^l k^{-o}\\theta^p\sigma_v^q
+   [t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q
 
 where :math:`b_{ijlopq}` is the coefficient.
 
@@ -40,19 +40,19 @@ For the indefinite integral, we have
 .. math::
 
    \int e^{nkt} t^m dt =
-   \\begin{cases}
-   \sum_{i=0}^m c_{nmi} \\frac{1}{k^{i+1}}e^{nkt} t^{m-i}
-    & \\text{if } n\\neq 0, m \\neq 0,\\\\
-   \\frac{1}{nk}e^{nkt}t^0 & \\text{if } n\\neq 0, m = 0,\\\\
-   \\frac{1}{m+1}e^{0kt}t^{m+1} & \\text{if } n = 0, m \\neq 0,\\\\
-   e^{0kt}t^1 & \\text{if } n =0 , m=0,
+   \begin{cases}
+   \sum_{i=0}^m c_{nmi} \frac{1}{k^{i+1}}e^{nkt} t^{m-i}
+    & \text{if } n\neq 0, m \neq 0,\\
+   \frac{1}{nk}e^{nkt}t^0 & \text{if } n\neq 0, m = 0,\\
+   \frac{1}{m+1}e^{0kt}t^{m+1} & \text{if } n = 0, m \neq 0,\\
+   e^{0kt}t^1 & \text{if } n =0 , m=0,
    \end{cases}
 
-where :math:`c_{nm0} \\triangleq \\frac{1}{n}` and
+where :math:`c_{nm0} \triangleq \frac{1}{n}` and
 
 .. math::
 
-   c_{nmi} \\triangleq \\frac{(-1)^{i}}{n^{i+1}} \prod_{j=m-i+1}^{m} j,
+   c_{nmi} \triangleq \frac{(-1)^{i}}{n^{i+1}} \prod_{j=m-i+1}^{m} j,
    \quad 1\le i \le m.
 
 The coefficient :math:`c_{nmi}` is implemented in function
@@ -97,34 +97,34 @@ a "polynomial" of the following form
 
 .. math::
 
-   &\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\\\
+   &\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{n_3k(n-1)h} e^{ik[t-(n-1)h]}
-   [t-(n-1)h]^jv_{n-1}^l k^{-o}\\theta^p\sigma_v^q,
+   [t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,
 
 consequently, we have
 
 .. math::
 
-   &e^{-kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\\\
+   &e^{-kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3-1)k(n-1)h}
-   e^{(i-1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\\theta^p\sigma_v^q,\\\\
-   &e^{kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\\\
+   e^{(i-1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,\\
+   &e^{kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+1)k(n-1)h}
-   e^{(i+1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\\theta^p\sigma_v^q,\\\\
-   &e^{2kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\\\
+   e^{(i+1)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q,\\
+   &e^{2kt}\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+2)k(n-1)h}
-   e^{(i+2)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\\theta^p\sigma_v^q.
+   e^{(i+2)k[t-(n-1)h]}[t-(n-1)h]^jv_{n-1}^l k^{-o}\theta^p\sigma_v^q.
 
 Therefore, it's profitable to consider the following generic integral
 
 .. math::
 
-   &\int_{(n-1)h}^t e^{mks}\mathbb{E}[I\!E_{n-1,s}^{n_3}I_{n-1,s}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]ds\\\\
+   &\int_{(n-1)h}^t e^{mks}\mathbb{E}[I\!E_{n-1,s}^{n_3}I_{n-1,s}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]ds\\
    &= \sum_{n_3,i,j,l,o,p,q} b_{n_3ijlopq} e^{(n_3+m)k(n-1)h}
-   \cdot int\_et(i+m,j)\cdot v_{n-1}^l k^{-o}\\theta^p\sigma_v^q\\\\
+   \cdot int\_et(i+m,j)\cdot v_{n-1}^l k^{-o}\theta^p\sigma_v^q\\
    &= \sum_{n_3+m,i+m,j^{'},l,o^{'},p,q} b_{(n_3+m)(i+m)j^{'}l o^{'}pq}
-   e^{(n_3+m)k(n-1)h} e^{(i+m)k[t-(n-1)h]} [t-(n-1)h]^{j^{'}}\\\\
-   &\qquad \cdot v_{n-1}^{l} k^{-o^{'}}\\theta^{p}\sigma_v^{q}
+   e^{(n_3+m)k(n-1)h} e^{(i+m)k[t-(n-1)h]} [t-(n-1)h]^{j^{'}}\\
+   &\qquad \cdot v_{n-1}^{l} k^{-o^{'}}\theta^{p}\sigma_v^{q}
 
 where
 
@@ -155,38 +155,38 @@ representation
 .. math::
 
    \mathbb{E}[I\!E_{n-1,t}^2|v_{n-1}]
-   &=& \\frac{1}{2}&e^{2k(n-1)h} e^{2k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0\\\\
+   &=& \frac{1}{2}&e^{2k(n-1)h} e^{2k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
+   k^{-1}\theta^1\sigma_v^0\\
    && + &e^{2k(n-1)h}e^{k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^1
-   k^{-1}\\theta^0\sigma_v^0\\\\
+   k^{-1}\theta^0\sigma_v^0\\
    && - &e^{2k(n-1)h}e^{k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0\\\\
+   k^{-1}\theta^1\sigma_v^0\\
    && - &e^{2k(n-1)h}e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^1
-   k^{-1}\\theta^0\sigma_v^0\\\\
-   && + \\frac{1}{2} &e^{2k(n-1)h}e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0,\\\\
+   k^{-1}\theta^0\sigma_v^0\\
+   && + \frac{1}{2} &e^{2k(n-1)h}e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
+   k^{-1}\theta^1\sigma_v^0,\\
    %
    \mathbb{E}[I\!E_{n-1,t}I_{n-1,t}|v_{n-1}]
    &=& &e^{k(n-1)h} e^{k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0\\\\
+   k^{-1}\theta^1\sigma_v^0\\
    && +&e^{k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^1v_{n-1}^1
-   k^{-0}\\theta^0\sigma_v^0\\\\
+   k^{-0}\theta^0\sigma_v^0\\
    && -&e^{k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^1v_{n-1}^0
-   k^{-0}\\theta^1\sigma_v^0\\\\
+   k^{-0}\theta^1\sigma_v^0\\
    && -&e^{k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0,\\\\
+   k^{-1}\theta^1\sigma_v^0,\\
    %
    \mathbb{E}[I_{n-1,t}^2|v_{n-1}]
    &=&-&e^{0k(n-1)h} e^{-k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^1
-   k^{-1}\\theta^0\sigma_v^0\\\\
+   k^{-1}\theta^0\sigma_v^0\\
    && +&e^{0k(n-1)h} e^{-k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0\\\\
+   k^{-1}\theta^1\sigma_v^0\\
    && +&e^{0k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^1v_{n-1}^0
-   k^{-0}\\theta^1\sigma_v^0\\\\
+   k^{-0}\theta^1\sigma_v^0\\
    && +&e^{0k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^1
-   k^{-1}\\theta^0\sigma_v^0\\\\
+   k^{-1}\theta^0\sigma_v^0\\
    && -&e^{0k(n-1)h} e^{0k[t-(n-1)h]}[t-(n-1)h]^0v_{n-1}^0
-   k^{-1}\\theta^1\sigma_v^0.
+   k^{-1}\theta^1\sigma_v^0.
 
 """
 from fractions import Fraction as Frac
@@ -212,7 +212,7 @@ def c_nmi(n, m, i):
 
 
 def int_et(n, m):
-    """:math:`\int_{(n-1)h}^{t} e^{ik[s-(n-1)h]}[s-(n-1)h]^jds`
+    r""":math:`\int_{(n-1)h}^{t} e^{ik[s-(n-1)h]}[s-(n-1)h]^jds`
 
     :param int n: i in :math:`e^{ik[s-(n-1)h]}[s-(n-1)h]^j`.
     :param int m: j in :math:`e^{ik[s-(n-1)h]}[s-(n-1)h]^j`.
@@ -243,7 +243,7 @@ def int_et(n, m):
 
 
 def int_e_poly(c, tp, m, poly):
-    """Integral of :math:`c \\times tp \\times \int_{(n-1)h}^t e^{mks} poly ds`
+    r"""Integral of :math:`c \times tp \times \int_{(n-1)h}^t e^{mks} poly ds`
 
     :param int c: coefficient to multiply with
     :param int tp: type of the multiplication,
@@ -253,11 +253,11 @@ def int_e_poly(c, tp, m, poly):
        +====+============================+
        | 1  | :math:`e^{k(n-1)h}v_{n-1}` |
        +----+----------------------------+
-       | 2  | :math:`-e^{k(n-1)h}\\theta` |
+       | 2  | :math:`-e^{k(n-1)h}\theta` |
        +----+----------------------------+
-       | 3  | :math:`\\theta`             |
+       | 3  | :math:`\theta`             |
        +----+----------------------------+
-       | 4  | :math:`\\sigma_v`           |
+       | 4  | :math:`\sigma_v`           |
        +----+----------------------------+
 
     :param int m: power of :math:`e^{ks}` in the integrand
@@ -301,7 +301,7 @@ def int_e_poly(c, tp, m, poly):
 
 
 def recursive_IEII(n3, n4, n5, IEII):
-    """Recursive step in equation :eq:`ito-moment`
+    r"""Recursive step in equation :eq:`ito-moment`
 
     :param int n3: :math:`n_3`
        in :math:`\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]`.
@@ -348,7 +348,7 @@ def recursive_IEII(n3, n4, n5, IEII):
 
 
 def moment_IEII(n3, n4, n5):
-    """:math:`\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]`
+    r""":math:`\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]`
 
     :param int n3: :math:`n_3`
        in :math:`\mathbb{E}[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}I_{n-1,t}^{*n_5}|v_{n-1}]`.
@@ -359,7 +359,7 @@ def moment_IEII(n3, n4, n5):
     :return: poly with attribute ``keyfor`` =
        ('e^{k(n-1)h}','e^{k[t-(n-1)h]}','[t-(n-1)h]','v_{n-1}','k^{-}','theta',
        'sigma_v').
-    :rtype: dict
+    :rtype: Poly
     """
     if n3 + n4 + n5 < 0:
         raise ValueError(f"moment_IEII({n3},{n4},{n5}) is called!")

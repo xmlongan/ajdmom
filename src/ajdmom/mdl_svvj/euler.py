@@ -94,7 +94,7 @@ def rIEII(v0, k, theta, sigma, h, jumpsize, jumptime, n_segment):
 
 
 def rSVVJ(v0, mu, k, theta, sigma, rho, T, jumpsize, jumptime, n, n_segment):
-    """Generate i.i.d. Random samples from mdl_svvj by Euler approximation.
+    r"""Generate i.i.d. Random samples from mdl_svvj by Euler approximation.
 
     :param float v0: value of the initial variance :math:`v(0)`
     :param float mu: parameter :math:`\mu`

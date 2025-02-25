@@ -86,8 +86,8 @@ following equations,
    |v_0, z^v_u, 0\le u\le t] \mathbb{E}[(\overline{I\!Z^s_t})^{m-i}].
    \end{align*}
 
-They are implementd in functions :py:func:`~ajdmom.mdl_svij.mom.moments_y_to`
-and :py:func:`~ajdmom.mdl_svij.cmom.cmoments_y_to` in this subpackage 
+They are implementd in functions :py:func:`~ajdmom.mdl_svij.cond2_mom.moments_y_to`
+and :py:func:`~ajdmom.mdl_svij.cond2_cmom.cmoments_y_to` in this subpackage
 (:py:mod:`ajdmom.mdl_svij`), respectively.
 
 API
@@ -96,6 +96,6 @@ API
 .. autosummary::
    :toctree: generated
    
-   ajdmom.mdl_svij.cmom
-   ajdmom.mdl_svij.mom
+   ajdmom.mdl_svij.cond2_cmom
+   ajdmom.mdl_svij.cond2_mom
 

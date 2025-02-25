@@ -7,6 +7,7 @@ parameters = {'mu': 0.125, 'k': 0.1, 'theta': 0.25,
 
 # 3rd moment as an example
 moment = m(l=3, par=parameters)  # cm: central moment
+# print(f"3rd moment = {moment}")
 # partial derivative w.r.t. parameter 'k'
 dmoment = dm(l=3, par=parameters, wrt='k')  # dcm: central moment
 

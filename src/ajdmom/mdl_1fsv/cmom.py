@@ -11,9 +11,9 @@ from ajdmom.ito_mom import moment_v, moment_IEII
 
 
 def b_n(n1, n2, n3, n4, n5):
-    """Represent :math:`b(\\boldsymbol{n})` in :eq:`b-n` in Poly
+    r"""Represent :math:`b(\boldsymbol{n})` in :eq:`b-n` in Poly
 
-    :param int n1: times of :math:`\\theta` being selected.
+    :param int n1: times of :math:`\theta` being selected.
     :param int n2: times of :math:`v_{n-1}` being selected.
     :param int n3: times of :math:`eI_n` being selected.
     :param int n4: times of :math:`I_n` being selected.
@@ -34,7 +34,7 @@ def b_n(n1, n2, n3, n4, n5):
 
 
 def ve_IEII(n2, n3, n4, n5):
-    """:math:`v_{n-1}^{n_2} e^{-n_3knh} IEII`
+    r""":math:`v_{n-1}^{n_2} e^{-n_3knh} IEII`
 
     :param int n2: :math:`n_2` in above formula.
     :param int n3: :math:`n_3` in :math:`IEII` which is
@@ -60,10 +60,10 @@ def ve_IEII(n2, n3, n4, n5):
 
 
 def moment_comb(n, n1, n2, n3, n4, n5):
-    """Moment for this combination in expansion of :math:`\overline{y}_n^l`
+    r"""Moment for this combination in expansion of :math:`\overline{y}_n^l`
 
     :param int n: l in :math:`E[\overline{y}_{n}^l]`.
-    :param int n1: times of :math:`\\theta` being selected.
+    :param int n1: times of :math:`\theta` being selected.
     :param int n2: times of :math:`v_{n-1}` being selected.
     :param int n3: times of :math:`eI_n` being selected.
     :param int n4: times of :math:`I_n` being selected.
@@ -86,7 +86,7 @@ def moment_comb(n, n1, n2, n3, n4, n5):
 
 
 def sub_v(poly):
-    """Substitute :math:`v_{n-1}` with its moment (poly) in Central Moment of y_n
+    r"""Substitute :math:`v_{n-1}` with its moment (poly) in Central Moment of y_n
 
     :param Poly poly: poly with attribute ``keyfor`` =
        ('e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v','rho','sqrt(1-rho^2)').
@@ -108,7 +108,7 @@ def sub_v(poly):
 
 
 def cmoment_y(l):
-    """Central moment of :math:`y_n` of order :math:`l`
+    r"""Central moment of :math:`y_n` of order :math:`l`
 
     :param int l: order of the central moment, l >= 0.
     :return: poly with attribute ``keyfor`` =
@@ -133,7 +133,7 @@ def cmoment_y(l):
 # scalar and (partial) derivative
 ##########
 def dpoly(poly, wrt):
-    """Partial derivative of central moment w.r.t. parameter wrt
+    r"""Partial derivative of central moment w.r.t. parameter wrt
 
     :param Poly poly: central moment represented by the poly.
     :param str wrt: with respect to.
@@ -195,9 +195,9 @@ def dpoly(poly, wrt):
 
 
 def poly2num(poly, par):
-    """Decode poly back to scalar
+    r"""Decode poly back to scalar
 
-    :param Poly poly: poly to be decoded with attibute ``keyfor`` =
+    :param Poly poly: poly to be decoded with attribute ``keyfor`` =
        ('e^{-kh}','h','k^{-}','theta','sigma_v','rho','sqrt(1-rho^2)').
     :param dict par: parameters in dict.
     :return: scalar of the poly.

@@ -4,23 +4,33 @@ User Guide
 
 Currently, the ``adjmom`` package supports the auto-derivation of moment,
 central moment and covariance formulas of any order for
-Heston :abbr:`SV(Stochastic Volatility)` Model (1FSV),
-a typical :abbr:`AJD(Affine Jump Diffusion)` model, 
-and its three AJD extensions, :abbr:`SVJ(Stochastic Volatility with Jumps in
-the price process)` (1FSVJ), Two-Factor SV (2FSV), Two-Factor SV with jumps in
-the price process (2FSVJ). 
+
+* Heston :abbr:`SV(Stochastic Volatility)` Model (1FSV), a typical
+  :abbr:`AJD(Affine Jump Diffusion)` model, and its three AJD extensions,
+* :abbr:`SVJ(Stochastic Volatility with Jumps in the price process)` (1FSVJ),
+* Two-Factor SV (2FSV), Two-Factor SV with jumps in the price process (2FSVJ).
+
 (Conditional versions are also available with slight adaptation for these 
 four models.)
+
+The package also supports the the auto-derivation for moment and central
+moment formulas of any order for
+
+* :abbr:`SRJD(Square-Root Jump Diffusion)`,
+* :abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
+  and price)`.
+
+(The SVVJ, SVIJ models can also be supported with slight further work.)
+
 The package also supports the auto-derivation of conditional moment and
-conditional central moment formulas of any order for 
-models 
-:abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
-:abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the variance and
-price)`,
-:abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
-and price)`
-and 
-:abbr:`SRJD(Square-Root Jump Diffusion)`.
+conditional central moment formulas of any order for models
+
+* :abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
+* :abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the variance and
+  price)`,
+* :abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
+  and price)`, and
+* :abbr:`SRJD(Square-Root Jump Diffusion)`.
 
 Installing ajdmom
 ==================
@@ -245,37 +255,37 @@ The derivation of (central) moments and covariances for the
 implemented in the following subpackages of the :code:`ajdmom` package, 
 respectively, as
 
-+---------+--------------------------+----------------------------------+
-| Model   | Subpackage               | Modules                          |
-+=========+==========================+==================================+
-|mdl_1fsv |  :code:`ajdmom.mdl_1fsv` | - :py:mod:`ajdmom.mdl_1fsv.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsv.mom`  |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsv.cov`  |
-+---------+--------------------------+----------------------------------+
-|mdl_1fsvj|  :code:`ajdmom.mdl_1fsvj`| - :py:mod:`ajdmom.mdl_1fsvj.cmom`|
-|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.mom` |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.cov` |
-+---------+--------------------------+----------------------------------+
-|mdl_2fsv |  :code:`ajdmom.mdl_2fsv` | - :py:mod:`ajdmom.mdl_2fsv.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsv.mom`  |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsv.cov`  |
-+---------+--------------------------+----------------------------------+
-|mdl_2fsvj|  :code:`ajdmom.mdl_2fsvj`| - :py:mod:`ajdmom.mdl_2fsvj.cmom`|
-|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.mom` |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.cov` |
-+---------+--------------------------+----------------------------------+
-|mdl_svvj |  :code:`ajdmom.mdl_svvj` | - :py:mod:`ajdmom.mdl_svvj.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_svvj.mom`  |
-+---------+--------------------------+----------------------------------+
-|mdl_svij |  :code:`ajdmom.mdl_svij` | - :py:mod:`ajdmom.mdl_svij.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_svij.mom`  |
-+---------+--------------------------+----------------------------------+
-|mdl_svcj |  :code:`ajdmom.mdl_svcj` | - :py:mod:`ajdmom.mdl_svcj.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_svcj.mom`  |
-+---------+--------------------------+----------------------------------+
-|mdl_srjd |  :code:`ajdmom.mdl_srjd` | - :py:mod:`ajdmom.mdl_srjd.cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_srjd.mom`  |
-+---------+--------------------------+----------------------------------+
++---------+--------------------------+----------------------------------------+
+| Model   | Subpackage               | Modules                                |
++=========+==========================+========================================+
+|mdl_1fsv |  :code:`ajdmom.mdl_1fsv` | - :py:mod:`ajdmom.mdl_1fsv.cmom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_1fsv.mom`        |
+|         |                          | - :py:mod:`ajdmom.mdl_1fsv.cov`        |
++---------+--------------------------+----------------------------------------+
+|mdl_1fsvj|  :code:`ajdmom.mdl_1fsvj`| - :py:mod:`ajdmom.mdl_1fsvj.cmom`      |
+|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.mom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.cov`       |
++---------+--------------------------+----------------------------------------+
+|mdl_2fsv |  :code:`ajdmom.mdl_2fsv` | - :py:mod:`ajdmom.mdl_2fsv.cmom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_2fsv.mom`        |
+|         |                          | - :py:mod:`ajdmom.mdl_2fsv.cov`        |
++---------+--------------------------+----------------------------------------+
+|mdl_2fsvj|  :code:`ajdmom.mdl_2fsvj`| - :py:mod:`ajdmom.mdl_2fsvj.cmom`      |
+|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.mom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.cov`       |
++---------+--------------------------+----------------------------------------+
+|mdl_svvj |  :code:`ajdmom.mdl_svvj` | - :py:mod:`ajdmom.mdl_svvj.cond2_cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_svvj.cond2_mom`  |
++---------+--------------------------+----------------------------------------+
+|mdl_svij |  :code:`ajdmom.mdl_svij` | - :py:mod:`ajdmom.mdl_svij.cond2_cmom` |
+|         |                          | - :py:mod:`ajdmom.mdl_svij.cond2_mom`  |
++---------+--------------------------+----------------------------------------+
+|mdl_svcj |  :code:`ajdmom.mdl_svcj` | - :py:mod:`ajdmom.mdl_svcj.cmom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_svcj.mom`        |
++---------+--------------------------+----------------------------------------+
+|mdl_srjd |  :code:`ajdmom.mdl_srjd` | - :py:mod:`ajdmom.mdl_srjd.cmom`       |
+|         |                          | - :py:mod:`ajdmom.mdl_srjd.mom`        |
++---------+--------------------------+----------------------------------------+
 
 The corresponding quantities for other models (mdl_1fsvj, mdl_2fsv, mdl_2fsvj,
 mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd)

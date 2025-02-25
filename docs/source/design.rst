@@ -12,12 +12,14 @@ The recursive equations :math:numref:`ito-moment` in the :doc:`theory` page cont
 operations.
 The integrals are not that concise. What makes things worse is that the 
 integrals grow recursively. Meanwhile, :math:`v_{n-1}` will get buried in
-the results. It seems `Symbolic Computation <https://en.wikipedia.org/wiki/Computer_algebra>`_ is needed to tidy the final
+the results. It seems `Symbolic Computation <https://en.wikipedia.org/wiki/Computer_algebra>`_
+is needed to tidy the final
 expression such that we can make use of equation :eq:`moment-v` in the
 :doc:`theory` page. However, to the best of my knowledge, none of the current
 programming languages (Mathematica, MATLAB) or packages (SymPy) have offered 
 supports in their *Symbolic Computation* for manipulating Itô processes, 
-let alone computing their expectations, which are essential in the moment and covariance derivation of :abbr:`AJD(Affine Jump Diffusion)` models.
+let alone computing their expectations, which are essential in the moment and covariance
+derivation of :abbr:`AJD(Affine Jump Diffusion)` models.
 
 Thus, I believed expertise in compiler design is required to solve the problems
 from the bottom. And I do have tried to learn corresponding courses over 
@@ -31,7 +33,8 @@ Insights
 =========
 
 I observe some features that allow me to bypass the compiler design approach.
-One of the features is that all :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]` can be represented as a "Polynomial" of following form
+One of the features is that all :math:`E[I\!E_{n-1,t}^{n_3}I_{n-1,t}^{n_4}|v_{n-1}]`
+can be represented as a "Polynomial" of following form
 
 .. _polynomial-representation:
 

@@ -1,4 +1,4 @@
-"""
+r"""
 Moments of a Compound Poisson Process variable
 
 Compound Poisson Process
@@ -9,8 +9,8 @@ Compound Poisson Process
 
 where :math:`N(t)` is a Poisson process with rate :math:`\lambda`.
 For our purpose, I define variable
-:math:`J_n \\triangleq \sum_{i=N((n-1)h)+1}^{N(nh)}j_i` if
-:math:`N(nh) - N((n-1)h) > 0`, otherwise :math:`J_n \\triangleq 0`.
+:math:`J_n \triangleq \sum_{i=N((n-1)h)+1}^{N(nh)}j_i` if
+:math:`N(nh) - N((n-1)h) > 0`, otherwise :math:`J_n \triangleq 0`.
 
 Moment-Generating Function
 ===========================
@@ -21,7 +21,7 @@ For variable :math:`J_n`, its moment-generating function
 
    M_{J_n}(s) = e^{\lambda h (M_{j_i}(s)-1)},
    \qquad
-   M_{j_i}(s) = e^{\mu_js+\\frac{1}{2}\sigma_j^2s^2}.
+   M_{j_i}(s) = e^{\mu_js+\frac{1}{2}\sigma_j^2s^2}.
 
 where :math:`M_{j_i}(s)` is the moment-generating function of normal variable
 :math:`j_i`.
@@ -34,14 +34,14 @@ For the first three derivatives,
 .. math::
 
    M_{J_n}^{'}(s)
-   &= e^{\lambda h (M_{j_i}(s)-1)} (\lambda h) M_{j_i}^{'}(s),\\\\
+   &= e^{\lambda h (M_{j_i}(s)-1)} (\lambda h) M_{j_i}^{'}(s),\\
    M_{J_n}^{''}(s)
    &= e^{\lambda h (M_{j_i}(s)-1)} \left[ (\lambda h)^2 M_{j_i}^{'2}(s)
-   + (\lambda h) M_{j_i}^{''}(s) \\right],\\\\
+   + (\lambda h) M_{j_i}^{''}(s) \right],\\
    M_{J_n}^{(3)}(s)
    &= e^{\lambda h (M_{j_i}(s)-1)} \left[ (\lambda h)^3 M_{j_i}^{'3}(s)
    + 3(\lambda h)^2 M_{j_i}^{'}(s) M_{j_i}^{''}(s)
-   + (\lambda h) M_{j_i}^{(3)}(s) \\right].
+   + (\lambda h) M_{j_i}^{(3)}(s) \right].
 
 I propose to represent derivative of any order as
 
@@ -60,7 +60,7 @@ Then its derivative can be computed as
 
    M_{J_n}^{(n+1)}(s)
    &= \sum_{(i,(n1,m1),...,(nl,ml))} b_{key} (\lambda h)^{i+1} M_{j_i}^{(1)}(s)
-   M_{j_i}^{(n1)m1}(s)\cdots M_{j_i}^{(nl)ml}(s)\\\\
+   M_{j_i}^{(n1)m1}(s)\cdots M_{j_i}^{(nl)ml}(s)\\
    &\quad+ \sum_{(i,(n1,m1),...,(nl,ml))} b_{key} (\lambda h)^i
    (M_{j_i}^{(n1)m1}(s)\cdots M_{j_i}^{(nl)ml}(s))',
 
@@ -77,14 +77,14 @@ For the first three derivatives,
 .. math::
 
    M_{j_i}^{'}(s)
-   &= e^{\mu_js+\\frac{1}{2}\sigma_j^2s^2} (\mu_j + \sigma_j^2s),\\\\
+   &= e^{\mu_js+\frac{1}{2}\sigma_j^2s^2} (\mu_j + \sigma_j^2s),\\
    M_{j_i}^{''}(s)
-   &= e^{\mu_js+\\frac{1}{2}\sigma_j^2s^2} \left[ (\mu_j + \sigma_j^2s)^2
-   +  \sigma_j^2 \\right],\\\\
+   &= e^{\mu_js+\frac{1}{2}\sigma_j^2s^2} \left[ (\mu_j + \sigma_j^2s)^2
+   +  \sigma_j^2 \right],\\
    M_{j_i}^{(3)}(s)
-   &= e^{\mu_js+\\frac{1}{2}\sigma_j^2s^2} \left[ (\mu_j + \sigma_j^2s)^3
+   &= e^{\mu_js+\frac{1}{2}\sigma_j^2s^2} \left[ (\mu_j + \sigma_j^2s)^3
    +  (\mu_j + \sigma_j^2s)\sigma_j^2 +
-   2(\mu_j + \sigma_j^2s)\sigma_j^2\\right].
+   2(\mu_j + \sigma_j^2s)\sigma_j^2\right].
 
 I propose to represent derivative of any order as
 
@@ -93,7 +93,7 @@ I propose to represent derivative of any order as
    M_{j_i}^{(n)}(s)
    = \sum_{i,j}b_{ij}(\mu+\sigma^2s)^i \sigma^{2j},
 
-where the leading term :math:`e^{\mu_js+\\frac{1}{2}\sigma_j^2s^2}` has
+where the leading term :math:`e^{\mu_js+\frac{1}{2}\sigma_j^2s^2}` has
 been omitted for notation simplicity.
 
 Then its derivative is given as
@@ -104,7 +104,7 @@ Then its derivative is given as
    = \sum_{i,j}b_{ij}(\mu+\sigma^2s)^{i+1} \sigma^{2j}
     +\sum_{i>0,j}b_{ij}i(\mu+\sigma^2s)^{i-1} \sigma^{2(j+1)}.
 
-Rearrage the derivative to represent it as that of :math:`M^{(n)}_{j_i}(s)`.
+Rearrange the derivative to represent it as that of :math:`M^{(n)}_{j_i}(s)`.
 
 In summary, I defined
 
@@ -169,7 +169,7 @@ def mnorm(n):
     #
     # special case
     #
-    if n == 0: return (poly)
+    if n == 0: return poly
     #
     # typical cases
     #
@@ -189,12 +189,12 @@ def mnorm(n):
 #
 
 def d1_times_key(key):
-    """Update the key after multiply with :math:`(\lambda h)M_{j_i}'(s)`
+    r"""Update the key after multiply with :math:`(\lambda h)M_{j_i}'(s)`
 
     :param tuple key: a tuple of (i,(n1,m1),...,(nl,ml)) which
        stands for :math:`(\lambda h)^{i} M^{(n_1)m_1}(s) ... M^{(n_l)m_l}(s)`.
     :return: updated key.
-    :rtype: list
+    :rtype: tuple
     """
     # multiply with (lambda h)
     knw = list(key)
@@ -208,7 +208,7 @@ def d1_times_key(key):
 
 
 def dterm(key, coef):
-    """Take derivative of each term
+    r"""Take derivative of each term
 
     :param tuple key: key corresponding to a term, i.e.,
        (i,(n1,m1),(n2,m2),...,(nj,mj)) which
@@ -240,7 +240,7 @@ def dterm(key, coef):
 
 
 def dmgf_cpp(poly):
-    """derivative of Moment Generating Function of CPP
+    r"""derivative of Moment Generating Function of CPP
 
     :param Poly poly: poly representing MGF with
        key :math:`(i,(n_1,m_1),...,(n_l,m_l))` which
@@ -260,7 +260,7 @@ def dmgf_cpp(poly):
 
 
 def decode(poly):
-    """Decode intermediate poly to target poly
+    r"""Decode intermediate poly to target poly
 
     :param Poly poly: poly representation of MGF with
        key :math:`(i,(n_1,m_1),...,(n_l,m_l))` which
@@ -275,7 +275,7 @@ def decode(poly):
         #
         pol1 = Poly({(0, 0): 1})
         pol1.set_keyfor(['mu', 'sigma^2'])
-        for j in range(1, len(k)):
+        for j in range(1, len(k)): # may error: len(k) -> len(k) + 1: no error
             n_j, m_j = k[j]
             pol1 = pol1 * (mnorm(n_j) ** m_j)
         #
@@ -306,7 +306,7 @@ def mcpp_original(n):
     if n == 0:
         poln = Poly({(0, 0, 0): 1})
         poln.set_keyfor(['lambda*h', 'mu', 'sigma^2'])
-        return (poln)
+        return poln
     # n = 1
     poly = Poly({(1, (1, 1)): 1})
     poly.set_keyfor(kf)
@@ -315,7 +315,7 @@ def mcpp_original(n):
     if n == 1:
         poln = Poly({(1, 1, 0): 1})
         poln.set_keyfor(['lambda*h', 'mu', 'sigma^2'])
-        return (poln)
+        return poln
     #
     for i in range(2, n + 1):
         M.append(dmgf_cpp(M[-1]))
@@ -336,7 +336,7 @@ def mcpp(n):
         key = (k[0], k[1], 2 * k[2])
         val = poly[k]
         poln.add_keyval(key, val)
-    return (poln)
+    return poln
 
 
 def cmcpp(n):

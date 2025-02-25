@@ -15,7 +15,7 @@ rng = np.random.default_rng()
 
 def rSVCJ(v0, mu, k, theta, sigma, rho, T, jsize_v, jtime_v,
           mu_s, sigma_s, rho_J, n, n_segment):
-    """Generate i.i.d. Random samples from mdl_svcj by Euler approximation
+    r"""Generate i.i.d. Random samples from mdl_svcj by Euler approximation
 
     :param float v0: value of the initial variance :math:`v(0)`
     :param float mu: parameter :math:`\mu`

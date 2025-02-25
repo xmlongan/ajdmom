@@ -1,10 +1,11 @@
 import numpy as np
 import pytest
 
-from ajdmom.mdl_1fsv.euler import r1FSV
+from ajdmom.mdl_1fsv.euler import r1FSV, r1FSV_iid
 from ajdmom.mdl_1fsv.mom import m
 from ajdmom.mdl_1fsv.cmom import cm
 from ajdmom.mdl_1fsv.cov import cov
+from ajdmom.mdl_1fsv.cond_cmom import cond_cm
 
 
 @pytest.fixture
@@ -22,7 +23,7 @@ def settings():
     #
     y_series = r1FSV(v0, par, N=4000 * 1000, n_segment=10, h=1)
     # threshold for reporting discrepancy
-    rel_err = 0.100 # 10%
+    rel_err = 0.100  # 10%
     abs_err = 0.001
     return par, y_series, rel_err, abs_err
 
@@ -86,3 +87,34 @@ def test_cov(settings):
         temp = "cov({:d},{:d}): actual({: f}) V.S. expected({: f} ± {:f})"
         print(temp.format(n, m, actual, expected.expected, devi))
         assert actual == expected, msg.format(n, m, abs_err, rel_err)
+
+
+@pytest.fixture
+def settings2():
+    # h should be in par, since it is needed for m(), cm(), cov()
+    par = {'mu': 0.125, 'k': 0.1, 'theta': 0.25, 'sigma_v': 0.1, 'rho': -0.7, 'h': 1}
+    v0 = par['theta']
+    par['v0'] = v0
+    #
+    y = r1FSV_iid(v0, par, N=1000 * 1000, n_segment=40, tau=1)
+    # threshold for reporting discrepancy
+    rel_err = 0.100  # 10%
+    abs_err = 0.001
+    return par, y, rel_err, abs_err
+
+
+def test_cond_cm(settings2):
+    par, y, rel_err, abs_err = settings2
+    #
+    diff = y - np.mean(y)
+    print("")
+    for n in [2, 3, 4, 5]:
+        expected = np.mean(diff ** n)
+        expected = pytest.approx(expected, rel=rel_err, abs=abs_err)
+        actual = cond_cm(n, par)
+        msg = "Diff in the {}th conditional central moment is > {:} or {:.0%} "
+        msg += "between theory and sample."
+        devi = max(expected.abs, expected.rel * abs(expected.expected))
+        temp = "{:d}-th central moment: actual({: f}) V.S. expected({: f} ± {:f})"
+        print(temp.format(n, actual, expected.expected, devi))
+        assert actual == expected, msg.format(n, abs_err, rel_err)

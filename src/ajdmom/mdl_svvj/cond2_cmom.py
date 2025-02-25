@@ -1,5 +1,6 @@
 """
-Conditional Central Moments for SVVJ model
+Conditional Central Moments for the SVVJ model, given the initial variance
+and jump time points and jump sizes of the CPP in the variance
 
 Conditional central moments are derived simultaneously because the one-by-one
 procedure is not efficient.
@@ -247,7 +248,7 @@ def write_to_subpolys(poly, nth):
 def poly2num(poly, par):
     """Decode poly back to scalar
 
-    :param Poly poly: poly to be decoded with attibute ``keyfor`` =
+    :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
       'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')

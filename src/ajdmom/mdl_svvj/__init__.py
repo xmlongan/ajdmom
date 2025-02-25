@@ -4,5 +4,5 @@ model
 
 Modules ``mom``, ``cmom``.
 '''
-from .cmom import cmoment_y
-from .mom import moment_y
+from .cond2_cmom import cmoment_y
+from .cond2_mom import moment_y

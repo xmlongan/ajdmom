@@ -101,7 +101,7 @@ The derivation for
 has been implemented in :py:func:`~ajdmom.ito_cond_mom.moment_IEII` 
 from module :py:mod:`ajdmom.ito_cond_mom`.
 The conditional central moments in :eq:`cmoment-y_svvj` is implemented in
-:py:func:`~ajdmom.mdl_svvj.cmom.cmoments_y_to` in the subpackage 
+:py:func:`~ajdmom.mdl_svvj.cond2_cmom.cmoments_y_to` in the subpackage
 ``ajdmom.mdl_svvj``, noting that the function now derives simultaneously
 the conditional central moments with orders from 1 to :math:`l`.
 
@@ -116,7 +116,7 @@ Now we rewrite :math:`y_t` as the following
    e^{-kt}I\!E\!Z_t - \frac{1}{2k}I\!Z_t + \overline{y}_t,
 
 to enable us to exploit 
-:py:func:`~ajdmom.mdl_svvj.cmom.cmoment_y` for the derivation of those
+:py:func:`~ajdmom.mdl_svvj.cond2_cmom.cmoment_y` for the derivation of those
 involved conditional central moments. With this expression, the conditional
 moments can be derived through the following equation
 
@@ -145,7 +145,7 @@ where :math:`\boldsymbol{n} = (n_1, n_2, n_3, n_4, n_5)`,
    \end{align*}
 
 The conditional moments in :eq:`moment-y_svvj` is implemented in
-:py:func:`~ajdmom.mdl_svvj.mom.moments_y_to` in the subpackage 
+:py:func:`~ajdmom.mdl_svvj.cond2_mom.moments_y_to` in the subpackage
 ``ajdmom.mdl_svvj``.
 
 
@@ -155,6 +155,6 @@ API
 .. autosummary::
    :toctree: generated
    
-   ajdmom.mdl_svvj.cmom
-   ajdmom.mdl_svvj.mom
+   ajdmom.mdl_svvj.cond2_cmom
+   ajdmom.mdl_svvj.cond2_mom
 

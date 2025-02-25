@@ -1,5 +1,6 @@
 """
-Conditional Moments for SVIJ model
+Conditional Moments for the SVIJ model, given the initial variance
+and jump time points and jump sizes of the CPP in the variance
 """
 import math
 from fractions import Fraction as Frac
@@ -7,7 +8,7 @@ from fractions import Fraction as Frac
 from ajdmom.poly import Poly
 from ajdmom.cpp_mom import mcpp
 from ajdmom.utils import fZ
-from ajdmom.mdl_svvj.mom import moments_y_to as moments_y_to_svvj
+from ajdmom.mdl_svvj.cond2_mom import moments_y_to as moments_y_to_svvj
 
 
 def moments_y_to(l):
@@ -62,7 +63,7 @@ def moment_y(l):
 def poly2num(poly, par):
     """Decode poly back to scalar
 
-    :param Poly poly: poly to be decoded with attibute ``keyfor`` =
+    :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
       'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
