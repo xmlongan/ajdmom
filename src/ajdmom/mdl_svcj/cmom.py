@@ -56,11 +56,12 @@ def remove_mu_column(poly):
           #'mu',
           'E[v]', 'theta', 'sigma', 'rho',
           'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s']
+    kf[0] = 'e^{-kt}'
     poln = Poly()
     poln.set_keyfor(kf)
     for k, v in poly.items():
         if k[3] == 0:
-            key = tuple(k[:3]) + tuple(k[4:])
+            key = (-k[0], k[1], k[2]) + tuple(k[4:])
             poln.add_keyval(key, v)
         else:
             raise Exception(f'k = {k} where k[3] != 0, i.e., mu exist')
