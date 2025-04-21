@@ -288,11 +288,8 @@ respectively, as
 +---------+--------------------------+----------------------------------------+
 
 The corresponding quantities for other models (mdl_1fsvj, mdl_2fsv, mdl_2fsvj,
-mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd)
-can be computed by using the counterparts within their subpackages.
-It should be noted that only **conditional** moments|central moments 
-(given initial variance and jumps in the variance) can be derived for models
-including jumps in the variance, i.e., mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd.
+mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd) can be computed by using the counterparts
+within their subpackages.
 
 ----------
 
