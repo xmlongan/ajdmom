@@ -23,7 +23,7 @@ following magic methods:
 
 It should be noted that:
 
-* Addition, subtraction and multiplication are only for polynomials having
+* Addition and subtraction are only for polynomials having
   the same :py:attr:`~ajdmom.poly.Poly.keyfor` attribute.
 
 * The original poly or polys remain unchanged after these operations,
@@ -50,12 +50,17 @@ Besides, I defined following methods:
 +------------------------------------------+------------------------------------------------------------------+
 |:py:meth:`~ajdmom.poly.Poly.write_to_csv` |Write the poly to a csv file with the ``keyfor`` as the title line|
 +------------------------------------------+------------------------------------------------------------------+
+|:py:meth:`~ajdmom.poly.Poly.const_one`    |Constant equivalent to 1 in real numbers                          |
++------------------------------------------+------------------------------------------------------------------+
+|:py:meth:`~ajdmom.poly.Poly.const_zero`   |Constant equivalent to 0 in real numbers                          |
++------------------------------------------+------------------------------------------------------------------+
 
 Note that :py:meth:`~ajdmom.poly.Poly.merge` (in-place) is different from
 the magic method :code:`__add__()` (not-in-place). The former changes the
 original poly, while the latter does not.
 """
 from collections import UserDict
+from fractions import Fraction
 
 
 def kv(i, key):
@@ -94,7 +99,7 @@ class Poly(UserDict):
             poly.add_keyval(k, other[k])
         #
         poly.remove_zero()  # remove any item with 0 value
-        return (poly)
+        return poly
 
     def merge(self, other):
         """Merge another poly having the same keyfor attribute.
@@ -136,10 +141,30 @@ class Poly(UserDict):
         return poly
 
     def __mul__(self, other):
-        """Multiply by another poly having the same keyfor attribute."""
+        """Multiply by another poly."""
         if not self.is_exact_type(other):
-            msg = "The operands must be Polys having the same 'keyfor' attribute."
-            raise NotImplementedError(msg)
+            # msg = "The operands must be Polys having the same 'keyfor' attribute."
+            # raise NotImplementedError(msg)
+            kf1 = self.keyfor
+            kf2 = other.keyfor
+            kf = list(kf1)
+            idx = []
+            for k in kf2:
+                if k not in kf1:
+                    kf.append(k)
+                    idx.append(len(kf) - 1)
+                else:
+                    idx.append(kf1.index(k))
+            poly = Poly()
+            poly.set_keyfor(kf)
+            for k1, v1 in self.items():
+                for k2, v2 in other.items():
+                    key = list(k1) + [0 for i in range(len(kf) - len(kf1))]
+                    for i in range(len(k2)):
+                        key[idx[i]] += k2[i]
+                    val = v1 * v2
+                    poly.add_keyval(tuple(key), val)
+            return poly
         #
         # initialize a new poly to isolate the operation from affecting
         # the original one
@@ -175,8 +200,11 @@ class Poly(UserDict):
 
     def __pow__(self, n):
         """Raise the poly to power n."""
-        if n <= 0:
-            raise NotImplementedError("n must be an integer and >= 1.")
+        if n < 0:
+            raise NotImplementedError("n must be an integer and >= 0.")
+        # support for poly^0 = 1
+        if n == 0:
+            return self.const_one()
         #
         # initialize a new poly to isolate the operation from affecting
         # the original one
@@ -191,9 +219,11 @@ class Poly(UserDict):
     def add_keyval(self, key, val):
         """Insert a new key-val or add val to the existing key.
 
-        :param tuple key: key for the poly, a tuple.
+        :param key: key for the poly, a tuple or list (will be converted to tuple).
+        :type key: tuple or list
         :param Fraction val: corresponding value.
         """
+        if isinstance(key, list): key = tuple(key)
         if key in self:
             self[key] += val
         else:
@@ -212,6 +242,7 @@ class Poly(UserDict):
         :param list names: a sequence of names,
            each corresponding to the key tuple counterpart,
            i.e., names[i] v.s. key[i].
+        :type names: list or tuple
         """
         self.keyfor = tuple(names)
 
@@ -301,9 +332,8 @@ class Poly(UserDict):
             else:
                 i += 1
         # find one sub-key corresponding to 'l_{1:n}'
-        for k in self.keys():
-            l = k[i]
-            break
+        first_key = next(iter(self))
+        l = first_key[i]
         #
         # It is assumed that all sub-keys corresponding to 'l_{1:n}' have the same length
         #
@@ -346,6 +376,38 @@ class Poly(UserDict):
                     f.write(row)
         print(f"complete the writing of {filename}.")
 
+    def const_one(self):
+        """Constant equivalent to 1 in real numbers.
+
+        :return: poly evaluate to 1.
+        :rtype: Poly
+        """
+        poly = Poly()
+        poly.set_keyfor(self.keyfor)
+        if isinstance(self.keyfor, tuple):
+            key = tuple(0 for i in range(len(self.keyfor)))
+        else:  # n must = 1 and keyfor is not a tuple
+            key = 0
+        val = Fraction(1, 1)
+        poly.add_keyval(key, val)
+        return poly
+
+    def const_zero(self):
+        """Constant equivalent to 0 in real numbers.
+
+        :return: poly evaluate to 0.
+        :rtype: Poly
+        """
+        poly = Poly()
+        poly.set_keyfor(self.keyfor)
+        if isinstance(self.keyfor, tuple):
+            key = tuple(0 for i in range(len(self.keyfor)))
+        else: # n must = 1 and keyfor is not a tuple
+            key = 0
+        val = Fraction(0, 1)
+        poly.add_keyval(key, val)
+        return poly
+
 
 if __name__ == "__main__":
     # Example usage of class Poly, see 'tests/test_poly.py' for more test
@@ -358,3 +420,10 @@ if __name__ == "__main__":
     print(f'Before addition,\npol1 = {pol1}\npol2 = {pol2}\n')
     print(f'pol1 + pol2 = {pol1 + pol2}\n')
     print(f'After addition,\npol1 = {pol1}\npol2 = {pol2}')
+
+    pol3 = Poly({(1, 0, 1): 1})
+    pol3.set_keyfor(['e', 'k', 'theta'])
+    poln = pol1 * pol3
+    print(f'\npol3 = {pol3}')
+    print(f'poln = pol1 * pol3, \npoln = {poln}')
+    print(f'poln.keyfor = {poln.keyfor}')
