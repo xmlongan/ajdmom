@@ -18,16 +18,16 @@ def exp_vn(l):
 
     :param int l: power
     :return: poly with attribute ``keyfor`` =
-       ('e^{-knh}eI_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v').
+       ('e^{-knh}IE_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v').
     :rtype: Poly
     """
     polv = Poly()
-    kf = ['e^{-knh}eI_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v']
+    kf = ['e^{-knh}IE_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v']
     polv.set_keyfor(kf)
     for i in range(l, -1, -1):  # e^{-kh}v_{n-1}
         for j in range(l - i, -1, -1):  # 1*theta
             for p in range(l - i - j, -1, -1):  # -e^{-kh}*theta
-                q = l - i - j - p  # sigma_v e^{-knh}eI_n
+                q = l - i - j - p  # sigma_v e^{-knh}IE_n
                 key = (q, i + p, i, j + p, q)
                 val = comb(l, [i, j, p, q]) * ((-1) ** p)
                 polv.add_keyval(key, val)
@@ -39,11 +39,11 @@ def ve_IEII_vn(n2, n3, n4, n5):
 
     :param int n2: :math:`n_2` in above equation.
     :param int n3: :math:`n_3` in :math:`IEII` which is
-       :math:`E[eI_{n+1}^{n_3}I_{n+1}^{n_4}I_{n+1}^{*n_5}|v_n]`.
+       :math:`E[IE_{n+1}^{n_3}I_{n+1}^{n_4}I_{n+1}^{*n_5}|v_n]`.
     :param int n4: :math:`n_4` in :math:`IEII`.
     :param int n5: :math:`n_5` in :math:`IEII`.
     :return: poly with attribute ``keyfor`` =
-       ('e^{-knh}eI_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v').
+       ('e^{-knh}IE_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v').
     :rtype: Poly
     """
     poly = ve_IEII(n2, n3, n4, n5)
@@ -51,12 +51,12 @@ def ve_IEII_vn(n2, n3, n4, n5):
     #
     # expand v_n
     poly_eIv = Poly()
-    kf = ['e^{-knh}eI_n', 'e^{-kh}', 'h', 'v_{n-1}', 'k^{-}', 'theta', 'sigma_v']
+    kf = ['e^{-knh}IE_n', 'e^{-kh}', 'h', 'v_{n-1}', 'k^{-}', 'theta', 'sigma_v']
     poly_eIv.set_keyfor(kf)
     #
     for k1 in poly:
         polv = exp_vn(k1[2])
-        # ['e^{-knh}eI_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v']
+        # ['e^{-knh}IE_n', 'e^{-kh}', 'v_{n-1}', 'theta', 'sigma_v']
         for k2 in polv:
             key = (k2[0], k1[0] + k2[1], k1[1], k2[2], k1[3], k1[4] + k2[3], k1[5] + k2[4])
             val = poly[k1] * polv[k2]
@@ -70,11 +70,11 @@ def moment_inner_comb(l1, m1, m2, m3, m4, m5, poly_eIv):
     :param int l1: *l1* in :math:`y_n^{l_1}`.
     :param int m1: times of the constant in :math:`y_n` being selected.
     :param int m2: times of :math:`v_{n-1}` being selected.
-    :param int m3: times of :math:`eI_{n}` being selected.
+    :param int m3: times of :math:`IE_{n}` being selected.
     :param int m4: times of :math:`I_{n}` being selected.
     :param int m5: times of :math:`I_{n}^{*}` being selected.
     :param Poly poly_eIv: poly with attribute ``keyfor`` =
-       ('e^{-knh}eI_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v').
+       ('e^{-knh}IE_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v').
     :return: poly with attribute ``keyfor`` =
        ('e^{-kh}','h','v_{n-1}','k^{-}','mu','theta','sigma_v','rho',
        'sqrt(1-rho^2)').
@@ -85,7 +85,7 @@ def moment_inner_comb(l1, m1, m2, m3, m4, m5, poly_eIv):
     poly.set_keyfor(kf)
     #
     # combine and compute
-    # k1: ['e^{-knh}eI_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v']
+    # k1: ['e^{-knh}IE_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v']
     # k2: ['e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v']
     for k1 in poly_eIv:
         poln = ve_IEII(m2 + k1[3], m3 + k1[0], m4, m5)
@@ -112,7 +112,7 @@ def moment_outer_comb(l2, n1, n2, n3, n4, n5, l1):
     :param int l2: *l2* in :math:`y_{n+1}^{l_2}`.
     :param int n1: times of :math:`\theta` being selected.
     :param int n2: times of :math:`v_{n}` being selected.
-    :param int n3: times of :math:`eI_{n+1}` being selected.
+    :param int n3: times of :math:`IE_{n+1}` being selected.
     :param int n4: times of :math:`I_{n+1}` being selected.
     :param int n5: times of :math:`I_{n+1}^{*}` being selected.
     :param int l1: *l1* in :math:`y_{n}^{l_1}`.
@@ -127,7 +127,7 @@ def moment_outer_comb(l2, n1, n2, n3, n4, n5, l1):
     # ['e^{-kh}','h','k^{-}','mu','theta','sigma_v','rho','sqrt(1-rho^2)']
     #
     poly_eIv = ve_IEII_vn(n2, n3, n4, n5)
-    # ['e^{-knh}eI_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v']
+    # ['e^{-knh}IE_n','e^{-kh}','h','v_{n-1}','k^{-}','theta','sigma_v']
     #
     poly = Poly()
     kf = ['e^{-kh}', 'h', 'v_{n-1}', 'k^{-}', 'mu', 'theta', 'sigma_v', 'rho',

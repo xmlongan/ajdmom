@@ -1,21 +1,21 @@
 """
-Central Moments of the SVCJ model
+Central Moments of the SVVJ model
 """
 import math
 from fractions import Fraction
 
 from ajdmom.poly import Poly
-from ajdmom.mdl_svcj.mom import moment_y, poly2num
+from ajdmom.mdl_svvj.mom import moment_y, poly2num, expand_Ev
 
 def cmoment_y(n):
-    """central moment of :math:`y_t`
+    r"""central moment of :math:`y_t`
 
     Central moment :math:`E[\bar{y}_t^n] = E[(y_t - E[y_t])^n]`
 
     :param int n: order of the central moment
     :return: poly with ``keyfor`` = ('e^{kt}', 't', 'k^{-}',
       'mu', 'E[v]', 'theta', 'sigma', 'rho',
-      'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s')
+      'lmbd', 'mu_v')
     :rtype: Poly
     """
     if n < 0:
@@ -23,13 +23,13 @@ def cmoment_y(n):
     mean_y = moment_y(1)
     kf = ['e^{kt}', 't', 'k^{-}',
           'mu', 'E[v]', 'theta', 'sigma', 'rho',
-          'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s']
+          'lmbd', 'mu_v']
     poly = Poly()
     poly.set_keyfor(kf)
     #
-    p0 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0): Fraction(0, 1)})
+    p0 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, 0, 0): Fraction(0, 1)})
     p0.set_keyfor(kf)
-    p1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0): Fraction(1, 1)})
+    p1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, 0, 0): Fraction(1, 1)})
     p1.set_keyfor(kf)
     #
     if n == 0:
@@ -55,7 +55,7 @@ def remove_mu_column(poly):
     kf = ['e^{kt}', 't', 'k^{-}',
           #'mu',
           'E[v]', 'theta', 'sigma', 'rho',
-          'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s']
+          'lmbd', 'mu_v']
     kf[0] = 'e^{-kt}'
     poln = Poly()
     poln.set_keyfor(kf)
@@ -71,9 +71,10 @@ def remove_mu_column(poly):
 if __name__ == '__main__':
     from pprint import pprint
 
-    n = 4
+    n = 3
     cmom = cmoment_y(n)
-    cmom = remove_mu_column(cmom)
+    cmom = expand_Ev(cmom)
+    # cmom = remove_mu_column(cmom)
     print(f"cmoment_y({n}) =")
     pprint(cmom)
     print(f"{len(cmom)} rows of {cmom.keyfor}")

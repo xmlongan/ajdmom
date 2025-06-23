@@ -31,19 +31,19 @@ where
 For models including jumps in the variance, both conditional and unconditional
 moments can be derived.
 
-Conditional Moments (I)
+Conditional Moments - I
 =========================
 
 We now introduce the following notation:
 
 .. math::
 
-    \begin{equation*}
-        I\!E_t \mathrel{:=} \int_0^t e^{ks}\sqrt{v(s)}\mathrm{d} w^v(s),~
-        I_t \mathrel{:=} \int_0^t \sqrt{v(s)} \mathrm{d} w^v(s), ~
-        I\!E\!Z_t \mathrel{:=} \int_0^t e^{ks}\mathrm{d} z^v(s), ~
-        I\!Z_t \mathrel{:=} \int_0^t \mathrm{d} z^v(s).
-    \end{equation*}
+    \begin{align*}
+        I\!E_t &\mathrel{:=} \int_0^t e^{ks}\sqrt{v(s)}\mathrm{d} w^v(s),
+        &I_t    &\mathrel{:=} \int_0^t \sqrt{v(s)} \mathrm{d} w^v(s),\\
+        I\!E\!Z_t &\mathrel{:=} \int_0^t e^{ks}\mathrm{d} z^v(s), ~
+        &I\!Z_t &\mathrel{:=} \int_0^t \mathrm{d} z^v(s).
+    \end{align*}
 
 Additionally, we define
 
@@ -149,16 +149,20 @@ The :math:`m`-th conditional central moment of :math:`\bar{y}_t` can then be exp
 This decomposition demonstrates that the computation of conditional central moments relies
 on the computation of conditional moments.
 
-Moments
+Unconditional Moments
 =========================
 
-Consequently, the conditional moment of the return,
-$\mathbb{E}[y_t^m|v_0]$, is also a polynomial in $v_0$. This property allows us to leverage
-the polynomial structure to compute the unconditional moments of the return,
-:math:`\mathbb{E}[y_t^m]`, as demonstrated in :doc:`srjd`.
+Consequently, the conditional moments of the return,
+:math:`\mathbb{E}[y_t^m|v_0]`, are also polynomials in :math:`v_0`. This property
+allows us to leverage the polynomial structure to compute the unconditional moments
+of the return, :math:`\mathbb{E}[y_t^m]`, as demonstrated in :doc:`srjd`.
 
-Conditional Moments (II)
-=========================
+Conditional Moments - II
+==========================
+
+For some circumstances, the conditional is that both the initial variance and
+the jumps in the variance are given. This section is devoted to deriving the
+conditional moments and central moments under these situations.
 
 Note that :math:`y_t \triangleq \log s(t) - \log s(0)`.
 Define :math:`I\!Z_t^s\triangleq \int_0^t dz^s(u)`. Then, we have
@@ -247,4 +251,6 @@ API
    ajdmom.mdl_svcj.cond_mom
    ajdmom.mdl_svcj.cond2_cmom
    ajdmom.mdl_svcj.cond2_mom
+   ajdmom.mdl_svcj.cond_ieii_ieziziz_mom
+   ajdmom.mdl_svcj.ieziziz_mom
 

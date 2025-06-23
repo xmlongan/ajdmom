@@ -40,14 +40,180 @@ Please also note that
 and refer to :doc:`theory` for the definitions of 
 :math:`I\!E_{s,t}, I_{s,t}, I_{s,t}^{*}`.
 
-For models including jumps in the variance, it seems that only conditional
-moments and conditional central moments (given :math:`v_0, z_s, 0\le s \le t`)
-can be derived in closed-form for any order. Therefore, for those models, 
-the package will focus on the derivation of conditional moments and conditional
-central moments.
 
-Conditional Moments
-====================
+
+Conditional Moments - I
+==========================
+
+Given the initial variance :math:`v_0`, the conditional mean of :math:`y_t` is
+given as
+
+.. math::
+
+   \begin{align*}
+   \mathbb{E}[y_t|v_0]
+   &= (\mu-\theta/2)t - (v_0 - \theta)\beta_t + \frac{1}{2k}e^{-kt}
+   \mathbb{E}[I\!E\!Z_t] - \frac{1}{2k}\mathbb{E}[I\!Z_t]\\
+   &= (\mu-\theta/2)t - (v_0 - \theta)\beta_t + \frac{\lambda \mu_v}{k}\beta_t
+   - \frac{1}{2k}\lambda t \mu_v.
+   \end{align*}
+
+
+Let us define
+:math:`\overline{y}_t \triangleq y_t - \mathbb{E}[y_t|v_0]`,
+then we have
+
+.. math::
+
+   \begin{align*}
+   \overline{y}_t
+   &= \frac{\sigma_v}{2k} e^{-kt}I\!E_t +
+   \left(\rho -\frac{\sigma_v}{2k} \right)I_t + \sqrt{1-\rho^2}I_t^{*}
+   + \frac{1}{2k}e^{-kt}I\!E\!Z_t - \frac{1}{2k}I\!Z_t\\
+   &\quad - \frac{\lambda \mu_v}{2k^2}(1-e^{-kt}) + \frac{1}{2k}\lambda t\mu_v.
+   \end{align*}
+
+Central Moments
+--------------------
+
+Then, the :math:`l`-th conditional central moment can be computed via
+
+.. math::
+
+   \mathbb{E}[\overline{y}_t^l|v_0] = \sum_{\mathbf{n}}c(\mathbf{n})
+   b(\mathbf{n})\mathbb{E}[(e^{-kt}I\!E_t)^{n_1}I_t^{n_2}I_t^{*n_3}
+   (e^{-kt}I\!E\!Z_t)^{n_4} I\!Z_t^{n_5}|v_0],
+
+where :math:`\mathbf{n} = (n_1,n_2,n_3,n_4,n_5,n_6,n_7)`,
+:math:`n_1+\cdots+n_7=l`,
+
+.. math::
+
+   \begin{eqnarray*}
+   c(\mathbf{n}) &=& \binom{l}{n_1,\cdots, n_7},\\
+   b(\mathbf{n}) &=& \left(\frac{\sigma_v}{2k}\right)^{n_1}
+   \left(\rho -\frac{\sigma_v}{2k} \right)^{n_2}
+   \left(\sqrt{1-\rho^2}\right)^{n_3} \frac{(-1)^{n_5+n_6}}{(2k)^{n_4+n_5+n_7}}
+   \left[\frac{\lambda \mu_v}{2k^2}(1-e^{-kt})\right]^{n_6} (\lambda t\mu_v)^{n_7}.
+   \end{eqnarray*}
+
+
+Moments
+-------------------
+
+Given conditional central moments, it is easy to compute conditional moments as
+the following
+
+.. math::
+
+   \mathbb{E}[y_t^l|v_0] = \sum_{i=0}^l\binom{n}{i} \mathbb{E}^i[y_t|v_0]
+   \mathbb{E}[\overline{y}_t^{l-i}|v_0].
+
+
+Unconditional Moments
+==========================
+
+By substituting the terms :math:`\mathbb{E}[(v_0 - \theta)^l]` within the
+conditional central moments and conditional moments, we get the unconditional
+central moments and unconditional moments. Please refer to the
+:abbr:`SRJD(Square-Root Jump Diffusion)` model page for the computation of the
+terms :math:`\mathbb{E}[(v_0 - \theta)^l]`.
+
+However, it is a little complicated to derive the unconditional covariances.
+It is necessary to introduce more notations as
+:math:`y_{n+1} \equiv y((n+1)h) - y(nh)`,
+
+.. math::
+
+   \begin{align*}
+   y_{n+1}
+   &= - (v_n-\theta)\beta +
+     \frac{\sigma_v}{2k} e^{-k(n+1)h}I\!E_{n+1} +
+     \left(\rho -\frac{\sigma_v}{2k} \right)I_{n+1} +
+     \sqrt{1-\rho^2}I_{n+1}^{*}\\
+   &\quad ~ + \frac{1}{2k}e^{-k(n+1)h}I\!E\!Z_{n+1}
+          - \frac{1}{2k}I\!Z_{n+1}
+          + (\mu - \theta/2) h ,
+   \end{align*}
+
+where :math:`\beta \equiv (1-e^{-kh})/(2k)`, and
+:math:`v_n - \theta = e^{-kh}(v_{n-1} - \theta) + \sigma_ve^{-knh}I\!E_n + e^{-knh}I\!E\!Z_n`.
+
+
+When expanding :math:`y_{n+1}^{l_2}`, the indexing (:math:`n_0+\cdots+n_6=l_2`) is organized as
+
++---------------------+-------------------+----------------+--------------------+----------------------+-------------------+---------------------------+
+|:math:`(v_n-\theta)` |:math:`I\!E_{n+1}` |:math:`I_{n+1}` |:math:`I_{n+1}^{*}` |:math:`I\!E\!Z_{n+1}` |:math:`I\!Z_{n+1}` |:math:`(\mu - \theta/2) h` |
++=====================+===================+================+====================+======================+===================+===========================+
+|:math:`n_0`          |:math:`n_1`        |:math:`n_2`     |:math:`n_3`         |:math:`n_4`           |:math:`n_5`        |:math:`n_6`                |
++---------------------+-------------------+----------------+--------------------+----------------------+-------------------+---------------------------+
+
+
+Covariances
+---------------------
+
+Covariances can be computed via
+
+.. math::
+
+   cov(y_n^{l_1}, y_{n+1}^{l_2}) = \mathbb{E}[y_n^{l_1}y_{n+1}^{l_2}] -
+   \mathbb{E}[y_{n}^{l_1}]\mathbb{E}[y_{n+1}^{l_2}].
+
+Therefore, we only need to compute :math:`\mathbb{E}[y_n^{l_1}y_{n+1}^{l_2}]`.
+
+.. math::
+
+   \begin{align*}
+   &\mathbb{E}[y_n^{l_1}y_{n+1}^{l_2}]\\
+   &=\sum_{\mathbf{n}} c(\mathbf{n}) b(\mathbf{n})
+     \sum_{\mathbf{m}} c(\mathbf{m}) b(\mathbf{m})\\
+   &\quad\mathbb{E}[(v_{n-1} - \theta)^{m_0}(e^{-knh}I\!E_n)^{m_1}I_n^{m_2}I_n^{*m_3}
+   (e^{-knh}I\!E\!Z_n)^{m_4} I\!Z_n^{m_5}
+   \cdot \\
+   &\qquad (v_n - \theta)^{n_0}(e^{-k(n+1)h}I\!E_{n+1})^{n_1}I_{n+1}^{n_2}I_{n+1}^{*n_3}
+   (e^{-k(n+1)h}I\!E\!Z_{n+1})^{n_4} I\!Z_{n+1}^{n_5}].
+   \end{align*}
+
+
+Note that
+
+.. math::
+
+   \begin{align*}
+   &\mathbb{E}[I\!E_{n+1}^{n_1} I_{n+1}^{n_2} I_{n+1}^{*n_3} I\!E\!Z_{n+1}^{n_4}
+    I\!Z_{n+1}^{n_5}]\\
+   &= \sum_{n_1,n_4,i,j,l,o,p,q,r,s}b_{n_1,n_4,i,j,l,o,p,q,r,s} e^{(n_1+n_4)knh}
+     e^{ikh} h^j k^{-l} (v_n-\theta)^o \theta^p \sigma_v^q \lambda^r \mu_v^s,\\
+   &(v_n-\theta)^{n_0} e^{-(n_1+n_4)k(n+1)h} \mathbb{E}[I\!E_{n+1}^{n_1}
+    I_{n+1}^{n_2} I_{n+1}^{*n_3} I\!E\!Z_{n+1}^{n_4} I\!Z_{n+1}^{n_5}]\\
+   &= \sum_{n_1,n_4,i,j,l,o,p,q,r,s}b_{n_1,n_4,i,j,l,o,p,q,r,s} e^{-(n_1+n_4)kh}
+     e^{ikh} h^j k^{-l} (v_n-\theta)^{o+n_0} \theta^p \sigma_v^q \lambda^r \mu_v^s.
+   \end{align*}
+
+A function is defined to implement the corresponding derivation and the expansion
+of :math:`(v_n-\theta)`, resulting in
+
+.. math::
+
+   \begin{align*}
+   &ve\_I\!EII\_I\!E\!ZI\!Z\_vn(n_0,n_1,n_2,n_3,n_4,n_5)\\
+   &= \sum_{m_1,m_2,i,j,l,o,p,q,r,s} b_{m_1,m_2,i,j,l,o,p,q,r,s} e^{-(m_1+m_2)knh}
+     I\!E_n^{m_1} I\!E\!Z_n^{m_2}
+     e^{-ikh} h^j k^{-l} (v_n-\theta)^{o} \theta^p \sigma_v^q \lambda^r \mu_v^s.
+   \end{align*}
+
+The expansion of :math:`(v_n-\theta)` is done via,
+
+.. math::
+
+   (v_n-\theta)^m
+   = \sum_{\mathbf{m}} \binom{m}{m_1,m_2,m_3} [e^{-kh}(v_{n-1} - \theta)]^{m_1}
+     (\sigma_ve^{-knh}I\!E_n)^{m_2} (e^{-knh}I\!E\!Z_n)^{m_3}.
+
+
+
+Conditional Moments - II
+==========================
 
 Given the initial variance :math:`v_0` and the 
 :abbr:`CPP(Compound Poisson Process)` over interval :math:`[0,t]`, 
@@ -154,7 +320,12 @@ API
 
 .. autosummary::
    :toctree: generated
-   
+
+   ajdmom.mdl_svvj.cmom
+   ajdmom.mdl_svvj.mom
+   ajdmom.mdl_svvj.cov
+   ajdmom.mdl_svvj.cond_cmom
+   ajdmom.mdl_svvj.cond_mom
    ajdmom.mdl_svvj.cond2_cmom
    ajdmom.mdl_svvj.cond2_mom
 

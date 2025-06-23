@@ -15,7 +15,7 @@ the last three quantities :math:`I\!E\!Z_t^{m_4} I\!Z_t^{m_5} I\!Z_t^{*m_6}` are
 of the first three quantities :math:`I\!E_t^{m_1} I_t^{m_2} I_t^{*m_3}` in above equation.
 For :math:`m_4 + m_5 + m_6 \ge 1`, we must evaluate integrals of the form
 
-.. math:
+.. math::
 
     \begin{equation}
         \int_0^t e^{lks} \mathbb{E}[I\!E_s^{m_1}I_s^{m_2}I_s^{*m_3} I\!E\!Z_t^{m_4} I\!Z_t^{m_5} I\!Z_t^{*m_6}|v_0]\mathrm{d} s.
@@ -25,7 +25,7 @@ The dependence between :math:`I\!E_s^{m_1}I_s^{m_2}I_s^{*m_3}` and
 :math:`I\!E\!Z_t^{m_4} I\!Z_t^{m_5} I\!Z_t^{*m_6}` motivates us to decompose the latter
 as follows:
 
-.. math:
+.. math::
 
     \begin{align*}
         &I\!E\!Z_t^{m_4}I\!Z_t^{m_5}I\!Z_t^{*m_6}\\
@@ -40,7 +40,7 @@ are decomposed as :math:`I\!Z_t = I\!Z_s + I\!Z_{s,t}` and :math:`I\!Z_t^* = I\!
 respectively. Here, the new terms :math:`I\!E\!Z_{s,t}`, :math:`I\!Z_{s,t}` and :math:`I\!Z_{s,t}^{*}`
 are defined as
 
-.. math:
+.. math::
 
     \begin{equation*}
         I\!E\!Z_{s,t} \mathrel{:=} \int_s^te^{ku}\mathrm{d} z^v(u),
@@ -50,7 +50,7 @@ are defined as
 
 Consequently, we have
 
-.. math:
+.. math::
 
     \begin{align*}
         &\int_0^t e^{lks} \mathbb{E}[I\!E_s^{m_1}I_s^{m_2}I_s^{*m_3} I\!E\!Z_t^{m_4} I\!Z_t^{m_5} I\!Z_t^{*m_6}|v_0]\mathrm{d} s\\
@@ -63,20 +63,20 @@ We have established that the conditional joint moment
 :math:`\mathbb{E}[I\!E\!Z_{s,t}^{m_4}I\!Z_{s,t}^{m_5}I\!Z_{s,t}^{*m_6}|v_0]` can be computed as
 the following "polynomial":
 
-.. math:
+.. math::
 
     \begin{equation}
         \mathbb{E}[I\!E\!Z_{s,t}^{m_4}I\!Z_{s,t}^{m_5}I\!Z_{s,t}^{*m_6}|v_0]
         = \sum_{\boldsymbol{j}}c_{\boldsymbol{j}}e^{j_1kt}t^{j_2}e^{j_3js}s^{j_4}k^{-j_5}\lambda^{j_6}\mu_v^{j_7}\mu_s^{j_8}\sigma_s^{j_9},
     \end{equation}
 
-where :math:`\boldsymbol{j}\mathrel{:=} (j_1,\dots, j_9)$, $j_1,\dots,j_9` are integers,
+where :math:`\boldsymbol{j}\mathrel{:=} (j_1,\dots, j_9), j_1,\dots,j_9` are integers,
 :math:`c_{\boldsymbol{j}}` represents the corresponding monomial coefficient. For detailed derivations,
 please refer to :doc:`../generated/ajdmom.mdl_svcj.ieziziz_mom`.
 
 With above equation, the conditional joint moment can be computed recursively as follows:
 
-.. math:
+.. math::
 
     \begin{align}
         &\mathbb{E}[I\!E_t^{m_1} I_t^{m_2} I_t^{*m_3} I\!E\!Z_t^{m_4} I\!Z_t^{m_5} I\!Z_t^{*m_6}|v_0]\nonumber\\
@@ -87,7 +87,7 @@ With above equation, the conditional joint moment can be computed recursively as
 
 where
 
-.. math:
+.. math::
 
     \begin{align*}
         F(m_1,m_2,m_3)
@@ -99,7 +99,7 @@ where
 
 and the terms :math:`f_{6i}, g_{6i}, h_{6i}, q_{6i}, i=1,2,3,4` are defined as:
 
-.. math:
+.. math::
 
     \begin{align*}
         f_{61} &\mathrel{:=} \int_0^te^{(j_3+1)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1-2}I_s^{m_2}I_s^{*m_3}I\!E\!Z_s^{i_1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s \times (v_0-\theta),\\
@@ -108,7 +108,7 @@ and the terms :math:`f_{6i}, g_{6i}, h_{6i}, q_{6i}, i=1,2,3,4` are defined as:
         f_{64} &\mathrel{:=} \int_0^te^{(j_3+1)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1-2}I_s^{m_2}I_s^{*m_3}I\!E\!Z_s^{i_1+1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s,
     \end{align*}
 
-.. math:
+.. math::
 
     \begin{align*}
         g_{61} &\mathrel{:=} \int_0^te^{(j_3-1)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1}I_s^{m_2-2}I_s^{*m_3}I\!E\!Z_s^{i_1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s \times (v_0-\theta),\\
@@ -117,7 +117,7 @@ and the terms :math:`f_{6i}, g_{6i}, h_{6i}, q_{6i}, i=1,2,3,4` are defined as:
         g_{64} &\mathrel{:=} \int_0^te^{(j_3-1)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1}I_s^{m_2-2}I_s^{*m_3}I\!E\!Z_s^{i_1+1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s,
     \end{align*}
 
-.. math:
+.. math::
 
     \begin{align*}
         h_{61} &\mathrel{:=} \int_0^te^{(j_3+0)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1-1}I_s^{m_2-1}I_s^{*m_3}I\!E\!Z_s^{i_1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s \times (v_0-\theta),\\
@@ -128,7 +128,7 @@ and the terms :math:`f_{6i}, g_{6i}, h_{6i}, q_{6i}, i=1,2,3,4` are defined as:
 
 and
 
-.. math:
+.. math::
 
     \begin{align*}
         q_{61} &\mathrel{:=} \int_0^te^{(j_3-1)ks}s^{j_4}\mathbb{E}[I\!E_s^{m_1}I_s^{m_2}I_s^{*m_3-2}I\!E\!Z_s^{i_1}I\!Z_s^{i_2}I\!Z_s^{*i_3}|v_0]\mathrm{d} s \times (v_0-\theta),\\
@@ -138,9 +138,9 @@ and
     \end{align*}
 
 Before closing this subsection, we highlight that the final expression for the conditional joint moment
-takes the form of a polynomial in $v_0-\theta$. Specifically, it can be expressed as:
+takes the form of a polynomial in :math:`v_0-\theta`. Specifically, it can be expressed as:
 
-.. math:
+.. math::
 
     \begin{equation}%\label{eqn:ieii-ieziziz-polynomial}
         \mathbb{E}[I\!E_t^{m_1}I_t^{m_2}I_t^{*m_3}I\!E\!Z_t^{m_4}I\!Z_t^{m_5}I\!Z_t^{*m_6}|v_0]

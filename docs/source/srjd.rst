@@ -92,8 +92,8 @@ The reason is that the conditional joint moment :math:`\mathbb{E}[I\!E_t^{m_1}\o
 produces a polynomial in :math:`(v_0 - \mathbb{E}[v])` of order at most :math:`\lfloor m_1 / 2 \rfloor`.
 
 
-Moments
-======================
+Unconditional Moments
+========================
 
 We further note that the unconditional central moment of :math:`v_t` can be computed via:
 

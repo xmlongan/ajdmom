@@ -375,7 +375,7 @@ Note that
 Function :py:func:`~ajdmom.mdl_1fsv.cov.ve_IEII_vn` is defined to accomplish
 above computation and expand :math:`v_n` which returns a poly with 
 :code:`keyfor
-= (‘e^{-knh}eI_n’,‘e^{-kh}’,‘h’,‘v_{n-1}’,‘k^{-}’,‘theta’,‘sigma_v’)`, i.e.,
+= (‘e^{-knh}IE_n’,‘e^{-kh}’,‘h’,‘v_{n-1}’,‘k^{-}’,‘theta’,‘sigma_v’)`, i.e.,
 
 .. math::
    

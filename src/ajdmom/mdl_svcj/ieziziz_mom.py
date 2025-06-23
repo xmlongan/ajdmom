@@ -7,7 +7,7 @@ joint moment-generating function (MGF) of these processes.
 
 The joint MGF of (:math:`I\!E\!Z_{s,t}, I\!Z_{s,t}, I\!Z_{s,t}^*`) can be derived as follows:
 
-.. math:
+.. math::
 
     \begin{align*}
         M_{I\!E\!Z_{s,t},I\!Z_{s,t},I\!Z_{s,t}^*}(\boldsymbol{a})
@@ -46,7 +46,7 @@ formula:
 By introducing two new variables :math:`a \mathrel{:=} - a_1\mu_v, b \mathrel{:=} 1 - a_2\mu_v`,
 the above expectation simplifies to:
 
-.. math:
+.. math::
 
     \begin{align*}
         \mathbb{E}[M_{J_i}(a_1e^{ks_i} + a_2)]
@@ -59,7 +59,7 @@ introduce :math:`x \mathrel{:=} e^{ks_i}`. Then, :math:`s_i = \frac{1}{k}\log x`
 :math:`\mathrm{d} s_i = \frac{1}{k}\frac{1}{x}\mathrm{d} x`.
 The integral thus becomes:
 
-.. math:
+.. math::
 
     \begin{align*}
         \int_{s}^t\frac{1}{ae^{ks_i}+b}\mathrm{d} s_i
@@ -69,7 +69,7 @@ The integral thus becomes:
 
 If :math:`a = 0`, i.e., :math:`a_1 = 0`, the integral simplifies to:
 
-.. math:
+.. math::
 
     \begin{equation*}
         \int_{s}^t\frac{1}{ae^{ks_i}+b}\mathrm{d} s_i = \frac{1}{b}(t-s).
@@ -78,7 +78,7 @@ If :math:`a = 0`, i.e., :math:`a_1 = 0`, the integral simplifies to:
 Otherwise, for :math:`a_1\neq 0`, in any neighborhood of the origin of the vector
 :math:`(a_1,a_2)` such that  :math:`ax + b \approx 1`, we have:
 
-.. math:
+.. math::
 
     \begin{align*}
         \int_{e^{ks}}^{e^{kt}} \frac{1}{ax + b} \frac{1}{x} \mathrm{d} x
@@ -89,7 +89,7 @@ Otherwise, for :math:`a_1\neq 0`, in any neighborhood of the origin of the vecto
 
 Therefore, the integral evaluates to:
 
-.. math:
+.. math::
 
     \begin{align*}
         \int_{s}^t\frac{1}{ae^{ks_i}+b}\mathrm{d} s_i
@@ -100,7 +100,7 @@ provided that :math:`(a_1,a_2)` lies within a sufficiently small neighborhood of
 the origin :math:`(0,0)`. Finally, we obtain the closed-form expression for
 :math:`\mathbb{E}[M_{J_i}(a_1e^{ks_i} + a_2)]` as:
 
-.. math:
+.. math::
 
     \begin{equation}
         \mathbb{E}[M_{J_i}(a_1e^{ks_i} + a_2)]
@@ -113,7 +113,7 @@ to a small neighborhood around the origin :math:`(0,0)`.
 To simplify the notation, we define a new function :math:`M_{E\!J,J,J^*}(\cdot)` as the
 following product:
 
-.. math:
+.. math::
 
     \begin{equation*}
         M_{E\!J,J,J^*}(\boldsymbol{a}) \mathrel{:=} \mathbb{E}[M_{J_i}(a_1e^{ks_i} + a_2)]\cdot M_{J_i^*}(a_3).
@@ -121,7 +121,7 @@ following product:
 
 We know that the MGF of :math:`J_i^*` has the following expression:
 
-.. math:
+.. math::
 
     \begin{equation}
         M_{J_i^*}(a_3) = e^{\mu_s a_3 + \sigma_s^2a_3^2/2}
@@ -131,7 +131,7 @@ since :math:`J_I^*` is normally distributed with mean :math:`\mu_s` and variance
 :math:`\sigma_s^2`. Combining these results, we obtain the following closed-form
 expression for the joint MGF of :math:`(I\!E\!Z_{s,t}, I\!Z_{s,t}, I\!Z_{s,t}^*)`:
 
-.. math:
+.. math::
 
     \begin{equation}
         M_{I\!E\!Z_{s,t},I\!Z_{s,t},I\!Z_{s,t}^*}(\boldsymbol{a})
@@ -141,7 +141,7 @@ expression for the joint MGF of :math:`(I\!E\!Z_{s,t}, I\!Z_{s,t}, I\!Z_{s,t}^*)
 where :math:`\boldsymbol{a} = (a_1,a_2,a_3)`, :math:`a = -a_1\mu_v`, :math:`b = 1-a_2\mu_v`,
 and
 
-.. math:
+.. math::
 
     \begin{equation*}
         M_{E\!J,J,J^*}(\boldsymbol{a})
@@ -154,7 +154,7 @@ the joint moment of :math:`(I\!E\!Z_{s,t}, I\!Z_{s,t},I\!Z_{s,t}^*)` of any orde
 The :math:`n`-th (:math:`n\ge1`) partial derivative of :math:`M_{E\!J,J,J^*}(\boldsymbol{a})`
 with respect to :math:`a_1` is given by
 
-.. math:
+.. math::
 
     \begin{equation*}
         \frac{\partial^nM_{E\!J,J,J^*}}{\partial a_1^{n}}
@@ -163,7 +163,7 @@ with respect to :math:`a_1` is given by
 
 Consequently, the :math:`n`-th moment of :math:`E\!J` can be expressed as
 
-.. math:
+.. math::
 
     \begin{equation}
         \mathbb{E}[(e^{ks_i}J_i)^n] = (e^{nkt} - e^{nks})\frac{1}{k(t-s)}(n-1)!\mu_v^n.
@@ -172,7 +172,7 @@ Consequently, the :math:`n`-th moment of :math:`E\!J` can be expressed as
 
 For :math:`n_1\ge 1` and :math:`n_2\ge 1`, the following formula holds:
 
-.. math:
+.. math::
 
     \begin{align}
         \frac{\partial^{n_1+n_2}M_{E\!J,J,J^*}}{\partial a_1^{n_1}\partial a_2^{n_2}}
@@ -182,7 +182,7 @@ For :math:`n_1\ge 1` and :math:`n_2\ge 1`, the following formula holds:
 where :math:`c(n_1,n_2,i) \mathrel{:=} n_2!(n_1 - 1 + i)!/(i!)`. An alternative
 approach involves directly computing the joint moment directly, yielding:
 
-.. math:
+.. math::
 
     \begin{equation}
         \mathbb{E}[(e^{ks_i}J_i)^{n_1}J_i^{n_2}]
@@ -192,7 +192,7 @@ approach involves directly computing the joint moment directly, yielding:
 
 For :math:`n\ge 1`, we have:
 
-.. math:
+.. math::
 
     \begin{align*}
         \frac{\partial^{n}M_{E\!J,J,J^*}}{\partial a_2^{n}}
@@ -204,7 +204,7 @@ For :math:`n\ge 1`, we have:
 
 Thus, the :math:`n`-th moment of :math:`J` is given by
 
-.. math:
+.. math::
 
     \begin{equation}
         \mathbb{E}[J_i^n] = n!\mu_v^n.
