@@ -155,7 +155,7 @@ Unconditional Moments
 Consequently, the conditional moments of the return,
 :math:`\mathbb{E}[y_t^m|v_0]`, are also polynomials in :math:`v_0`. This property
 allows us to leverage the polynomial structure to compute the unconditional moments
-of the return, :math:`\mathbb{E}[y_t^m]`, as demonstrated in :doc:`srjd`.
+of the return, :math:`\mathbb{E}[y_t^m]`, as demonstrated in the :doc:`srjd`.
 
 Conditional Moments - II
 ==========================
@@ -227,8 +227,7 @@ Note that
   &\mathbb{E}[(I\!Z_t^{s})^m|z^v(u), 0\le u \le t]\\
   &= \mathbb{E}\left[\left(\sum_{i=1}^{N(t)} J_i^{s}|J_i^v \right)^m
   \bigg|z^v(u), 0\le u \le t\right]\\
-  &= \sum_{m_1,\cdots, m_{N(t)}} C_m^{m_1}\cdots C_{m-(m_1+\cdots
-  +m_{N(t)-1})}^{m_{N(t)}} 
+  &= \sum_{m_1,\cdots, m_{N(t)}} \binom{m}{m_1,\dots,m_{N(t)}}
   \mathbb{E}[(J_1^s)^{m_1}|J_1^v] \cdots \mathbb{E}[(J_{N(t)}^s)^{m_{N(t)}}
   |J_{N(t)}^v].
   \end{align*}

@@ -1,6 +1,6 @@
 """
-Conditional Moments for the SVVJ model, given the initial variance
-and jump time points and jump sizes of the CPP in the variance
+Conditional Moments for the SVVJ model, given the initial state of
+the variance and the realized jumps in the variance.
 """
 import math
 from fractions import Fraction as Frac
@@ -21,11 +21,13 @@ def moment_comb(n, n1, n2, n3, n4, PY):
     :param Poly PY: poly of :math:`E[\overline{y}_t^{n_5}|v_0, z_s, 0\le s\le t]`
     :return: poly with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
-      'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
+      'l_{1:n}', 'o_{1:n}', 'p',
+      'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)'), now 'p' encoding power
+      of :math:`I\!Z_t`.
     :rtype: Poly
     """
-    kf = PY.keyfor[0:3] + ('beta_t', 'mu-theta/2') + PY.keyfor[3:]
+    kf = PY.keyfor[0:3] + ('beta_t', 'mu-theta/2') + PY.keyfor[3:8] + ('p',)
+    kf += PY.keyfor[8:]
     poly = Poly()
     poly.set_keyfor(kf)
     #
@@ -34,27 +36,23 @@ def moment_comb(n, n1, n2, n3, n4, PY):
     c *= ((-1) ** (n2 + n4)) * Frac(1, 2 ** (n3 + n4))
     #
     # PY.keyfor = ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-    #       'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+    #       'l_{1:n}', 'o_{1:n}',
     #       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     for k in PY:
         key1 = (k[0] - n3, k[1] + n1, k[2] + n3 + n4, n2, n1, k[3] + n2, k[4], k[5])
-        key3 = k[10:]
+        key3 = k[8:]
         #
-        k6, k7, k8, k9 = k[6], k[7], k[8], k[9]
-        # × IEZ_t^n3 IZ_t^n4
+        k6, k7 = k[6], k[7]
+        # × IEZ_t^n3
         #
-        # expand k6: e^{ks_i} J_i, k7: s_i
+        # expand k6: e^{k(s_i1\vee s_in)}, k7: s_i
         #
-        k6 += tuple(1 for i in range(n3)) + tuple(0 for i in range(n4))
-        k7 += tuple(0 for i in range(n3 + n4))
+        k6 += tuple(0 for _ in range(n3))
+        k7 += tuple(0 for _ in range(n3))
+        # × IZ_t^n4
+        k8 = n4
         #
-        # expand k8: e^{0k(s_1 v ... v s_n)}, k9: (s_1 v ... v s_n)^0
-        #
-        n_to_expand = n3 + n4 - 1 if len(k[6]) == 0 else n3 + n4
-        k8 += tuple(0 for i in range(n_to_expand))
-        k9 += tuple(0 for i in range(n_to_expand))
-        #
-        key = key1 + (k6, k7, k8, k9) + key3
+        key = key1 + (k6, k7, k8) + key3
         poly.add_keyval(key, c * PY[k])
     return poly
 
@@ -65,18 +63,20 @@ def moments_y_to(l):
     :param int l: highest order of the conditional moments to derive, l >= 1
     :return: a list of polys with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :rtype: Poly
     """
     moms = []
     cmoms = cmoments_y_to(l)  # get 0:l-th central moments at once
     #
-    kf = cmoms[0].keyfor[0:3] + ('beta_t', 'mu-theta/2') + cmoms[0].keyfor[3:]
+    kf = cmoms[0].keyfor[0:3] + ('beta_t', 'mu-theta/2') + cmoms[0].keyfor[3:8]
+    kf += ('p',) + cmoms[0].keyfor[8:]
     #
     # special case: 0-th moment
     #
-    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), (), (), 0, 0, 0): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), 0, 0, 0, 0): Frac(1, 1)})
+    #                                           p
     P1.set_keyfor(kf)
     moms.append(P1)  # equiv to constant 1
     #
@@ -110,7 +110,7 @@ def poly2num(poly, par):
 
     :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :param dict par: parameters in dict, ``jumptime`` (tuple) and ``jumpsize`` (tuple)
       must also be included
@@ -135,12 +135,15 @@ def poly2num(poly, par):
         val *= (beta_t ** K[3]) * ((mu - theta / 2) ** K[4]) * ((v0 - theta) ** K[5])
         val *= (theta ** K[6]) * (sigma ** K[7])
         #
-        l, o, p, q = K[8], K[9], K[10], K[11]
+        l, o, p = K[8], K[9], K[10]
         #
-        val *= fZ(l, o, p, q, k, s, J)
+        val *= fZ(l, o, k, s, J)
         #
-        val *= ((sigma / (2 * k)) ** K[12]) * ((rho - sigma / (2 * k)) ** K[13])
-        val *= ((1 - rho ** 2) ** (K[14] / 2))
+        IZ = sum(J)
+        val *= IZ ** p
+        #
+        val *= ((sigma / (2 * k)) ** K[11]) * ((rho - sigma / (2 * k)) ** K[12])
+        val *= ((1 - rho ** 2) ** (K[13] / 2))
         #
         f += val * poly[K]
     return f

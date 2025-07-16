@@ -35,11 +35,11 @@ def test_rSVVJ(settings):
         par['jumpsize'] = jsize_v
         par['jumptime'] = jtime_v
         n = 100 * 1000
-        n_segment = [1, 5, 10, 15, 20, 25]
+        n_segment = [10, 50, 100]
         # n_segment = [1, 5, 10]
         # n_segment = range(1, 11)
         tm = [m(j, par) for j in [1, 2, 3, 4, 5]]
-        print(f"numJ = {numJ}, jumpsize = {jsize_v}, jumptime = {jtime_v}")
+        print(f"\nnumJ = {numJ}, \njumpsize = {jsize_v}, \njumptime = {jtime_v}")
         temp = "tmean = [{: f}, {: f}, {: f}, {: f}, {: f}]"
         print(temp.format(tm[0], tm[1], tm[2], tm[3], tm[4]))
         for i in range(len(n_segment)):
@@ -65,7 +65,7 @@ def test_m(settings):
         par['jumpsize'] = jsize_v
         par['jumptime'] = jtime_v
         #
-        n, n_segment = 100 * 1000, 10
+        n, n_segment = 100 * 1000, 100
         y = rSVVJ(v0, mu, k, theta, sigma, rho, h, jsize_v, jtime_v, n, n_segment)
         print(f"\nWith conditions v0 = {v0}, \njumpsize = {jsize_v}, \njumptime = {jtime_v}")
         for n in [1, 2, 3, 4, 5]:
@@ -94,7 +94,7 @@ def test_cm(settings):
         par['jumpsize'] = jsize_v
         par['jumptime'] = jtime_v
         #
-        n, n_segment = 100 * 1000, 10
+        n, n_segment = 100 * 1000, 100
         y = rSVVJ(v0, mu, k, theta, sigma, rho, h, jsize_v, jtime_v, n, n_segment)
         print(f"\nWith conditions v0 = {v0}, \njumpsize = {jsize_v}, \njumptime = {jtime_v}")
         diff = y - np.mean(y)

@@ -2,51 +2,68 @@
 
 ## Description
 
-The package `ajdmom` is a `Python` package designed for automatically deriving moment formulas 
-for the well-established affine jump diffusion (AJD) processes. `ajdmom` can produce explicit closed-form 
-expressions for moments or conditional moments of any order, significantly enhancing the usability 
-of AJD models. Additionally, `ajdmom` can compute partial derivatives of these moments with respect to the 
-model parameters, offering a valuable tool for sensitivity analysis. The package's modular architecture makes 
-it easy for adaptation and extension by researchers. `ajdmom` is open-source and readily available for 
-installation from GitHub or the `Python` package index (PyPI).
-
-Currently, `ajdmom` supports computations of moments, central moments, and covariances for the Heston 
-Stochastic Volatility (SV) model and its three AJD extensions: 
-- SVJ (SV with jumps in the price), 
-- Two-Factor SV, 
-- Two-Factor SV with jumps in the price. 
-
-Moreover, the package can compute partial derivatives of these quantities with respect to model parameters. 
-
-In addition, the package supports computations of 
-
-- both *conditional* and *unconditional* moments and central moments for 
-
-  + SRJDs (Square-Root Jump Diffusions, also may be called Square-Root Diffusions with Jumps),
-  + SVCJ (SV with contemporaneous jumps in the price and variance). 
-
-- *conditional* moments and *conditional* central moments for
-
-  + SVVJ (SV with jumps in the variance), 
-  + SVIJ (SV with independent jumps in the price and variance).
-
-Note that the *unconditional* moments can also be derived for the SVVJ and SVIJ models
-with slight modification, according to the method employed in the SRJD and SVCJ models.
-(However, I currently have not implemented them in the package.)
+The `ajdmom` package is a **Python library designed for the automatic derivation of
+moment formulas for well-established Affine Jump Diffusion (AJD) processes.** 
+It significantly enhances the usability of AJD models by providing **explicit, 
+closed-form expressions for unconditional moments and conditional moments,
+up to any positive integer order.**
 
 
-The moments and covariances obtained through `ajdmom` have far-reaching implications for multiple domains, 
-including financial modelling, simulation and parameter estimation. For simulations, these moments can 
-establish the underlying probability distributions, leading to significant reductions in computational 
-time when contrasted with conventional numerical CF inversion techniques. In parameter estimation, 
-the moments serve to formulate explicit moment estimators while the likelihood functions are not analytically 
-solvable. Consequently, `ajdmom` has the potential to become an essential instrument for researchers and 
-practitioners demanding comprehensive AJD model analysis.
+Beyond just moments, `ajdmom` offers a valuable tool for **sensitivity analysis** 
+by computing the partial derivatives of these moments with respect to model 
+parameters. The package features a **modular architecture**, facilitating easy 
+adaptation and extension by researchers. `ajdmom` is open-source and readily 
+available for installation from GitHub or the Python Package Index (PyPI).
+
+The moments derived by `ajdmom` have **broad applications** in quantitative finance 
+and stochastic modeling, including:
+
+- **Density Approximation**: Accurately approximating unknown probability densities 
+  (e.g., through Pearson distributions) by matching derived moments. This enables 
+  efficient European option pricing under the concerned models.
+
+- **Exact Simulation**: Facilitating the exact simulation of AJD models in an 
+  efficient way when compared to characteristic function inversion methods.
+
+- **Parameter Estimation**: Formulating explicit moment estimators for AJD models 
+  whose likelihood functions are not analytically solvable.
+
+Consequently, `ajdmom` has the potential to become an essential instrument for 
+researchers and practitioners demanding comprehensive AJD model analysis.
+
+### Supported Models & Moment Types
+
+| Model | Unconditional Moments | Conditional Moments - I | Conditional Moments - II |
+|:-----:|:---------------------:|:-----------------------:|:------------------------:|
+| Heston|           ✅          |           ✔️            |           N/A           |
+| 1FSVJ |           ✅          |           ✔️            |           N/A           |
+| 2FSV  |           ✅          |           ✔️            |           N/A           |
+| 2FSVJ |           ✅          |           ✔️            |           N/A           |
+| SRJD  |           ✅          |            ✅           |            ✅           |
+| SVVJ  |           ✅          |            ✅           |            ✅           |
+| SVCJ  |           ✅          |            ✅           |            ✅           |
+| SVIJ  |          ✔️           |           ✔️            |            ✅           |
+
+Notes: 
+
+- ✅ **Implemented:** The feature is fully implemented.
+- ✔️ **Applicable:** The feature is applicable to this model but not yet implemented. 
+- **N/A Not Applicable:** The feature is not relevant or applicable for this model. 
+- **Unconditional Moments:** Include raw moments ($E[y_n^l]$), 
+  central moments ($E[\bar{y}_n^l]$), and autocovariances n 
+  ($cov(y_n^{l_1},y_{n+1}^{l_2})$). 
+  - *Note: Autocovariances are not yet available for SRJD and SVCJ.*
+- **Conditional Moments - I:** Derivation where the initial state of the variance 
+  process ($v_0$) is given.
+- **Conditional moments - II:** Derivation where both the initial state ($v_0$) and 
+  the realized jump times and jump sizes in the variance process over the concerned
+  interval are given beforehand.
 
 ## Simple Usage
 
-To get the formula for the first moment $\mathbb{E}[y_n]$ for the Heston Stochastic Volatility model
-( $y_n$ denotes the return over the nth interval of length $h$ ), run the following code snippet:
+To get the formula for the first moment $\mathbb{E}[y_n]$ for the Heston Stochastic
+Volatility (SV) model ( $y_n$ denotes the return over the nth interval of length $h$ ), 
+run the following code snippet:
 
 ``` python
 from ajdmom import mdl_1fsv # mdl_1fsv -> mdl_1fsvj, mdl_2fsv, mdl_2fsvj
@@ -71,7 +88,7 @@ which is a Poly with attribute keyfor =
 ('e^{-kh}', 'h', 'k^{-}', 'mu', 'theta', 'sigma_v', 'rho', 'sqrt(1-rho^2)')
 ```
 
-Within the produced results, the two principal key-value pairs, namely (0,1,0,0,1,0,0,0): Fraction(-1,2) and 
+Within the produced results, the two key-value pairs, namely (0,1,0,0,1,0,0,0): Fraction(-1,2) and 
 (0,1,0,1,0,0,0,0): Fraction(1,1), correspond to the following expressions:
 
 $$
@@ -82,10 +99,11 @@ $$
 1\times e^{-0kh}h^1k^{-0}\mu^1\theta^0\sigma_v^0\rho^0\left(\sqrt{1-\rho^2}\right)^0,
 $$
 
-respectively. The summation of these terms yields the first moment of the One-Factor SV model: 
-$\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` package successfully encapsulates 
-the model's dynamics into a computationally manipulable form, specifically leveraging a custom dictionary 
-data structure, referred to as `Poly`, to encode the moment's expression.
+respectively. The summation of these terms reproduces the first moment of the Heston
+SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` 
+package successfully encapsulates the model's dynamics into a computationally 
+manipulable form, specifically leveraging a custom dictionary data structure, 
+referred to as `Poly`, to encode the moment's expression.
 
 ## Documentation
 

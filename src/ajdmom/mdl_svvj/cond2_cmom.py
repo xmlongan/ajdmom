@@ -1,6 +1,6 @@
 """
-Conditional Central Moments for the SVVJ model, given the initial variance
-and jump time points and jump sizes of the CPP in the variance
+Conditional Central Moments for the SVVJ model, given the initial state of
+the variance and the realized jumps in the variance.
 
 Conditional central moments are derived simultaneously because the one-by-one
 procedure is not efficient.
@@ -10,7 +10,7 @@ from fractions import Fraction as Frac
 
 from ajdmom.poly import Poly
 from ajdmom.utils import simplify_rho, comb, fZ
-from ajdmom.ito_cond_mom import recursive_IEII
+from ajdmom.ito_cond2_mom import recursive_IEII
 
 
 def simplify(poly, tp=0):
@@ -18,7 +18,7 @@ def simplify(poly, tp=0):
 
     :param Poly poly: poly with ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :param int tp: type of the simplification:
       (1) ``tp = 0``: only changes from 'e^{kt}' to 'e^{-kt}'.
@@ -26,7 +26,7 @@ def simplify(poly, tp=0):
       'sqrt(1-rho^2)' to 'rho'.
     :return: poly with ``keyfor`` =
       ('e^{-kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}', 'rho') when ``tp = 1``;
+      'l_{1:n}', 'o_{1:n}', 'rho') when ``tp = 1``;
       poly with ``keyfor`` changes only from 'e^{kt}' to 'e^{-kt}'
       if ``tp = 0``.
     :rtype: Poly
@@ -43,18 +43,18 @@ def simplify(poly, tp=0):
         return poln
     #
     # tp = 1: simplify more
-    #   from 'sigma/2k' (10), 'rho-sigma/2k' (11) to 'rho'
-    kf = keyfor[0:10] + ('rho',) + keyfor[12:]
+    #   from 'sigma/2k' (8), 'rho-sigma/2k' (9) to 'rho'
+    kf = keyfor[0:8] + ('rho',) + keyfor[10:]
     poln.set_keyfor(kf)
     for k in poly:
-        for i in range(0, k[11] + 1):
-            p = k[10] + i  # power of 'sigma/2k'
+        for i in range(0, k[9] + 1):
+            p = k[8] + i  # power of 'sigma/2k'
             key = (-k[0], k[1], k[2] + p, k[3], k[4], k[5] + p,
-                   k[6], k[7], k[8], k[9], k[11] - i, k[12])
-            val = math.comb(k[11], i) * ((-1) ** i) * Frac(1, 2 ** p) * poly[k]
+                   k[6], k[7], k[9] - i, k[10])
+            val = math.comb(k[9], i) * ((-1) ** i) * Frac(1, 2 ** p) * poly[k]
             poln.add_keyval(key, val)
-    #   from 'rho' (10), 'sqrt(1-rho^2)' (11) to 'rho'
-    poln = simplify_rho(poln, 11)
+    #   from 'rho' (9), 'sqrt(1-rho^2)' (10) to 'rho'
+    poln = simplify_rho(poln, 10)
     return poln
 
 
@@ -65,18 +65,17 @@ def cmoments_y_to(l, show=False):
     :param bool show: show the in-process message or not, defaults to False
     :return: a list of the conditional central moments with ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :rtype: list
     """
     # IEII: a dict of moments of E[IE_t^{n1}I_t^{n2}I_t^{*n3}]
     IEII = {}
-    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma']
-    kf += ['l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}']
+    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}']
     #
-    P0 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), ()): Frac(0, 1)})
+    P0 = Poly({(0, 0, 0, 0, 0, 0, (), ()): Frac(0, 1)})
     P0.set_keyfor(kf)
-    P1 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), ()): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, (), ()): Frac(1, 1)})
     P1.set_keyfor(kf)
     #
     # n1 + n2 + n3 = 0
@@ -87,28 +86,28 @@ def cmoments_y_to(l, show=False):
     IEII[(0, 0, 1)] = P0
     # n1 + n2 +n3 = 2
     P200 = Poly({
-        (1, 0, 1, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (0, 0, 1, 1, 0, 0, (), (), (), ()): -Frac(1, 1),
-        (2, 0, 1, 0, 1, 0, (), (), (), ()): Frac(1, 2),
-        (0, 0, 1, 0, 1, 0, (), (), (), ()): -Frac(1, 2),
-        (1, 0, 1, 0, 0, 0, (1,), (0,), (), ()): Frac(1, 1),
-        (0, 0, 1, 0, 0, 0, (2,), (0,), (), ()): -Frac(1, 1)
+        (1, 0, 1, 1, 0, 0, (), ()): Frac(1, 1),
+        (0, 0, 1, 1, 0, 0, (), ()): -Frac(1, 1),
+        (2, 0, 1, 0, 1, 0, (), ()): Frac(1, 2),
+        (0, 0, 1, 0, 1, 0, (), ()): -Frac(1, 2),
+        (1, 0, 1, 0, 0, 0, (0,), (0,)): Frac(1, 1),
+        (0, 0, 1, 0, 0, 0, (1,), (0,)): -Frac(1, 1)
     })
     P200.set_keyfor(kf)
     P110 = Poly({
-        (0, 1, 0, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (1, 0, 1, 0, 1, 0, (), (), (), ()): Frac(1, 1),
-        (0, 0, 1, 0, 1, 0, (), (), (), ()): -Frac(1, 1),
-        (0, 1, 0, 0, 0, 0, (1,), (0,), (), ()): Frac(1, 1),
-        (0, 0, 0, 0, 0, 0, (1,), (1,), (), ()): -Frac(1, 1)
+        (0, 1, 0, 1, 0, 0, (), ()): Frac(1, 1),
+        (1, 0, 1, 0, 1, 0, (), ()): Frac(1, 1),
+        (0, 0, 1, 0, 1, 0, (), ()): -Frac(1, 1),
+        (0, 1, 0, 0, 0, 0, (0,), (0,)): Frac(1, 1),
+        (0, 0, 0, 0, 0, 0, (0,), (1,)): -Frac(1, 1)
     })
     P110.set_keyfor(kf)
     P020 = Poly({
-        (-1, 0, 1, 1, 0, 0, (), (), (), ()): -Frac(1, 1),
-        (0, 0, 1, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (0, 1, 0, 0, 1, 0, (), (), (), ()): Frac(1, 1),
-        (-1, 0, 1, 0, 0, 0, (1,), (0,), (), ()): -Frac(1, 1),
-        (0, 0, 1, 0, 0, 0, (0,), (0,), (), ()): Frac(1, 1)
+        (-1, 0, 1, 1, 0, 0, (), ()): -Frac(1, 1),
+        (0, 0, 1, 1, 0, 0, (), ()): Frac(1, 1),
+        (0, 1, 0, 0, 1, 0, (), ()): Frac(1, 1),
+        (-1, 0, 1, 0, 0, 0, (0,), (0,)): -Frac(1, 1),
+        (0, 0, 1, 0, 0, 0, (-1,), (0,)): Frac(1, 1)
     })
     P020.set_keyfor(kf)
     #
@@ -125,13 +124,13 @@ def cmoments_y_to(l, show=False):
     #
     # special case: 0-th central moment
     #
-    P1 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), (), 0, 0, 0): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, (), (), 0, 0, 0): Frac(1, 1)})
     P1.set_keyfor(kf)
     cmoms.append(P1)  # equiv to constant 1
     #
     # special case: 1-th central moment
     #
-    P0 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), (), 0, 0, 0): Frac(0, 1)})
+    P0 = Poly({(0, 0, 0, 0, 0, 0, (), (), 0, 0, 0): Frac(0, 1)})
     P0.set_keyfor(kf)
     cmoms.append(P0)  # equiv to constant 0
     #
@@ -181,7 +180,7 @@ def cmoment_y(l):
     :param int l: order of the conditional central moment to derive
     :return: Poly object with ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :rtype: Poly
     """
@@ -194,7 +193,7 @@ def classify(poly):
 
     :param Poly poly: poly with the first part of its ``keyfor`` =
      ('e^{-kt}','t','k^{-}','v0-theta','theta','sigma',
-     'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}')
+     'l_{1:n}', 'o_{1:n}')
      and the second part may be ('sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
      or ('rho')
     :return: list of subpolys
@@ -206,8 +205,8 @@ def classify(poly):
         if len(k[6]) not in N_sum: N_sum.append(len(k[6]))
     N_sum = sorted(N_sum)  # 0,1,2,...
     #
-    # excludes l_{1:n}, o_{1:n}, p_{2:n}, q_{2:n}
-    kf0 = poly.keyfor[:6] + poly.keyfor[10:]
+    # excludes l_{1:n}, o_{1:n}
+    kf0 = poly.keyfor[:6] + poly.keyfor[8:]
     subpolys = [Poly() for n in N_sum]
     #
     subpolys[0].set_keyfor(kf0 if N_sum[0] == 0 else poly.keyfor)
@@ -217,8 +216,8 @@ def classify(poly):
     # classify
     for k, v in poly.items():
         subpoly = subpolys[len(k[6])]
-        subpoly[k[0:6] + k[10:] if len(k[6]) == 0 else k] = v
-        # exclude the empty subkey (),(),(),()
+        subpoly[k[0:6] + k[8:] if len(k[6]) == 0 else k] = v
+        # exclude the empty subkey (),()
     return subpolys
 
 
@@ -227,10 +226,10 @@ def write_to_subpolys(poly, nth):
 
     :param Poly poly: poly with ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}')
+      'l_{1:n}', 'o_{1:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :param int nth: order of the moment
-    :return: None
+    :return: nothing
     :rtype: None
     """
     # only changes from e^{kt} to e^{-kt}
@@ -250,7 +249,7 @@ def poly2num(poly, par):
 
     :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)')
     :param dict par: parameters in dict, ``jumptime`` (tuple) and ``jumpsize`` (tuple)
       must also be included
@@ -271,12 +270,12 @@ def poly2num(poly, par):
         val = math.exp(K[0] * k * h) * (h ** K[1]) * (k ** (-K[2]))
         val *= ((v0 - theta) ** K[3]) * (theta ** K[4]) * (sigma ** K[5])
         #
-        l, o, p, q = K[6], K[7], K[8], K[9]
-        val *= fZ(l, o, p, q, k, s, J)
+        l, o = K[6], K[7]
+        val *= fZ(l, o, k, s, J)
         #
-        val *= (sigma / (2 * k)) ** K[10]
-        val *= (rho - sigma / (2 * k)) ** K[11]
-        val *= (1 - rho ** 2) ** (K[12] / 2)
+        val *= (sigma / (2 * k)) ** K[8]
+        val *= (rho - sigma / (2 * k)) ** K[9]
+        val *= (1 - rho ** 2) ** (K[10] / 2)
         #
         f += val * poly[K]
     return f

@@ -1,8 +1,8 @@
 """
 Conditional central moments (II)
 
-Conditional central moments of the SRJD model, given the initial variance
-and the already realized jump time points and jump sizes of the CPP
+Conditional central moments of the SRJD model, given the initial state
+and the realized jumps over the concerned interval.
 """
 from ajdmom.poly import Poly
 from ajdmom.mdl_srjd.cond2_mom import moment_IE, poly2num
@@ -14,15 +14,15 @@ def cmoment_v(m):
 
     :param int m: order of the conditional central moments of :math:`v(t)`
     :return: poly with attribute ``keyfor`` =
-      ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}', 'o_{2:n}')
+      ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}')
     :rtype: Poly
     """
     poly = Poly()
-    kf = ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}', 'o_{2:n}')
+    kf = ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}')
     poly.set_keyfor(kf)
     #
     poln = moment_IE(m)
-    # ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}', 'o_{2:n}')
+    # ('v_0', 'k^{-}', 'theta', 'sigma', 'e^{kt}', 'l_{1:n}')
     for k in poln:
         key = list(k)
         key[3] += m

@@ -189,6 +189,7 @@ representation
    k^{-1}\theta^1\sigma_v^0.
 
 """
+import math
 from fractions import Fraction as Frac
 
 from ajdmom.poly import Poly
@@ -473,6 +474,26 @@ def moment_v(n):
             poln.add_keyval((k[0], k[1] + 1), poly[k] * Frac(i - 1, 2))
         v.append(poln)
     return poln
+
+
+def poly2num(poly, par):
+    """Convert a polynomial to numerical value
+
+    :param Poly poly: polynomial to convert, with attribute ``keyfor`` =
+       ('e^{k(n-1)h}','e^{k[t-(n-1)h]}','[t-(n-1)h]','v_{n-1}','k^{-}','theta',
+       'sigma_v').
+    :param dict par: parameters.
+    :return: numerical value.
+    :rtype: float
+    """
+    k, h, v0, theta, sigma = par['k'], par['h'], par['v0'], par['theta'], par['sigma']
+    f = 0
+    for K in poly:
+        # (n-1) = 0, [t-(n-1)h] = h
+        val = math.exp(K[1] * k * h) * (h ** K[2]) * (v0 ** K[3]) * (k ** (-K[4]))
+        val *= (theta ** K[5]) * (sigma ** K[6])
+        f += val * poly[K]
+    return f
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 from ajdmom.mdl_1fsvj.euler import r1FSVJ
 from ajdmom.mdl_1fsvj.mom import m

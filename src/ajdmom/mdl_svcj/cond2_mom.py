@@ -1,6 +1,6 @@
 """
-Conditional Moments for the SVCJ model, given the initial variance
-and jump time points and jump sizes of the CPP in the variance
+Conditional Moments for the SVCJ model, given :math:`v_0`
+and the realized jumps in the variance.
 """
 import math
 from fractions import Fraction as Frac
@@ -43,7 +43,7 @@ def comb_poly(index):
     r"""multiply together those conditional normal distribution moments
 
     :param list index: a combination of the Compound Poisson Process power :math:`m`,
-       :math:`(m_1,\cdots,m_{N(t)})`
+       :math:`(m_1,\dots,m_{N(t)})`
     :return: poly with attribute ``keyfor`` =
       ('mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
     :rtype: Poly
@@ -147,15 +147,16 @@ def moment_IZs(m, J):
 
 
 def moments_y_to(l, J):
-    """conditional moments of :math:`y_t` of orders :math:`0:l`
+    r"""conditional moments of :math:`y_t` of orders :math:`0:l`
 
     :param int l: highest order of the conditional moments to derive, l >= 1
     :param tuple J: jump sizes in the variance
     :return: a list of polys with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
-      'mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
+      'mu_s', 'rho_J', 'sigma_s', 'J_{1:n}'), noting that 'p' encodes power
+      of :math:`I\!Z_t`.
     :rtype: list
     """
     moms = []
@@ -165,7 +166,7 @@ def moments_y_to(l, J):
     #
     # special case: 0-th moment
     #
-    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), (), (), 0, 0, 0, 0): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), 0, 0, 0, 0, 0, 0, 0, ()): Frac(1, 1)})
     P1.set_keyfor(kf)
     moms.append(P1)  # equiv to constant 1
     #
@@ -201,7 +202,7 @@ def poly2num(poly, par):
 
     :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
       'mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
     :param dict par: parameters in dict, ``jumptime`` (tuple) and ``jumpsize`` (tuple)
@@ -230,18 +231,21 @@ def poly2num(poly, par):
         val *= (beta_t ** K[3]) * ((mu - theta / 2) ** K[4]) * ((v0 - theta) ** K[5])
         val *= (theta ** K[6]) * (sigma ** K[7])
         #
-        l, o, p, q = K[8], K[9], K[10], K[11]
+        l, o, p= K[8], K[9], K[10]
         #
-        val *= fZ(l, o, p, q, k, s, J)
+        val *= fZ(l, o, k, s, J)
         #
-        val *= ((sigma / (2 * k)) ** K[12]) * ((rho - sigma / (2 * k)) ** K[13])
-        val *= ((1 - rho ** 2) ** (K[14] / 2))
+        IZ = sum(J)
+        val *= IZ ** p
         #
-        val *= (mu_s ** K[15]) * (rho_J ** K[16]) * (sigma_s ** K[17])
+        val *= ((sigma / (2 * k)) ** K[11]) * ((rho - sigma / (2 * k)) ** K[12])
+        val *= ((1 - rho ** 2) ** (K[13] / 2))
+        #
+        val *= (mu_s ** K[14]) * (rho_J ** K[15]) * (sigma_s ** K[16])
         #
         f_J = 1
         for i in range(len(J)):
-            f_J *= (J[i]) ** (K[18][i])
+            f_J *= (J[i]) ** (K[17][i])
         val *= f_J
         #
         f += val * poly[K]

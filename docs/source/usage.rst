@@ -2,74 +2,44 @@
 User Guide
 ============
 
-Currently, the ``adjmom`` package supports the auto-derivation of moment,
-central moment and covariance formulas of any order for
-
-* Heston :abbr:`SV(Stochastic Volatility)` Model (1FSV), a typical
-  :abbr:`AJD(Affine Jump Diffusion)` model, and its three AJD extensions,
-* :abbr:`SVJ(Stochastic Volatility with Jumps in the price process)` (1FSVJ),
-* Two-Factor SV (2FSV), Two-Factor SV with jumps in the price process (2FSVJ).
-
-(Conditional versions are also available with slight adaptation for these 
-four models.)
-
-The package also supports the the auto-derivation for moment and central
-moment formulas of any order for
-
-* :abbr:`SRJD(Square-Root Jump Diffusion)`,
-* :abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
-  and price)`.
-
-(The SVVJ, SVIJ models can also be supported with slight further work.)
-
-The package also supports the auto-derivation of conditional moment and
-conditional central moment formulas of any order for models
-
-* :abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
-* :abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the variance and
-  price)`,
-* :abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the variance
-  and price)`, and
-* :abbr:`SRJD(Square-Root Jump Diffusion)`.
-
 Installing ajdmom
 ==================
 
 Install ``ajdmom`` from the Python Package Index through
 :program:`Command Prompt` (cmd.exe) or :program:`Anaconda Prompt`,
-depending on how Python is installed in your Windows system:
+depending on how Python is installed in your Windows OS:
 
 .. code-block:: console
 
    pip install ajdmom
 
-The ``ajdmom`` package can be installed similarly through :program:`Terminal` 
-if you are working on Linux or macOS system.
+The package can be installed similarly through :program:`Terminal`
+if you are working on a Linux or macOS.
 
 Heston :abbr:`SV(Stochastic Volatility)` model
 ===============================================
 
-The most well-known example of :abbr:`AJD(Affine Jump Diffusion)` model should 
-be the Heston :abbr:`SV(Stochastic Volatility)` model.
-In the ``ajdmom`` package, 
-it is treated as the baseline model and described by the following 
+The most well-known example of :abbr:`AJD(Affine Jump Diffusion)` model is
+probably the Heston :abbr:`SV(Stochastic Volatility)` model which serves here
+as a demonstration example. In the ``ajdmom`` package, it is treated as the
+**baseline model** and described by the following
 :abbr:`SDEs(Stochastic Differential Equations)` [#f1]_ ,
 
 .. math::
     ds(t) &= \mu s(t)dt + \sqrt{v(t)}s(t)dw^s(t),\\
     dv(t) &= k(\theta - v(t))dt + \sigma_v\sqrt{v(t)}dw^v(t),
 
-where :math:`s(t)` is the asset price at time :math:`t`. 
-The details refer to the :doc:`theory` page. The return :math:`y_i` over the 
-*i*\ th interval of length :math:`h` is defined as,
+where :math:`s(t)` is the asset price at time :math:`t`, and refer to the
+:doc:`theory` page for details. The return :math:`y_i` over the
+*i*\-th interval of length :math:`h` is defined as,
 
 .. math::
    y_i \triangleq \log s(ih) - \log s((i-1)h).
 
-The derivation for the Heston SV model is implemented in the ``mdl_1fsv``
+The moment derivation for the Heston SV model is implemented in the ``mdl_1fsv``
 subpackage of the ``ajdmom`` package.
 
-Formula Deriving
+Formula Derivation
 ===================
 
 The moment and covariance formulas are encoded in objects of class
@@ -78,7 +48,7 @@ derived from the
 :class:`~collections.UserDict` class in the Python Standard Library 
 `collections <https://docs.python.org/3/library/collections.html>`_.
 
-**Moment Formulas**
+**Moment formulas**
 
 To get the formula for the first moment :math:`E[y_n]`: 
 
@@ -108,10 +78,10 @@ stand for
    1\times & e^{-0kh}h^1k^{-0}\mu^1\theta^0\sigma_v^0\rho^0
    \left(\sqrt{1-\rho^2}\right)^0,
 
-respectively. Adding together the two terms reproduces the first moment of 
+respectively. Adding together these two terms gives the first moment of
 the Heston SV model, i.e., :math:`E[y_n] = (\mu-\theta/2)h`.
 
-**Covariance Formulas**
+**Covariance formulas**
 
 The covariances considered in this package are that between :math:`y_n` 
 and its lag-1 counterpart :math:`y_{n+1}` with orders 
@@ -217,7 +187,7 @@ given :math:`(\mu=0.125, k=0.1, \theta=0.25, \sigma_v=0.1, \rho=-0.7, h=1)`:
 :abbr:`AJD(Affine Jump Diffusion)` Extensions
 ==============================================
 
-In addition to the Heston SV model, there are some extensions, which are
+In addition to the Heston SV model, there are several extensions, which are
 summarized in the following table:
 
 +------------+-----------------------------------------------------------------+
@@ -250,46 +220,18 @@ summarized in the following table:
 
 Notes: SRD is short for Square-Root Diffusion.
 
-The derivation of (central) moments and covariances for the 
-:abbr:`SV(Stochastic Volatility)` models are
-implemented in the following subpackages of the :code:`ajdmom` package, 
-respectively, as
+Besides unconditional moment derivation, the ``ajdmom`` package also supports
 
-+---------+--------------------------+----------------------------------------+
-| Model   | Subpackage               | Modules                                |
-+=========+==========================+========================================+
-|mdl_1fsv |  :code:`ajdmom.mdl_1fsv` | - :py:mod:`ajdmom.mdl_1fsv.cmom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsv.mom`        |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsv.cov`        |
-+---------+--------------------------+----------------------------------------+
-|mdl_1fsvj|  :code:`ajdmom.mdl_1fsvj`| - :py:mod:`ajdmom.mdl_1fsvj.cmom`      |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.mom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_1fsvj.cov`       |
-+---------+--------------------------+----------------------------------------+
-|mdl_2fsv |  :code:`ajdmom.mdl_2fsv` | - :py:mod:`ajdmom.mdl_2fsv.cmom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsv.mom`        |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsv.cov`        |
-+---------+--------------------------+----------------------------------------+
-|mdl_2fsvj|  :code:`ajdmom.mdl_2fsvj`| - :py:mod:`ajdmom.mdl_2fsvj.cmom`      |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.mom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_2fsvj.cov`       |
-+---------+--------------------------+----------------------------------------+
-|mdl_svvj |  :code:`ajdmom.mdl_svvj` | - :py:mod:`ajdmom.mdl_svvj.cond2_cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_svvj.cond2_mom`  |
-+---------+--------------------------+----------------------------------------+
-|mdl_svij |  :code:`ajdmom.mdl_svij` | - :py:mod:`ajdmom.mdl_svij.cond2_cmom` |
-|         |                          | - :py:mod:`ajdmom.mdl_svij.cond2_mom`  |
-+---------+--------------------------+----------------------------------------+
-|mdl_svcj |  :code:`ajdmom.mdl_svcj` | - :py:mod:`ajdmom.mdl_svcj.cmom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_svcj.mom`        |
-+---------+--------------------------+----------------------------------------+
-|mdl_srjd |  :code:`ajdmom.mdl_srjd` | - :py:mod:`ajdmom.mdl_srjd.cmom`       |
-|         |                          | - :py:mod:`ajdmom.mdl_srjd.mom`        |
-+---------+--------------------------+----------------------------------------+
+- conditional moment derivation with the initial state (:math:`v_0`) of the
+  variance process given beforehand,
 
-The corresponding quantities for other models (mdl_1fsvj, mdl_2fsv, mdl_2fsvj,
-mdl_svvj, mdl_svij, mdl_svcj, mdl_srjd) can be computed by using the counterparts
-within their subpackages.
+- conditional moment derivation with both the initial state (:math:`v_0`) and
+  the realized jump times and jump sizes of the variance process given beforehand,
+  for those models having the corresponding jump component.
+
+Most of the derivations have already been implemented within the ``ajdmom`` package.
+Please refer to the individual subpackages for details. Under some cases, you
+probably need to implement by yourself with additional efforts for untypical models.
 
 ----------
 
