@@ -1,4 +1,4 @@
-# ajdmom
+# ajdmom: Unlocking Explicit Moments for Affine Jump Diffusions
 
 ## Description
 

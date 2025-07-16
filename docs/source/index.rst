@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-AJD Moment Derivation
-=============================================================
+================================================================
+ajdmom: Unlocking Explicit Moments for Affine Jump Diffusions
+================================================================
 
 AJD: Affine Jump Diffusion -----------------------------
 ``ajdmom`` (AJD **mom**\ ents) 
