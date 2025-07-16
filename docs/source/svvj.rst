@@ -33,7 +33,7 @@ Define :math:`y_t \equiv \log s(t) - \log s(0)`. Then, we have
   \end{align*}
 
 where :math:`\beta_t \equiv (1-e^{-kt})/(2k)`. 
-Please refer to :doc:`../generated/ajdmom.ito_cond_mom` for the definitions
+Please refer to :doc:`../generated/ajdmom.ito_cond2_mom` for the definitions
 of :math:`I\!E\!Z_t` and :math:`I\!Z_t`.
 Please also note that
 :math:`I\!E_t\equiv I\!E_{0,t}, I_t\equiv I_{0,t}, I_t^{*} \equiv I_{0,t}^{*}`,
@@ -264,8 +264,8 @@ where :math:`\boldsymbol{n} = (n_1, n_2, n_3)`, :math:`n_1+n_2+n_3=l`,
 
 The derivation for 
 :math:`\mathbb{E}[E_t^{n_1} I_t^{n_2} I_t^{*n_3}|v_0,z_s, 0\le s\le t]` 
-has been implemented in :py:func:`~ajdmom.ito_cond_mom.moment_IEII` 
-from module :py:mod:`ajdmom.ito_cond_mom`.
+has been implemented in :py:func:`~ajdmom.ito_cond2_mom.moment_IEII`
+from module :py:mod:`ajdmom.ito_cond2_mom`.
 The conditional central moments in :eq:`cmoment-y_svvj` is implemented in
 :py:func:`~ajdmom.mdl_svvj.cond2_cmom.cmoments_y_to` in the subpackage
 ``ajdmom.mdl_svvj``, noting that the function now derives simultaneously

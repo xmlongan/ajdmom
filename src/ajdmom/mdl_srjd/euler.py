@@ -11,13 +11,13 @@ rng = np.random.default_rng()
 
 
 def rSRD(v0, tau, k, theta, sigma):
-    """Generate next Random sample from Square-Root Diffusion
+    r"""Generate next Random sample from Square-Root Diffusion
 
     :param float v0: current state value, > 0
     :param float tau: time difference between current and next state
     :param float k: parameter :math:`k`
-    :param float theta: parameter :math:`theta`
-    :param float sigma: parameter :math:`sigma`
+    :param float theta: parameter :math:`\theta`
+    :param float sigma: parameter :math:`\sigma`
     :return: next sample
     :rtype: float
     """
@@ -28,12 +28,12 @@ def rSRD(v0, tau, k, theta, sigma):
 
 
 def rSRJD(v0, k, theta, sigma, T, jumpsize, jumptime, n):
-    """Generate i.i.d. Random samples from mdl_srjd given v0 and jumps
+    r"""Generate i.i.d. Random Samples from mdl_srjd given v0 and jumps
 
     :param float v0: value of the initial state :math: `v_0 > 0`
     :param float k: parameter :math:`k`
-    :param float theta: parameter :math:`theta`
-    :param float sigma: parameter :math:`sigma`
+    :param float theta: parameter :math:`\theta`
+    :param float sigma: parameter :math:`\sigma`
     :param float T: end time
     :param tuple jumpsize: jump sizes over the interval [0,h]
     :param tuple jumptime: jump time points over the interval [0,h]

@@ -3,15 +3,14 @@
 =====================================================================
 
 In this subpackage (``ajdmom.mdl_srjd``), we consider the following 
-Square-Root Jump-Diffusion process: 
+Square-Root Jump Diffusion:
 
 .. math::
    
    dv(t) = k(\theta - v(t))dt + \sigma_v\sqrt{v(t)}dw^v(t) + dz(t),
    
-which is the same as that in :doc:`../generated/ajdmom.ito_cond_mom`, details
+which is the same as that in :doc:`../generated/ajdmom.ito_cond2_mom`, details
 can be referred to therein.
-
 Please note that
 we write :math:`v_t, z_t, v_0` and :math:`v(t), z(t), v(0)` interchangeably.
 
@@ -162,7 +161,7 @@ further,
    \mathbb{E}[I\!E_t^{m-j}|v_0, z_s, 0\le s \le t].
    \end{align*}
 
-We have,  :math:`\forall m \ge 2`,
+We have, :math:`\forall m \ge 2`,
 
 .. math::
   :label: srjd-IE-moment
@@ -189,35 +188,43 @@ a ``Poly`` object of the following form:
    
    \begin{align*}
    &\mathbb{E}[I\!E_t^m|v_0, z(s), 0\le s \le t]\\
-   &\equiv \sum_{j_{1:5}, l_{1:n}, o_{2:n} } c_{j_{1:5}, l_{1:n}, o_{2:n} }
+   &\equiv \sum_{\boldsymbol{j}, \boldsymbol{l}} c_{\boldsymbol{j}, \boldsymbol{l}}
    v_0^{j_1} k^{-j_2} \theta^{j_3} \sigma_v^{j_4} e^{j_5kt} 
-   f_{Z_t}(l_{1:n}, o_{2:n}),
+   f_{Z_t}(\boldsymbol{l}),
    \end{align*}
 
-where :math:`\forall n >= 2`
+where :math:`\boldsymbol{j}\equiv (j_1,\dots,j_5)`, and
+
+.. math::
+
+   \boldsymbol{l}\equiv
+   \begin{cases}
+    (l_1,\dots,l_n) & \text{if } n \ge 1,\\
+    () & \text{otherwise},
+   \end{cases}
+
+noting that :math:`n` denotes the number of compound Poisson processes being
+multiplied together.
+The function :math:`f_{Z_t}(\cdot)` is defined as
 
 .. math::
   :label: fZ_IE
-   
-   \begin{align*}
-   f_{Z_t}(l_{1:n}, o_{2:n}) 
-   &\triangleq\sum_{i_1=1}^{N(t)}\cdots 
-   \sum_{i_n=1}^{N(t)} e^{l_1ks_{i_1} + \cdots + l_nks_{i_n}} 
-   J_{i_1}\cdots J_{i_n} \\
-   &\quad \cdot e^{o_2 k (s_{i_1}\vee s_{i_2}) + \cdots 
-   + o_{n} k (s_{i_1} \vee\cdots \vee s_{i_n}) },
-   \end{align*}
 
-and for :math:`n=1`, :math:`f_{Z_t}(l_{1:n}, o_{2:n})` degenerates into
-:math:`f_{Z_t}(l_{1:1}) = \sum_{i_1=1}^{N(t)} e^{l_1 k s_{i_1}}J_{i_1}`.
-Lastly, when :math:`n=0`, :math:`f_{Z_t}(l_{1:n}, o_{2:n}) = 1`.
+   f_{Z_t}(\boldsymbol{l}) \equiv
+   \begin{cases}
+   \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
+   e^{ks_{i_1} + \cdots + ks_{i_n}} J_{i_1}\cdots J_{i_n} \cdot
+   e^{l_1 k s_{i_1} + \cdots+ l_{n} k(s_{i_1}\vee\cdots\vee s_{i_n})}
+     & \text{if } n \ge 1,\\
+   1 & \text{otherwise}.
+   \end{cases}
 
 The conditional moments of :math:`I\!E_t` and :math:`v(t)` are implemented
-in :py:func:`~ajdmom.mdl_srjd.mom.moment_IE` and 
-:py:func:`~ajdmom.mdl_srjd.mom.moment_v`, respectively, in the subpackage
-``ajdmom.mdl_srjd``.
+in :py:func:`~ajdmom.mdl_srjd.cond2_mom.moment_IE` and
+:py:func:`~ajdmom.mdl_srjd.cond2_mom.moment_v`, respectively, in the
+:py:mod:`ajdmom.mdl_srjd` subpackage.
 
-For the conditional central moments, define
+For the conditional central moments, by defining
 :math:`\overline{v}(t)\triangleq v(t)-\mathbb{E}[v(t)|v_0, z(s), 0\le s\le t]`,
 thus :math:`\overline{v}(t) \equiv e^{-kt}\sigma_vI\!E_t`.
 
@@ -229,8 +236,8 @@ thus :math:`\overline{v}(t) \equiv e^{-kt}\sigma_vI\!E_t`.
    \end{align*}
 
 The conditional central moments are implemented in 
-:py:func:`~ajdmom.mdl_srjd.cmom.cmoment_v` in the subpackage 
-``ajdmom.mdl_srjd``.
+:py:func:`~ajdmom.mdl_srjd.cmom.cmoment_v` in the
+:py:mod:`ajdmom.mdl_srjd` subpackage.
 
 
 API

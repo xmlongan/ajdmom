@@ -8,7 +8,7 @@ AJD Moment Derivation
 
 AJD: Affine Jump Diffusion -----------------------------
 ``ajdmom`` (AJD **mom**\ ents) 
-*Release* v3.0
+*Release* v3.1
 
 **AJDmom** is a Python Package designed for auto-deriving the moment and covariance
 formulas for :abbr:`AJD(Affine Jump Diffusion)` processes. The AJDs include the

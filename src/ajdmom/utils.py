@@ -156,41 +156,104 @@ def cmnorm(n):
 
 
 # --------------------------------misc-------------------------------------------
-def fZ_each_index(l, o, p, q, k, s, J, index):
-    r"""function value :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},
-    \boldsymbol{p}, \boldsymbol{q})` as defined in :eq:`fZ` for an index
+# def fZ_old_each_index(l, o, p, q, k, s, J, index):
+#     r"""function value :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},
+#     \boldsymbol{p}, \boldsymbol{q})` as defined in :eq:`fZ` for an index
+#
+#     :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
+#     :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
+#     :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
+#     :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
+#     :param float k: parameter :math:`k`
+#     :param tuple s: jump time points
+#     :param tuple J: jump sizes
+#     :param list index: an exact index combination
+#     :return: function value for an exact index combination
+#     :rtype: float
+#     """
+#     f = 1
+#     s_max = s[index[0]]
+#     for i in range(len(index)):
+#         j = index[i]
+#         s_j = s[j]
+#         f *= math.exp(l[i] * k * s_j) * J[j] * (s_j ** o[i])
+#         if i > 0:
+#             s_max = s_max if s_max > s_j else s_j
+#             f *= math.exp(p[i - 1] * k * s_max) * (s_max ** q[i - 1])
+#     return f
+#
+#
+# def fZ_old(l, o, p, q, k, s, J):
+#     r"""function :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},
+#     \boldsymbol{q})` as defined in :eq:`fZ`
+#
+#     :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
+#     :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
+#     :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
+#     :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
+#     :param float k: parameter :math:`k`
+#     :param tuple s: jump time points
+#     :param tuple J: jump sizes
+#     :return: function value
+#     :rtype: float
+#     """
+#     # 1. Continuous part
+#     if len(l) == 0: return 1
+#     #
+#     # 2. Jump part, len(l) >= 1, may be single|multiple summation
+#     # 2.1 no jump occurs
+#     if len(J) == 0: return 0
+#     # 2.2 >=1 jumps occur
+#     val = 0
+#     stack = []
+#     nextstep = "forward"  # downward|backward
+#     while len(stack) < len(l):
+#         if nextstep == "forward":
+#             if len(stack) < len(l) - 1:
+#                 stack.append(0)
+#                 nextstep = "forward"
+#             else:
+#                 # come to the innermost-level summation
+#                 for i in range(len(J)):  # index start with 0
+#                     stack.append(i)
+#                     index = stack.copy()
+#                     stack.pop()
+#                     # evaluate and add to sum
+#                     f = 1
+#                     s_max = s[index[0]]
+#                     for ii in range(len(index)):
+#                         j = index[ii]
+#                         s_j = s[j]
+#                         f *= math.exp(l[ii] * k * s_j) * J[j] * (s_j ** o[ii])
+#                         if ii > 0:
+#                             s_max = s_max if s_max > s_j else s_j
+#                             f *= math.exp(p[ii - 1] * k * s_max) * (s_max ** q[ii - 1])
+#                     val += f
+#                     #
+#                 # checking whether all indexes traversed
+#                 all_N = True
+#                 for i in range(len(l) - 1):
+#                     if stack[i] != len(J) - 1:
+#                         all_N = False
+#                         break
+#                 if all_N: break
+#                 #
+#                 nextstep = "backward"
+#         else:  # nextstep = "backward"
+#             i = stack.pop()
+#             if i == len(J) - 1:
+#                 nextstep = "backward"
+#             else:
+#                 stack.append(i + 1)
+#                 nextstep = "forward"
+#     return val
+
+
+def fZ(l, o, k, s, J):
+    r"""function :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o})` as defined in :eq:`fZ`
 
     :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
     :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
-    :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
-    :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
-    :param float k: parameter :math:`k`
-    :param tuple s: jump time points
-    :param tuple J: jump sizes
-    :param list index: an exact index combination
-    :return: function value for an exact index combination
-    :rtype: float
-    """
-    f = 1
-    s_max = s[index[0]]
-    for i in range(len(index)):
-        j = index[i]
-        s_j = s[j]
-        f *= math.exp(l[i] * k * s_j) * J[j] * (s_j ** o[i])
-        if i > 0:
-            s_max = s_max if s_max > s_j else s_j
-            f *= math.exp(p[i - 1] * k * s_max) * (s_max ** q[i - 1])
-    return f
-
-
-def fZ(l, o, p, q, k, s, J):
-    r"""function :math:`f_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},
-    \boldsymbol{q})` as defined in :eq:`fZ`
-
-    :param tuple l: vector :math:`\boldsymbol{l}`, should be a tuple
-    :param tuple o: vector :math:`\boldsymbol{o}`, should be a tuple
-    :param tuple p: vector :math:`\boldsymbol{p}`, should be a tuple
-    :param tuple q: vector :math:`\boldsymbol{q}`, should be a tuple
     :param float k: parameter :math:`k`
     :param tuple s: jump time points
     :param tuple J: jump sizes
@@ -224,12 +287,10 @@ def fZ(l, o, p, q, k, s, J):
                     for ii in range(len(index)):
                         j = index[ii]
                         s_j = s[j]
-                        f *= math.exp(l[ii] * k * s_j) * J[j] * (s_j ** o[ii])
-                        if ii > 0:
-                            s_max = s_max if s_max > s_j else s_j
-                            f *= math.exp(p[ii - 1] * k * s_max) * (s_max ** q[ii - 1])
+                        s_max = s_max if s_max > s_j else s_j
+                        f *= math.exp(k * s_j) * J[j]
+                        f *= math.exp(l[ii] * k * s_max) * (s_max ** o[ii])
                     val += f
-                    #
                 # checking whether all indexes traversed
                 all_N = True
                 for i in range(len(l) - 1):

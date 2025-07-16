@@ -1,6 +1,6 @@
 """
-Conditional Moments for the SVIJ model, given the initial variance
-and jump time points and jump sizes of the CPP in the variance
+Conditional Moments for the SVIJ model, given :math:`v_0`
+and the realized jumps in the variance.
 """
 import math
 from fractions import Fraction as Frac
@@ -12,14 +12,14 @@ from ajdmom.mdl_svvj.cond2_mom import moments_y_to as moments_y_to_svvj
 
 
 def moments_y_to(l):
-    """conditional moments of :math:`y_t` of orders :math:`0:l`
+    r"""conditional moments of :math:`y_t` of orders :math:`0:l`
 
     :param int l: highest order of the conditional moments to derive, >= 1
     :return: a list of polys with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
-      'lmbd_s', 'mu_s', 'sigma_s')
+      'lmbd_s', 'mu_s', 'sigma_s'), now 'p' encoding power of :math:`I\!Z_t`.
     :rtype: Poly
     """
     moms = []
@@ -29,7 +29,7 @@ def moments_y_to(l):
     #
     # special case: 0-th moment
     #
-    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), (), (), 0, 0, 0, 0, 0, 0): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0, (), (), 0, 0, 0, 0, 0, 0, 0): Frac(1, 1)})
     P1.set_keyfor(kf)
     moms.append(P1)  # equiv to constant 1
     #
@@ -65,7 +65,7 @@ def poly2num(poly, par):
 
     :param Poly poly: poly to be decoded with attribute ``keyfor`` =
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}',
+      'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
       'lmbd_s', 'mu_s', 'sigma_s')
     :param dict par: parameters in dict, ``jumptime`` (tuple) and ``jumpsize`` (tuple)
@@ -95,14 +95,17 @@ def poly2num(poly, par):
         val *= (beta_t ** K[3]) * ((mu - theta / 2) ** K[4]) * ((v0 - theta) ** K[5])
         val *= (theta ** K[6]) * (sigma ** K[7])
         #
-        l, o, p, q = K[8], K[9], K[10], K[11]
+        l, o, p = K[8], K[9], K[10]
         #
-        val *= fZ(l, o, p, q, k, s, J)
+        val *= fZ(l, o, k, s, J)
         #
-        val *= ((sigma / (2 * k)) ** K[12]) * ((rho - sigma / (2 * k)) ** K[13])
-        val *= ((1 - rho ** 2) ** (K[14] / 2))
+        IZ = sum(J)
+        val *= IZ ** p
         #
-        val *= (lmbd_s ** K[15]) * (mu_s ** K[16]) * (sigma_s ** K[17])
+        val *= ((sigma / (2 * k)) ** K[11]) * ((rho - sigma / (2 * k)) ** K[12])
+        val *= ((1 - rho ** 2) ** (K[13] / 2))
+        #
+        val *= (lmbd_s ** K[14]) * (mu_s ** K[15]) * (sigma_s ** K[16])
         #
         f += val * poly[K]
     return f

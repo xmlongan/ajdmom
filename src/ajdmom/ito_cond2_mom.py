@@ -1,31 +1,33 @@
 r"""
-Itô process conditional moments under Square-Root Jump-Diffusion Process
+Itô process conditional moments under Square-Root Jump Diffusion (SRJD),
+with condition on the initial state and the realized jumps over the interval.
 
-Condition on the starting variance and jumps occurred over the interval.
-
-Note that
+Note that:
 
 - The unconditional moment derivation is supported within
   :py:mod:`ajdmom.mdl_srjd.mom` and :py:mod:`ajdmom.mdl_srjd.cmom`.
 
-- The conditional (given :math:`v_0`) moment derivation is supported within
+- The conditional moment derivation with :math:`v_0` given is supported within
   :py:mod:`ajdmom.mdl_srjd.cond_mom` and :py:mod:`ajdmom.mdl_srjd.cond_cmom`.
 
 
 Highlights
 ===========
 
-- Offer supports for deriving the conditional moments for models including
+This module
+
+- offers supports for deriving conditional moments for models including
   jumps in the variance (
   :abbr:`SRJD(Square-Root Jump Diffusion)`,
   :abbr:`SVVJ(Stochastic Volatility with Jumps in the Variance)`,
   :abbr:`SVIJ(Stochastic Volatility with Independent Jumps in the price and
   variance)` and
   :abbr:`SVCJ(Stochastic Volatility with Contemporaneous Jumps in the price
-  and variance)`).
+  and variance)`), by
 
-- The conditions are that current variance and jumps over the interval are
-  given beforehand.
+- assuming that the initial state of the SRJD, and the realized
+  jump times and jump sizes in the SRJD over the concerned interval
+  are given beforehand.
 
 
 Square-Root Jump Diffusion
@@ -51,7 +53,7 @@ We introduce the following notations for simplification,
    ~~\left(\equiv \sum_{i=1}^{N(t)} e^{ks_i}J_i\right).
    \end{align*}
 
-The solution of the SDE can then be expressed as
+The solution to the SDE can then be expressed as
 
 .. math::
 
@@ -65,8 +67,8 @@ Further,
 
    e^{kt}(v(t) - \theta) - (v_0-\theta) = \sigma_v I\!E_t + I\!E\!Z_t.
 
-In order to derive moment formulas for models including jumps in
-the variance, SVVJ, SVIJ and SVCJ, we first compute the condtional
+In order to derive conditional moment formulae for models including jumps in
+the variance, SVVJ, SVIJ and SVCJ, we first compute the conditional
 moments
 
 .. math::
@@ -91,22 +93,22 @@ Itô process moment
 
   \begin{align*}
   &\mathbb{E}[ I\!E_t^{n_1} I_t^{n_2} (I_t^{*})^{n_3}|v_0, z(s), 0\le s\le t ] \\
-  &= \frac{1}{2} n_1(n_1-1)(v_0-\theta)\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
-  &\quad + \frac{1}{2} n_1(n_1-1)\theta    \times&\int_0^t e^{2ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
-  &\quad + \frac{1}{2} n_1(n_1-1)\sigma_v   \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
-  &\quad + \frac{1}{2} n_1(n_1-1)       \times&\int_0^t e^{ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_t^{*})^{n_3}]ds\\
-  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)(v_0-\theta)  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
-  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\theta  \times&\color{blue}\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
-  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\sigma_v  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
-  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)  \times&\color{blue}\int_0^t e^{-ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_t^{*})^{n_3}]ds\\
-  &\quad + n_1n_2(v_0-\theta) \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
-  &\quad + n_1n_2\theta         \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
-  &\quad + n_1n_2\sigma_v       \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
-  &\quad + n_1n_2                 \times&\int_0^t I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_t^{*})^{n_3}]ds\\
-  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)(v_0-\theta)  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
-  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\theta  \times&\color{blue} \int_0^t  \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
-  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\sigma_v  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds\\
-  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)  \times&\color{blue} \int_0^t e^{-ks} I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_t^{*})^{n_3-2}]ds,
+  &= \frac{1}{2} n_1(n_1-1)(v_0-\theta)\times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_s^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)\theta    \times&\int_0^t e^{2ks} \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_s^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)\sigma_v   \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2}(I_s^{*})^{n_3}]ds\\
+  &\quad + \frac{1}{2} n_1(n_1-1)       \times&\int_0^t e^{ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-2}I_s^{n_2}(I_s^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)(v_0-\theta)  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_s^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\theta  \times&\color{blue}\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_s^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)\sigma_v  \times&\color{blue}\int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1}I_s^{n_2-2}(I_s^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2} n_2(n_2-1)  \times&\color{blue}\int_0^t e^{-ks}I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-2}(I_s^{*})^{n_3}]ds\\
+  &\quad + n_1n_2(v_0-\theta) \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_s^{*})^{n_3}]ds\\
+  &\quad + n_1n_2\theta         \times&\int_0^t e^{ks} \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_s^{*})^{n_3}]ds\\
+  &\quad + n_1n_2\sigma_v       \times&\int_0^t \mathbb{E}[ I\!E_s^{n_1}I_s^{n_2-1}(I_s^{*})^{n_3}]ds\\
+  &\quad + n_1n_2                 \times&\int_0^t I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1-1}I_s^{n_2-1}(I_s^{*})^{n_3}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)(v_0-\theta)  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_s^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\theta  \times&\color{blue} \int_0^t  \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_s^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)\sigma_v  \times&\color{blue} \int_0^t e^{-ks} \mathbb{E}[ I\!E_s^{n_1+1} I_s^{n_2} (I_s^{*})^{n_3-2}]ds\\
+  &\color{blue}\quad + \frac{1}{2}n_3(n_3-1)  \times&\color{blue} \int_0^t e^{-ks} I\!E\!Z_s \mathbb{E}[ I\!E_s^{n_1} I_s^{n_2} (I_s^{*})^{n_3-2}]ds,
   \end{align*}
 
 in which, for notation simplification, the condition notation
@@ -119,80 +121,96 @@ as the following :py:class:`~ajdmom.poly.Poly`,
 
 .. math::
 
-  \begin{align*}
-  &\mathbb{E}[I\!E_t^{n_1} I_t^{n_2}|v_0, z(s), 0\le s\le t]\\
-  &= \sum_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
-  \boldsymbol{q}}
-  c_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
-  \boldsymbol{q}}
-  e^{j_1kt} t^{j_2} k^{-j_3} (v_0-\theta)^{j_4} \theta^{j_5} \sigma_v^{j_6}
-  f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},\boldsymbol{q}),
-  \end{align*}
+  \mathbb{E}[I\!E_t^{n_1}I_t^{n_2}I_t^{*n_3}|v_0, z(s), 0\le s \le t]
+  = \sum_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o} }
+  c_{\boldsymbol{j}\boldsymbol{l}\boldsymbol{o}} e^{j_1kt} t^{j_2} k^{-j_3}
+  (v_0-\theta)^{j_4} \theta^{j_5} \sigma_v^{j_6}
+  f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}),
 
-where vectors :math:`\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o},
-\boldsymbol{p}, \boldsymbol{q}` denote
+where :math:`c_{\boldsymbol{j}\boldsymbol{l}\boldsymbol{o}}`
+denotes the corresponding coefficient,
+vector :math:`\boldsymbol{j} \equiv (j_1,\dots,j_6)`,
 
 .. math::
 
-   \begin{align*}
-   \boldsymbol{j} \equiv (j_1, \cdots, j_6),\\
-   \boldsymbol{l} \equiv (l_1, \cdots, l_n),\quad
-   \boldsymbol{o} \equiv (o_1, \cdots, o_n),\\
-   \boldsymbol{p} \equiv (p_2, \cdots, p_n),\quad
-   \boldsymbol{q} \equiv (q_2, \cdots, q_n),
-   \end{align*}
+   \boldsymbol{l} \equiv
+   \begin{cases}
+   (l_1,\dots,l_n) & \text{if } n \ge 1,\\
+    & \text{otherwise},
+   \end{cases}
+   \quad \boldsymbol{o} \equiv
+   \begin{cases}
+   (o_1,\dots,o_n) & \text{if } n \ge 1,\\
+   & \text{otherwise},
+   \end{cases}
 
-respectively,
-:math:`c_{\boldsymbol{j}, \boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},\boldsymbol{q}}`
-denotes the corresponding constant coefficient
-and function :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o},
-\boldsymbol{p}, \boldsymbol{q})` is defined as
+:math:`n` denotes the number of :abbr:`CPPs(Compound Poisson Processes)`
+being multiplied together,
+and function
+:math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o})` is defined as
 
 .. math::
   :label: fZ
 
    \begin{align*}
-   &f_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},\boldsymbol{q})\\
-   &\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
-     e^{l_1ks_{i_1} + \cdots + l_nks_{i_n}} J_{i_1} \cdots J_{i_n}
-     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\
-   &\qquad\qquad\qquad \cdot
-    e^{p_2k(s_{i_1}\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\vee \cdots
-       \vee s_{i_n})}\\
-   &\qquad\qquad\qquad \cdot
-    (s_{i_1}\vee s_{i_2})^{q_2}\cdots
-    (s_{i_1}\vee \cdots \vee s_{i_n})^{q_n}.
-    \end{align*}
+   &f_{Z_t}(\boldsymbol{l}, \boldsymbol{o})\\
+   &\equiv \begin{cases}
+   \sum_{i_1=1}^{N(t)} \cdots \sum_{i_n=1}^{N(t)}
+   \left[\prod_{p=1}^n \left[e^{ks_{i_p}} J_{i_p} \cdot
+   e^{l_p k (s_{i_1}\vee \cdots \vee s_{i_p} )}(s_{i_1}\vee \cdots \vee s_{i_p} )^{o_p}
+   \right]
+   \right]
+   & \text{if } n \ge 1,\\
+   1 & \text{otherwise}.
+   \end{cases}
+   \end{align*}
 
-It should be noted that
+Please note that
+:math:`s_{i_1}\vee \cdots \vee s_{i_p}  \equiv \max\{s_{i_1},\dots,s_{i_p} \}`.
 
-- :math:`s_{i1}\vee s_{i2} \equiv \max\{s_{i1}, s_{i2}\}`,
-  :math:`s_{i1}\vee s_{i2} \vee s_{i3} \equiv \max\{s_{i1}, s_{i2}, s_{i3}\}`,
-  so on and so forth.
 
-- when :math:`n=1`, :math:`\boldsymbol{p} = \boldsymbol{q} = ()`,
-  :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
-  \boldsymbol{q}) = \sum_{i_1=1}^{N(t)} e^{l_1ks_{i_1}}J_{i_1} s_{i_1}^{o_1}`.
-
-- when :math:`n=0`, :math:`\boldsymbol{l} = \boldsymbol{o} =
-  \boldsymbol{p} = \boldsymbol{q} = ()`,
-  :math:`f_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p},
-  \boldsymbol{q}) = 1`.
-
-Example formulas for :math:`n_1+n_2=2` combinations,
+Formulae for :math:`n_1+n_2=2` combinations,
 
 .. math::
 
   \begin{align*}
   &\mathbb{E}[I\!E_t^2 |v_0, z(s), 0\le s\le t] \\
   &= (v_0-\theta)k^{-1}(e^{kt}-1) + \frac{1}{2}\theta k^{-1} (e^{2kt} - 1)
-  + k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{kt} - e^{ks_i}),\\
+  + k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{kt} - e^{ks_i})\\
+  &=~~ e^{kt}t^0k^{-1} (v_0-\theta)^1 \theta^0 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad - e^{0kt} t^0 k^{-1} (v_0-\theta)^1 \theta^0 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + \frac{1}{2} e^{2kt} t^0 k^{-1} (v_0-\theta)^0 \theta^1 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad -  \frac{1}{2} e^{0kt} t^0 k^{-1} (v_0-\theta)^0 \theta^1 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + e^{kt} t^0 k^{-1} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((0),(0)),\\
+  &\quad - e^{0kt} t^0 k^{-1} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((1),(0)),
+  \end{align*}
+
+
+.. math::
+
+  \begin{align*}
   &\mathbb{E}[I\!E_t I_t |v_0, z(s), 0\le s\le t] \\
   &= (v_0-\theta) t + \theta k^{-1} (e^{kt} - 1)
-  + \sum_{i=1}^{N(t)} e^{ks_i}J_i (t-s_i),\\
+  + \sum_{i=1}^{N(t)} e^{ks_i}J_i (t-s_i)\\
+  &=~~ e^{0kt} t^1 k^{-0} (v_0-\theta)^1 \theta^0 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + e^{kt} t^0 k^{-1} (v_0-\theta)^0 \theta^1 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad - e^{0kt} t^0 k^{-1} (v_0-\theta)^0 \theta^1 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + e^{0kt} t^1 k^{-0} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((0),(0)),\\
+  &\quad - e^{0kt} t^0 k^{-0} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((0),(1)),
+  \end{align*}
+
+
+.. math::
+
+  \begin{align*}
   &\mathbb{E}[I_t^2 |v_0, z(s), 0\le s\le t] \\
   &= -(v_0-\theta)k^{-1}(e^{-kt} - 1) + \theta t
-  - k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{-kt} - e^{-ks_i}).
+  - k^{-1}\sum_{i=1}^{N(t)} e^{ks_i}J_i (e^{-kt} - e^{-ks_i})\\
+  &= - e^{-kt} t^0 k^{-1} (v_0-\theta)^1 \theta^0 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + e^{0kt} t^0 k^{-1} (v_0-\theta)^1 \theta^0 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad + e^{0kt} t^1 k^{-0} (v_0-\theta)^0 \theta^1 \sigma_v^0 f_{Z_t}((),()),\\
+  &\quad - e^{-kt} t^0 k^{-1} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((0),(0)),\\
+  &\quad + e^{0kt} t^0 k^{-1} (v_0-\theta)^0 \theta^0 \sigma_v^0 f_{Z_t}((-1),(0)).
   \end{align*}
 
 
@@ -204,46 +222,43 @@ The essential computation now becomes
 .. math::
    :label: int_et_fZ
 
-   \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o},
-    \boldsymbol{p}, \boldsymbol{q}) ds.
+   \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o}) ds.
 
-We present the result and implementation first.
+We first present the result and implementation as the following:
 
 .. math::
 
-  \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o},
-    \boldsymbol{p}, \boldsymbol{q}) ds
-  = F_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, \boldsymbol{p}, \boldsymbol{q},
-  i, j),
+  \int_{0}^t e^{iks} s^j f_{Z_s}(\boldsymbol{l}, \boldsymbol{o}) ds
+  = F_{Z_t}(\boldsymbol{l}, \boldsymbol{o}, i, j),
 
 where the function on the right-hand side is defined as
 
 .. math::
 
   \begin{align*}
-   &F_{Z_t}(\boldsymbol{l},\boldsymbol{o},\boldsymbol{p},\boldsymbol{q},
-    i, j)\\
-   &\triangleq \sum_{i_1=1}^{N(t)}\cdots\sum_{i_n=1}^{N(t)}
-     e^{l_1ks_{i_1} + \cdots + l_nks_{i_n}} J_{i_1} \cdots J_{i_n}
-     s_{i_1}^{o_1}\cdots s_{i_n}^{o_n} \\
-   &\qquad\qquad\qquad \cdot
-    e^{p_2k(s_{i_1}\vee s_{i_2}) + \cdots + p_nk(s_{i_1}\vee \cdots
-       \vee s_{i_n})}\\
-   &\qquad\qquad\qquad \cdot
-    (s_{i_1}\vee s_{i_2})^{q_2}\cdots
-    (s_{i_1}\vee \cdots \vee s_{i_n})^{q_n}\\
-   &\qquad\qquad\qquad \cdot
-   \int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds.
+   &F_{Z_t}(\boldsymbol{l},\boldsymbol{o}, i, j)\\
+   &\equiv
+   \sum_{i_1=1}^{N(t)} \cdots \sum_{i_n=1}^{N(t)}
+   \left[\prod_{p=1}^n \left[e^{ks_{i_p}} J_{i_p} \cdot
+   e^{l_p k (s_{i_1}\vee \cdots \vee s_{i_p} )}(s_{i_1}\vee \cdots \vee s_{i_p} )^{o_p}
+   \right]
+   \right] \cdot
+   \int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds,
    \end{align*}
 
+if :math:`n \ge 1`, otherwise,
+:math:`F_{Z_t}(\boldsymbol{l},\boldsymbol{o}, i, j)\equiv\int_{0}^t e^{iks} s^j ds`.
+
 The integral in :eq:`int_et_fZ` is implemented in
-:py:func:`~ajdmom.ito_cond_mom.int_et_fZ` in module
-:py:mod:`~ajdmom.ito_cond_mom`. The integral
-:math:`\int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds` can be
+:py:func:`~ajdmom.ito_cond2_mom.int_et_fZ` in module
+:py:mod:`~ajdmom.ito_cond2_mom`. The integral
+:math:`\int_{s_{i_1}\vee \cdots \vee s_{i_n}}^t e^{iks} s^j ds` is
 calculated as we did for :math:`\int_0^t e^{iks} s^j ds` in
 :doc:`../generated/ajdmom.ito_mom`.
 
-Then we explain the calculations.
+
+
+Then, we explain the calculations.
 Let's take a look at a simple example,
 :math:`\int_0^te^{ks}I\!E\!Z_s ds`.
 
@@ -288,43 +303,42 @@ Another example
 
 .. math::
 
-  \begin{align*}
-  &\int_0^t e^{ks} \sum_{i=1}^{N(s)}\sum_{j=1}^{N(s)} e^{ks_i+ks_j}J_iJ_jds\\
-  &= \sum_{i=1}^{N(t)}\sum_{j=1}^{N(t)}e^{ks_i+ks_j}J_iJ_j \frac{1}{k}
+  \int_0^t e^{ks} \sum_{i=1}^{N(s)}\sum_{j=1}^{N(s)} e^{ks_i+ks_j}J_iJ_jds
+  = \sum_{i=1}^{N(t)}\sum_{j=1}^{N(t)}e^{ks_i+ks_j}J_iJ_j \frac{1}{k}
   (e^{kt} -e^{k(s_i\vee s_j)}).
-  \end{align*}
 
-The two examples should have explained the derivation well.
+Hopefully, the two examples should have explained the derivation well.
 
 Implementation summary
 -----------------------
 
-1. Define :py:func:`~ajdmom.ito_cond_mom.recursive_IEII` to realize the
+1. Define :py:func:`~ajdmom.ito_cond2_mom.recursive_IEII` to realize the
    recursive step in equation :eq:`ito-jmp-moment-ii`.
 
-2. Define :py:func:`~ajdmom.ito_cond_mom.moment_IEII` to finish the computation
+2. Define :py:func:`~ajdmom.ito_cond2_mom.moment_IEII` to finish the computation
    of :math:`\mathbb{E}[I\!E_t^{n_1}I_t^{n_2}(I_t^{*})^{n_3}|v_0, z_s,
    0\le s\le t]`.
 
 """
+import math
 from fractions import Fraction as Frac
 
-from ajdmom.poly import Poly
+from ajdmom import Poly
 from ajdmom.ito_mom import c_nmi
-
+from ajdmom.utils import fZ
 
 def int_et_fZ(n, m, N_sum):
-    r"""integral of :math:`\int_0^t e^{iks} s^j f_{Z_s}(l,o,p,q)ds`
+    r"""integral of :math:`\int_0^t e^{iks} s^j f_{Z_s}(l,o)ds`
 
     For each element with index :math:`(s_{i1},\dots,s_{in})`,
     the integral becomes
     :math:`\int_{s_{i1}\vee\cdots\vee s_{in}}^t e^{iks} s^j ds`.
-    When there is no summation at all in :math:`f_{Z_s}(l,o,p,q)`,
+    When there is no summation at all in :math:`f_{Z_s}(l,o)`,
     the whole integral simplifies to :math:`\int_0^t e^{iks} s^jds`.
 
     :param int n: power of :math:`e^{ks}`, i.e., :math:`i`.
     :param int m: power of :math:`s`, i.e., :math:`j`.
-    :param int N_sum: level of summations in :math:`f_{Z_s}(l,o,p,q)`.
+    :param int N_sum: level of summations in :math:`f_{Z_s}(l,o)`.
     :return: a poly with attribute ``keyfor`` =
       ('e^{kt}', 't', 'k^{-}', 'e^{k(s_i1 v...v s_in)}', '(s_i1 v...v s_in)').
     :rtype: Poly
@@ -370,7 +384,7 @@ def int_et_fZ(n, m, N_sum):
 def int_e_poly(coef, tp, m, poly):
     r"""integral of :math:`coef \times tp \times \int_0^t e^{mks} poly ds`
 
-    :param float coef: coefficient to multiply with
+    :param fractions.Fraction coef: coefficient to multiply with
     :param int tp: type of the multiplication,
 
        +----+----------------------------+
@@ -387,8 +401,7 @@ def int_e_poly(coef, tp, m, poly):
     :param Poly poly: a Poly object, such as
       :math:`\mathbb{E}[I\!E_t^{n_1} I_t^{n_2} I_t^{*n_3}
       |v_0, z(s), 0\le s\le t]`, with attribute ``keyfor`` =
-      ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}')
+      ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}')
     :return: a Poly with the same ``keyfor`` of the input poly
     :rtype: Poly
     """
@@ -406,20 +419,11 @@ def int_e_poly(coef, tp, m, poly):
             else:
                 key1 = (kk[0], kk[1], kk[2] + k[2], k[3], k[4], k[5] + 1)
             #
-            if len(k[6]) == 0:  # 0 summation  inside
-                key2 = ((), (), (), ())
-            elif len(k[6]) == 1:  # 1 summation  inside
-                k6 = (k[6][0] + kk[3],)
-                k7 = (k[7][0] + kk[4],)
-                key2 = (k6, k7, (), ())
-            else:  # 2 summations inside or more
-                k8 = list(k[8])
-                k8[-1] += kk[3]
-                k8 = tuple(k8)
-                k9 = list(k[9])
-                k9[-1] += kk[4]
-                k9 = tuple(k9)
-                key2 = (k[6], k[7], k8, k9)
+            if len(k[6]) == 0:    # 0 summation inside
+                key2 = ((), ())
+            else:                 # 1 or more summations inside
+                k6, k7 = k[6], k[7]
+                key2 = (k6[0:-1] + (k6[-1] + kk[3],), k7[0:-1] + (k7[-1] + kk[4],))
             poln.add_keyval(key1 + key2, coef * poly[k] * poly_sub[kk])
     return poln
 
@@ -427,26 +431,21 @@ def int_e_poly(coef, tp, m, poly):
 def int_e_IEZ_poly(coef, m, poly):
     r"""integral of :math:`coef \times \int_0^t e^{mks} I\!E\!Z_s poly ds`
 
-    :param int coef: coefficient to multiply with
+    :param fractions.Fraction coef: coefficient to multiply with
     :param int m: power of :math:`e^{ks}` in the integrand
     :param Poly poly: a Poly object, such as
       :math:`\mathbb{E}[I\!E_t^{n_1} I_t^{n_2} I_t^{*n_3}
       |v_0, z(s), 0\le s\le t]`, with attribute ``keyfor`` =
-      ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}')
+      ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}')
     :return: a Poly with the same ``keyfor`` of the input poly
     :rtype: Poly
     """
     poln = Poly()
     poln.set_keyfor(poly.keyfor)  # poly = IEII[(n1, n2, n3)]
     for k in poly:
-        # IEZ times poly
-        k6 = k[6] + (1,)
+        # IEZ times poly, i.e., expand the last two key components
+        k6 = k[6] + (0,)
         k7 = k[7] + (0,)
-        if len(k6) >= 2:
-            k8 = k[8] + (0,)
-            k9 = k[9] + (0,)
-        #
         # \int e^{iks} s^{j} poly ds
         poly_sub = int_et_fZ(m + k[0], k[1], len(k6))
         # ['e^{kt}', 't', 'k^{-}', 'e^{k(s_i1 v...v s_in)}', '(s_i1 v...v s_in)']
@@ -454,18 +453,7 @@ def int_e_IEZ_poly(coef, m, poly):
             # key1
             key1 = (kk[0], kk[1], kk[2] + k[2], k[3], k[4], k[5])
             # key2
-            if len(k6) == 1:  # 1 summation  inside
-                k6 = (k6[0] + kk[3],)
-                k7 = (k7[0] + kk[4],)
-                key2 = (k6, k7, (), ())
-            else:  # 2 summations inside or more
-                k8 = list(k8)
-                k8[-1] += kk[3]
-                k8 = tuple(k8)
-                k9 = list(k9)
-                k9[-1] += kk[4]
-                k9 = tuple(k9)
-                key2 = (k6, k7, k8, k9)
+            key2 = (k6[0:-1] + (k6[-1] + kk[3],),  k7[0:-1] + (k7[-1] + kk[4],))
             poln.add_keyval(key1 + key2, coef * poly[k] * poly_sub[kk])
     return poln
 
@@ -479,13 +467,11 @@ def recursive_IEII(n1, n2, n3, IEII):
     :param dict IEII: a dict of joint conditional moments of
       :math:`I\!E_sI_sI_s^{*}`, with key (n1, n2, n3) and value Poly object
       with attribute ``keyfor`` =
-      ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-      'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}').
+      ('e^{kt}','t','k^{-}','v0-theta','theta','sigma','l_{1:n}','o_{1:n}').
     :return: poly with the same ``keyfor`` of that of in IEII
     :rtype: Poly
     """
-    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma']
-    kf += ['l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}']
+    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}']
     poly = Poly()
     poly.set_keyfor(kf)
     #
@@ -524,8 +510,7 @@ def moment_IEII(n1, n2, n3):
     :param int n2: power of :math:`I_t`.
     :param int n3: power of :math:`I_t^{*}`.
     :return: poly with ``keyfor`` =
-       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
-       'l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}').
+       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma','l_{1:n}','o_{1:n}').
     :rtype: Poly
     """
     if n1 + n2 + n3 < 0:
@@ -535,14 +520,13 @@ def moment_IEII(n1, n2, n3):
     #
     IEII = {}
     #
-    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma']
-    kf += ['l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}']
+    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}']
     #
     # special poly constants, analog to 0 and 1
     #
-    P0 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), ()): Frac(0, 1)})
+    P0 = Poly({(0, 0, 0, 0, 0, 0, (), ()): Frac(0, 1)})
     P0.set_keyfor(kf)
-    P1 = Poly({(0, 0, 0, 0, 0, 0, (), (), (), ()): Frac(1, 1)})
+    P1 = Poly({(0, 0, 0, 0, 0, 0, (), ()): Frac(1, 1)})
     P1.set_keyfor(kf)
     #
     # n1 + n2 + n3 = 0: special case
@@ -558,28 +542,28 @@ def moment_IEII(n1, n2, n3):
     # n1 + n2 +n3 = 2
     #
     P200 = Poly({
-        (1, 0, 1, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (0, 0, 1, 1, 0, 0, (), (), (), ()): -Frac(1, 1),
-        (2, 0, 1, 0, 1, 0, (), (), (), ()): Frac(1, 2),
-        (0, 0, 1, 0, 1, 0, (), (), (), ()): -Frac(1, 2),
-        (1, 0, 1, 0, 0, 0, (1,), (0,), (), ()): Frac(1, 1),
-        (0, 0, 1, 0, 0, 0, (2,), (0,), (), ()): -Frac(1, 1)
+        (1, 0, 1, 1, 0, 0, (), ()): Frac(1, 1),
+        (0, 0, 1, 1, 0, 0, (), ()): -Frac(1, 1),
+        (2, 0, 1, 0, 1, 0, (), ()): Frac(1, 2),
+        (0, 0, 1, 0, 1, 0, (), ()): -Frac(1, 2),
+        (1, 0, 1, 0, 0, 0, (0,), (0,)): Frac(1, 1),
+        (0, 0, 1, 0, 0, 0, (1,), (0,)): -Frac(1, 1)
     })
     P200.set_keyfor(kf)
     P110 = Poly({
-        (0, 1, 0, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (1, 0, 1, 0, 1, 0, (), (), (), ()): Frac(1, 1),
-        (0, 0, 1, 0, 1, 0, (), (), (), ()): -Frac(1, 1),
-        (0, 1, 0, 0, 0, 0, (1,), (0,), (), ()): Frac(1, 1),
-        (0, 0, 0, 0, 0, 0, (1,), (1,), (), ()): -Frac(1, 1)
+        (0, 1, 0, 1, 0, 0, (), ()): Frac(1, 1),
+        (1, 0, 1, 0, 1, 0, (), ()): Frac(1, 1),
+        (0, 0, 1, 0, 1, 0, (), ()): -Frac(1, 1),
+        (0, 1, 0, 0, 0, 0, (0,), (0,)): Frac(1, 1),
+        (0, 0, 0, 0, 0, 0, (0,), (1,)): -Frac(1, 1)
     })
     P110.set_keyfor(kf)
     P020 = Poly({
-        (-1, 0, 1, 1, 0, 0, (), (), (), ()): -Frac(1, 1),
-        (0, 0, 1, 1, 0, 0, (), (), (), ()): Frac(1, 1),
-        (0, 1, 0, 0, 1, 0, (), (), (), ()): Frac(1, 1),
-        (-1, 0, 1, 0, 0, 0, (1,), (0,), (), ()): -Frac(1, 1),
-        (0, 0, 1, 0, 0, 0, (0,), (0,), (), ()): Frac(1, 1)
+        (-1, 0, 1, 1, 0, 0, (), ()): -Frac(1, 1),
+        (0, 0, 1, 1, 0, 0, (), ()): Frac(1, 1),
+        (0, 1, 0, 0, 1, 0, (), ()): Frac(1, 1),
+        (-1, 0, 1, 0, 0, 0, (0,), (0,)): -Frac(1, 1),
+        (0, 0, 1, 0, 0, 0, (-1,), (0,)): Frac(1, 1)
     })
     P020.set_keyfor(kf)
     IEII[(2, 0, 0)] = P200
@@ -610,17 +594,38 @@ def moment_IEII(n1, n2, n3):
     return poly
 
 
+def poly2num(poly, par):
+    """Convert a polynomial to numerical value
+
+    :param Poly poly: polynomial to convert, with ``keyfor`` =
+       ('e^{kt}','t','k^{-}','v0-theta','theta','sigma','l_{1:n}','o_{1:n}').
+    :param dict par: parameters, including jumpsize and jumptime.
+    :return: numerical value.
+    :rtype: float
+    """
+    k, h, v0, theta, sigma = par['k'], par['h'], par['v0'], par['theta'], par['sigma']
+    J = par['jumpsize'] # vector of jump sizes
+    s = par['jumptime'] # vector of jump time points
+    f = 0
+    for K in poly:
+        val = math.exp(K[0] * k * h) * (h ** K[1]) * (k ** (-K[2]))
+        val *= ((v0 - theta) ** K[3]) * (theta ** K[4]) * (sigma ** K[5])
+        l, o = K[6], K[7]
+        val *= fZ(l, o, k, s, J)
+        f += val * poly[K]
+    return f
+
+
 if __name__ == "__main__":
     import sys
     from pprint import pprint
 
     print('\nExample usage of the module function\n')
-    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma']
-    kf += ['l_{1:n}', 'o_{1:n}', 'p_{2:n}', 'q_{2:n}']
+    kf = ['e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'l_{1:n}', 'o_{1:n}']
     print(f"moment_IEII(n1, n2, n3) returns a poly with keyfor = \n{kf}")
     #
     args = sys.argv[1:]
-    n = 3 if len(args) == 0 else int(args[0])
+    n = 4 if len(args) == 0 else int(args[0])
     for n1 in range(n, -1, -1):
         for n2 in range(n - n1, -1, -1):
             n3 = n - n1 - n2
