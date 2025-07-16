@@ -49,9 +49,10 @@ Notes:
 - ✅ **Implemented:** The feature is fully implemented.
 - ✔️ **Applicable:** The feature is applicable to this model but not yet implemented. 
 - **N/A Not Applicable:** The feature is not relevant or applicable for this model. 
-- **Unconditional Moments:** Include raw moments ($E[y_n^l]$), 
-  central moments ($E[\bar{y}_n^l]$), and autocovariances n 
-  ($cov(y_n^{l_1},y_{n+1}^{l_2})$). 
+- **Unconditional Moments:** Include raw moments ($\mathbb{E}[y_n^l]$), 
+  central moments (![central moments](https://latex.codecogs.com/svg.image?\inline&space;\mathbb{E}[\bar{y}_n^l])), 
+  and autocovariances
+  (![autocovariance](https://latex.codecogs.com/svg.image?\inline&space;cov(y_n^{l_1},y_{n&plus;1}^{l_2}))). 
   - *Note: Autocovariances are not yet available for SRJD and SVCJ.*
 - **Conditional Moments - I:** Derivation where the initial state of the variance 
   process ($v_0$) is given.
