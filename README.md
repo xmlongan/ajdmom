@@ -1,4 +1,4 @@
-# ajdmom: Unlocking Explicit Moments for Affine Jump Diffusions
+# Unlocking Explicit Moments for Affine Jump Diffusions
 
 [![Documentation Status](https://img.shields.io/badge/docs-available-blue.svg?style=flat)](http://yyschools.com/ajdmom/)
 [![PyPI](https://img.shields.io/pypi/v/ajdmom)](https://pypi.org/project/ajdmom/)
