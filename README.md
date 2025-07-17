@@ -10,7 +10,8 @@
 `ajdmom` is a Python library for **automatically deriving explicit, closed-form
 moment formulas** for well-established Affine Jump Diffusion (AJD) processes. 
 It significantly enhances the usability of AJD models by providing both 
-unconditional moments and conditional moments, up to any positive integer order.
+**unconditional moments** and **conditional moments**, up to any positive integer
+order.
 
 It also serves as a valuable tool for sensitivity analysis, **providing partial
 derivatives** of these moments with respect to model parameters. The package 
