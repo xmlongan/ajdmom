@@ -23,7 +23,9 @@ extensions = ['sphinx.ext.duration',
               'sphinx.ext.doctest',
               'sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
-              'sphinx.ext.intersphinx']
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.viewcode',]
 intersphinx_mapping = {
   'python': ('https://docs.python.org/', None)
 }

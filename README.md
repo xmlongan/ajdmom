@@ -1,19 +1,29 @@
 # ajdmom: Unlocking Explicit Moments for Affine Jump Diffusions
 
+[![Documentation Status](https://img.shields.io/badge/docs-available-blue.svg?style=flat)](http://yyschools.com/ajdmom/)
+[![PyPI](https://img.shields.io/pypi/v/ajdmom)](https://pypi.org/project/ajdmom/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/xmlongan/ajdmom/blob/main/LICENSE)
+
+
 ## Description
 
-The `ajdmom` package is a **Python library designed for the automatic derivation of
-moment formulas for well-established Affine Jump Diffusion (AJD) processes.** 
-It significantly enhances the usability of AJD models by providing **explicit, 
-closed-form expressions for unconditional moments and conditional moments,
-up to any positive integer order.**
+`ajdmom` is a Python library for **automatically deriving explicit, closed-form
+moment formulas** for well-established Affine Jump Diffusion (AJD) processes. 
+It significantly enhances the usability of AJD models by providing both 
+unconditional moments and conditional moments, up to any positive integer order.
 
-
-Beyond just moments, `ajdmom` offers a valuable tool for **sensitivity analysis** 
-by computing the partial derivatives of these moments with respect to model 
-parameters. The package features a **modular architecture**, facilitating easy 
-adaptation and extension by researchers. `ajdmom` is open-source and readily 
-available for installation from GitHub or the Python Package Index (PyPI).
+It also serves as a valuable tool for sensitivity analysis, **providing partial
+derivatives** of these moments with respect to model parameters. The package 
+features a **modular architecture**, facilitating easy adaptation and extension 
+by researchers. `ajdmom` is open-source and readily available for installation 
+from the Python Package Index (PyPI):
+```
+pip install ajdmom
+```
+or GitHub:
+```
+pip install git+https://github.com/xmlongan/ajdmom
+```
 
 The moments derived by `ajdmom` have **broad applications** in quantitative finance 
 and stochastic modeling, including:
@@ -66,7 +76,7 @@ To get the formula for the first moment $\mathbb{E}[y_n]$ for the Heston Stochas
 Volatility (SV) model ( $y_n$ denotes the return over the nth interval of length $h$ ), 
 run the following code snippet:
 
-``` python
+```python
 from ajdmom import mdl_1fsv # mdl_1fsv -> mdl_1fsvj, mdl_2fsv, mdl_2fsvj
 from pprint import pprint
 
@@ -81,7 +91,7 @@ print("moment_y(1) = "); pprint(m1); print(msg.format(m1.keyfor))
 
 which produces:
 
-```         
+```python
 moment_y(1) = 
 {(0, 1, 0, 0, 1, 0, 0, 0): Fraction(-1, 2),
  (0, 1, 0, 1, 0, 0, 0, 0): Fraction(1, 1)}
@@ -104,7 +114,9 @@ respectively. The summation of these terms reproduces the first moment of the He
 SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` 
 package successfully encapsulates the model's dynamics into a computationally 
 manipulable form, specifically leveraging a custom dictionary data structure, 
-referred to as `Poly`, to encode the moment's expression.
+referred to as `Poly`, to encode the moment's expression. This structure allows 
+`ajdmom` to perform symbolic differentiation and other advanced operations directly 
+on the moment formulas.
 
 ## Documentation
 

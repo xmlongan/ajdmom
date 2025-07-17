@@ -16,6 +16,12 @@ depending on how Python is installed in your Windows OS:
 The package can be installed similarly through :program:`Terminal`
 if you are working on a Linux or macOS.
 
+Alternatively, you can install directly from the GitHub repository:
+
+.. code-block:: bash
+
+   pip install git+https://github.com/xmlongan/ajdmom
+
 Heston :abbr:`SV(Stochastic Volatility)` model
 ===============================================
 
@@ -185,7 +191,7 @@ given :math:`(\mu=0.125, k=0.1, \theta=0.25, \sigma_v=0.1, \rho=-0.7, h=1)`:
 
 
 :abbr:`AJD(Affine Jump Diffusion)` Extensions
-==============================================
+================================================
 
 In addition to the Heston SV model, there are several extensions, which are
 summarized in the following table:
