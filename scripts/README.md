@@ -1,6 +1,6 @@
-## Replicating the experiments in the paper
+# Replicating the experiments in the paper
 
-### Demonstration
+## Demonstration
 
 To replicate the results in [Figure 1](../results/m1-1fsv.png), run this command from the `scripts` directory:
 
@@ -20,12 +20,6 @@ To replicate the results in [Table 1](../results/comp-mom-1fsvj.png), run this c
 
 ```         
 python experiment1.py
-```
-
-To replicate the results in [Table 2](../results/comp-cov-1fsvj.png), run this command from the `scripts` directory:
-
-```         
-python experiment2.py
 ```
 
 To replicate the results in [Table 2](../results/comp-cov-1fsvj.png), run this command from the `scripts` directory:
