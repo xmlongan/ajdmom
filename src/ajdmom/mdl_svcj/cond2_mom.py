@@ -13,13 +13,13 @@ from ajdmom.mdl_svvj.cond2_mom import moments_y_to as moments_y_to_svvj
 
 def mnorm_cond(n):
     r"""conditional normal distribution moment :math:`J_i^s|J_i^v \sim
-    \mathcal{N} (\mu_s+rho_J J_i^v, \sigma_s^2)`
+    \mathcal{N} (\mu_s+rhoJ J_i^v, \sigma_s^2)`
 
     :param int n: order of the moment, n >= 0
-    :return: poly with ``keyfor`` = ('mu_s', 'rho_J', 'sigma_s', 'J_i')
+    :return: poly with ``keyfor`` = ('mu_s', 'rhoJ', 'sigma_s', 'J_i')
     :rtype: Poly
     """
-    kf = ['mu_s', 'rho_J', 'sigma_s', 'J_i']
+    kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_i']
     # special case
     if n == 0:
         P1 = Poly({(0, 0, 0, 0): Frac(1, 1)})
@@ -45,17 +45,17 @@ def comb_poly(index):
     :param list index: a combination of the Compound Poisson Process power :math:`m`,
        :math:`(m_1,\dots,m_{N(t)})`
     :return: poly with attribute ``keyfor`` =
-      ('mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
+      ('mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}')
     :rtype: Poly
     """
-    kf = ['mu_s', 'rho_J', 'sigma_s', 'J_{1:n}']
+    kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}']
     poly = Poly()
     poly.set_keyfor(kf)
     #
     poly.add_keyval((0, 0, 0, ()), Frac(1, 1))
     for i in index:
         # mnorm_cond(0) supported
-        pol1 = mnorm_cond(i)  # ['mu_s', 'rho_J', 'sigma_s', 'J_i']
+        pol1 = mnorm_cond(i)  # ['mu_s', 'rhoJ', 'sigma_s', 'J_i']
         poln = Poly()
         poln.set_keyfor(kf)
         for k1 in pol1:
@@ -73,10 +73,10 @@ def moment_IZs(m, J):
     :param int m: power of :math:`IZ^s_t`
     :param tuple J: jump sizes in the variance
     :return: poly with attribute ``keyfor`` =
-      ('mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
+      ('mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}')
     :rtype: Poly
     """
-    kf = ['mu_s', 'rho_J', 'sigma_s', 'J_{1:n}']
+    kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}']
     poly = Poly()
     poly.set_keyfor(kf)
     #
@@ -94,7 +94,7 @@ def moment_IZs(m, J):
     # typical cases
     #
     if numJ == 1:  # single normal variable
-        poln = mnorm_cond(m)  # kf = ['mu_s', 'rho_J', 'sigma_s', 'J_i']
+        poln = mnorm_cond(m)  # kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_i']
         for k in poln:
             key = (k[0], k[1], k[2], (k[3],))
             poly.add_keyval(key, poln[k])
@@ -104,7 +104,7 @@ def moment_IZs(m, J):
             c = math.comb(m, i)
             pol1 = mnorm_cond(i)
             pol2 = mnorm_cond(m - i)  # mnorm_cond(0) supported
-            # kf = ['mu_s', 'rho_J', 'sigma_s', 'J_i']
+            # kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_i']
             for k1 in pol1:
                 for k2 in pol2:
                     key = (k1[0] + k2[0], k1[1] + k2[1], k1[2] + k2[2], (k1[3], k2[3]))
@@ -155,14 +155,14 @@ def moments_y_to(l, J):
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
       'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
-      'mu_s', 'rho_J', 'sigma_s', 'J_{1:n}'), noting that 'p' encodes power
+      'mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}'), noting that 'p' encodes power
       of :math:`I\!Z_t`.
     :rtype: list
     """
     moms = []
     moms_svvj = moments_y_to_svvj(l)  # 0-th to l-th moments
     #
-    kf = moms_svvj[0].keyfor + ('mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
+    kf = moms_svvj[0].keyfor + ('mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}')
     #
     # special case: 0-th moment
     #
@@ -178,7 +178,7 @@ def moments_y_to(l, J):
         for n1 in range(n, -1, -1):
             c = math.comb(n, n1)
             pol1 = moms_svvj[n1]  # 0-th moment supported
-            pol2 = moment_IZs(n - n1, J)  # kf = ['mu_s', 'rho_J', 'sigma_s', 'J_{1:n}']
+            pol2 = moment_IZs(n - n1, J)  # kf = ['mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}']
             for k1 in pol1:
                 for k2 in pol2:
                     key = k1 + k2
@@ -204,7 +204,7 @@ def poly2num(poly, par):
       ('e^{kt}','t','k^{-}','beta_t','mu-theta/2','v0-theta','theta','sigma',
       'l_{1:n}', 'o_{1:n}', 'p',
       'sigma/2k','rho-sigma/2k','sqrt(1-rho^2)',
-      'mu_s', 'rho_J', 'sigma_s', 'J_{1:n}')
+      'mu_s', 'rhoJ', 'sigma_s', 'J_{1:n}')
     :param dict par: parameters in dict, ``jumptime`` (tuple) and ``jumpsize`` (tuple)
       must also be included
     :return: scalar of the poly
@@ -220,7 +220,7 @@ def poly2num(poly, par):
     J = par['jumpsize']  # vector of jump sizes
     s = par['jumptime']  # vector of jump time points
     mu_s = par['mu_s']
-    rho_J = par['rho_J']
+    rhoJ = par['rhoJ']
     sigma_s = par['sigma_s']
     #
     beta_t = (1 - math.exp(-k * h)) / (2 * k)
@@ -241,7 +241,7 @@ def poly2num(poly, par):
         val *= ((sigma / (2 * k)) ** K[11]) * ((rho - sigma / (2 * k)) ** K[12])
         val *= ((1 - rho ** 2) ** (K[13] / 2))
         #
-        val *= (mu_s ** K[14]) * (rho_J ** K[15]) * (sigma_s ** K[16])
+        val *= (mu_s ** K[14]) * (rhoJ ** K[15]) * (sigma_s ** K[16])
         #
         f_J = 1
         for i in range(len(J)):

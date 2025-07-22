@@ -15,16 +15,16 @@ def settings():
     k, theta, sigma, rho = 3.46, 0.008, 0.14, -0.82
     mu = 0.0319
     lmbd_v, mu_v = 0.47, 0.05
-    mu_bar = -0.1
-    lmbd_s, sigma_s, rho_J = lmbd_v, 0.0001, -0.38
+    mu_b = -0.1
+    lmbd_s, sigma_s, rhoJ = lmbd_v, 0.0001, -0.38
     #
-    mu_s = math.log((1 + mu_bar) * (1 - rho_J * mu_v)) - sigma_s ** 2 / 2
+    mu_s = math.log((1 + mu_b) * (1 - rhoJ * mu_v)) - sigma_s ** 2 / 2
     # same as that in SVJ in Broadie-Kaya (2006)
     rel_err = 0.100 # 10%
     abs_err = 0.001
     par = {'v0': v0, 'h': h, 'mu': mu, 'k': k, 'theta': theta,
            'sigma': sigma, 'rho': rho, 'lmbd_v': lmbd_v, 'mu_v': mu_v,
-           'lmbd_s': lmbd_s, 'mu_s': mu_s, 'sigma_s': sigma_s, 'rho_J': rho_J}
+           'lmbd_s': lmbd_s, 'mu_s': mu_s, 'sigma_s': sigma_s, 'rhoJ': rhoJ}
     return par, rel_err, abs_err
 
 
@@ -35,7 +35,7 @@ def test_rSVCJ(settings):
     v0, h, mu = par['v0'], par['h'], par['mu']
     lmbd_v, mu_v = par['lmbd_v'], par['mu_v']
     lmbd_s, mu_s, sigma_s = par['lmbd_s'], par['mu_s'], par['sigma_s']
-    rho_J = par['rho_J']
+    rhoJ = par['rhoJ']
     #
     for numJ in [0, 1, 2, 3]:
         jsize_v = rng.exponential(mu_v, numJ)
@@ -53,7 +53,7 @@ def test_rSVCJ(settings):
         print(temp.format(tm[0], tm[1], tm[2], tm[3], tm[4]))
         for i in range(len(n_segment)):
             y = rSVCJ(v0, mu, k, theta, sigma, rho, h, jsize_v, jtime_v,
-                      mu_s, sigma_s, rho_J, n, n_segment[i])
+                      mu_s, sigma_s, rhoJ, n, n_segment[i])
             sm = []
             for j in [1, 2, 3, 4, 5]:
                 sm.append(np.mean(y ** j))
@@ -68,7 +68,7 @@ def test_m(settings):
     v0, h, mu = par['v0'], par['h'], par['mu']
     lmbd_v, mu_v = par['lmbd_v'], par['mu_v']
     lmbd_s, mu_s, sigma_s = par['lmbd_s'], par['mu_s'], par['sigma_s']
-    rho_J = par['rho_J']
+    rhoJ = par['rhoJ']
     #
     for numJ in [0, 1, 2, 3]:  # numJ = rng.poisson(lmbd * h): the actual number of jumps
         jsize_v = rng.exponential(mu_v, numJ)
@@ -79,7 +79,7 @@ def test_m(settings):
         #
         n, n_segment = 100 * 1000, 100
         y = rSVCJ(v0, mu, k, theta, sigma, rho, h, jsize_v, jtime_v,
-                  mu_s, sigma_s, rho_J, n, n_segment)
+                  mu_s, sigma_s, rhoJ, n, n_segment)
         print(f"\nWith conditions v0 = {v0}, \njumpsize = {jsize_v}, \njumptime = {jtime_v}")
         for n in [1, 2, 3, 4, 5]:
             expected = np.mean(y ** n)
@@ -100,7 +100,7 @@ def test_cm(settings):
     v0, h, mu = par['v0'], par['h'], par['mu']
     lmbd_v, mu_v = par['lmbd_v'], par['mu_v']
     lmbd_s, mu_s, sigma_s = par['lmbd_s'], par['mu_s'], par['sigma_s']
-    rho_J = par["rho_J"]
+    rhoJ = par["rhoJ"]
     #
     for numJ in [0, 1, 2, 3]:  # numJ = rng.poisson(lmbd * h): the actual number of jumps
         jsize_v = rng.exponential(mu_v, numJ)
@@ -111,7 +111,7 @@ def test_cm(settings):
         #
         n, n_segment = 100 * 1000, 100
         y = rSVCJ(v0, mu, k, theta, sigma, rho, h, jsize_v, jtime_v,
-                  mu_s, sigma_s, rho_J, n, n_segment)
+                  mu_s, sigma_s, rhoJ, n, n_segment)
         print(f"\nWith conditions v0 = {v0}, \njumpsize = {jsize_v}, \njumptime = {jtime_v}")
         diff = y - np.mean(y)
         del y

@@ -51,9 +51,9 @@ if __name__ == "__main__":
     r, k, theta, sigma, rho = 0.0319, 3.46, 0.008, 0.14, -0.82
     lmbd_v, mu_v = 0.47, 0.05  # same as that in mdl_svcj
     #
-    mu_bar = -0.12
+    mu_b = -0.12
     lmbd_s, sigma_s = 0.11, 0.15
-    mu_s = math.log(1 + mu_bar) - sigma_s ** 2 / 2
+    mu_s = math.log(1 + mu_b) - sigma_s ** 2 / 2
     # same as that in SVJ in Broadie-Kaya (2006)
     #
     args = sys.argv[1:]
