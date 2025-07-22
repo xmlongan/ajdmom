@@ -2,15 +2,15 @@
 
 ### Demonstration
 
-To replicate the results in [Figure 2](../results/m1-1fsv.png), run this command from the `scripts` directory:
+To replicate the results in [Figure 1](../results/m1-1fsv.png), run this command from the `scripts` directory:
 
-```         
+```    
 python example1.py
 ```
 
-To replicate the results in [Figure 4](../results/cov21-1fsv.png), run this command from the `scripts` directory:
+To replicate the results in [Figure 2](../results/cov21-1fsv.png), run this command from the `scripts` directory:
 
-```         
+```   
 python example2.py
 ```
 
@@ -28,7 +28,25 @@ To replicate the results in [Table 2](../results/comp-cov-1fsvj.png), run this c
 python experiment2.py
 ```
 
-It should be noted that the results in Tables 1 and 2 can not be
+To replicate the results in [Table 2](../results/comp-cov-1fsvj.png), run this command from the `scripts` directory:
+
+```         
+python experiment2.py
+```
+
+To replicate the results in [Table 3](../results/comp-cond-mom-svcj.png), run this command from the `scripts` directory:
+
+```         
+python experiment3.py
+```
+
+To replicate the results in [Table 4](../results/comp-cond2-mom-svcj.png), run this command from the `scripts` directory:
+
+```         
+python experiment4.py
+```
+
+It should be noted that the results in Tables 1 to 4 may not be
 reproduced exactly since the sample moments and covariances used for
 comparison are computed based on simulated samples which would change
 per simulation.
