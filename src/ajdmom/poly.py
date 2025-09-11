@@ -408,6 +408,33 @@ class Poly(UserDict):
         poly.add_keyval(key, val)
         return poly
 
+    @classmethod
+    def read_csv(cls, filename):
+        """Read csv file and return a Poly() object.
+
+        :param str filename: csv filename.
+        :return: Poly() object.
+        :rtype: Poly
+        """
+        file = open(filename)
+        txt = file.read()
+        file.close()
+
+        lines = txt.strip().split('\n')
+        title = lines[0].strip().split(',')
+
+        poly = Poly()
+        keyfor = title[:(-2)]
+        poly.set_keyfor(keyfor)
+        num_col = len(title) - 2
+
+        for line in lines[1:]:
+            data = line.split(',')
+            key = tuple(int(data[i]) for i in range(num_col))
+            val = Fraction(int(data[-2]), int(data[-1]))
+            poly.add_keyval(key, val)
+        return poly
+
 
 if __name__ == "__main__":
     # Example usage of class Poly, see 'tests/test_poly.py' for more test

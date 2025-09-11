@@ -73,7 +73,7 @@ Notes:
 
 ## Simple Usage
 
-To get the formula for the first moment $\mathbb{E}[y_n]$ for the Heston Stochastic
+To get the formula for the first moment $E[y_n]$ for the Heston Stochastic
 Volatility (SV) model ( $y_n$ denotes the return over the nth interval of length $h$ ), 
 run the following code snippet:
 
@@ -112,7 +112,7 @@ $$
 $$
 
 respectively. The summation of these terms reproduces the first moment of the Heston
-SV model: $\mathbb{E}[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` 
+SV model: $E[y_n] = (\mu-\theta/2)h$. This demonstrates that the `ajdmom` 
 package successfully encapsulates the model's dynamics into a computationally 
 manipulable form, specifically leveraging a custom dictionary data structure, 
 referred to as `Poly`, to encode the moment's expression. This structure allows 
