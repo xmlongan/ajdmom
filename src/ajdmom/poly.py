@@ -204,7 +204,7 @@ class Poly(UserDict):
             raise NotImplementedError("n must be an integer and >= 0.")
         # support for poly^0 = 1
         if n == 0:
-            return self.const_one()
+            return Poly.const_one(self.keyfor)
         #
         # initialize a new poly to isolate the operation from affecting
         # the original one
@@ -274,6 +274,37 @@ class Poly(UserDict):
                 poly.add_keyval(key, val)
         #
         poly.remove_zero()
+        return poly
+
+    @classmethod
+    def multiply(cls, pol1, pol2):
+        """Multiply two polies with different keyfors
+
+        :param Poly pol1: first poly with simple ``keyfor`` attribute, i.e,
+         each element in ``keyfor`` is a str.
+        :param Poly pol2: second poly with simple ``keyfor`` attribute.
+        :return: Poly object with merged ``keyfor``.
+        :rtype: Poly
+        """
+        kf1 = pol1.keyfor
+        kf2 = pol2.keyfor
+        kf = list(kf1)
+        idx = []
+        for k in kf2:
+            if k not in kf1:
+                kf.append(k)
+                idx.append(len(kf) - 1)
+            else:
+                idx.append(kf1.index(k))
+        poly = Poly()
+        poly.set_keyfor(kf)
+        for k1, v1 in pol1.items():
+            for k2, v2 in pol2.items():
+                key = list(k1) + [0 for _ in range(len(kf) - len(kf1))]
+                for i in range(len(k2)):
+                    key[idx[i]] += k2[i]
+                val = v1 * v2
+                poly.add_keyval(tuple(key), val)
         return poly
 
     def is_exact_type(self, other):
@@ -376,34 +407,39 @@ class Poly(UserDict):
                     f.write(row)
         print(f"complete the writing of {filename}.")
 
-    def const_one(self):
+    @classmethod
+    def const_one(cls, keyfor):
         """Constant equivalent to 1 in real numbers.
 
         :return: poly evaluate to 1.
         :rtype: Poly
         """
+        # check not the case (keyfor1, keyfor2, (subkeyfor1, subkeyfor2), ...)
+        for kf in keyfor:
+            if not isinstance(kf, str):
+                raise TypeError(f"element of keyfor: {kf} is not a string.")
         poly = Poly()
-        poly.set_keyfor(self.keyfor)
-        if isinstance(self.keyfor, tuple):
-            key = tuple(0 for i in range(len(self.keyfor)))
-        else:  # n must = 1 and keyfor is not a tuple
-            key = 0
+        poly.set_keyfor(keyfor)
+        key = tuple(0 for i in range(len(keyfor)))
         val = Fraction(1, 1)
         poly.add_keyval(key, val)
         return poly
 
-    def const_zero(self):
+    @classmethod
+    def const_zero(cls, keyfor):
         """Constant equivalent to 0 in real numbers.
 
+        :param keyfor: either list|tuple or single string
         :return: poly evaluate to 0.
         :rtype: Poly
         """
+        # check not the case (keyfor1, keyfor2, (subkeyfor1, subkeyfor2), ...)
+        for kf in keyfor:
+            if not isinstance(kf, str):
+                raise TypeError(f"element of keyfor: {kf} is not a string.")
         poly = Poly()
-        poly.set_keyfor(self.keyfor)
-        if isinstance(self.keyfor, tuple):
-            key = tuple(0 for i in range(len(self.keyfor)))
-        else: # n must = 1 and keyfor is not a tuple
-            key = 0
+        poly.set_keyfor(keyfor)
+        key = tuple(0 for i in range(len(keyfor)))
         val = Fraction(0, 1)
         poly.add_keyval(key, val)
         return poly
