@@ -11,8 +11,8 @@ from ajdmom import Poly
 from ajdmom.mdl_1fsv.cond_joint_cmom import joint_cmom
 
 
-def cond_mean_y() -> Poly:
-    """Conditional mean of return
+def cond_mean_v() -> Poly:
+    """Conditional mean of volatility
 
     :return: poly with ``keyfor`` =
      ('mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho')
@@ -21,6 +21,26 @@ def cond_mean_y() -> Poly:
     kf = ['mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho']
     pol1 = Poly()
     pol1.set_keyfor(kf)
+    k1 = (0, -1, 0, 1, 0, 0, 0, 0)
+    v1 = Fraction(1, 1)
+    k2 = (0, 0, 0, 0, 0, 1, 0, 0)
+    k3 = (0, -1, 0, 0, 0, 1, 0, 0)
+    pol1.add_keyval(k1, v1)
+    pol1.add_keyval(k2, v1)
+    pol1.add_keyval(k3, -v1)
+    return pol1
+
+
+def cond_mean_y() -> Poly:
+    """Conditional mean of return
+
+    :return: poly with ``keyfor`` =
+     ('mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho')
+    :rtype: Poly
+    """
+    kf = ['mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho']
+    pol2 = Poly()
+    pol2.set_keyfor(kf)
     k1 = (1, 0, 1, 0, 0, 0, 0, 0)
     k2 = (0, 0, 1, 0, 0, 1, 0, 0)
     v1, v2 = Fraction(1, 1), Fraction(-1, 2)
@@ -30,32 +50,12 @@ def cond_mean_y() -> Poly:
     k5 = (0, 0, 0, 1, 1, 0, 0, 0)
     k6 = (0, -1, 0, 1, 1, 0, 0, 0)
     v5, v6 = Fraction(-1, 2), Fraction(1, 2)
-    pol1.add_keyval(k1, v1)
-    pol1.add_keyval(k2, v2)
-    pol1.add_keyval(k3, v3)
-    pol1.add_keyval(k4, v4)
-    pol1.add_keyval(k5, v5)
-    pol1.add_keyval(k6, v6)
-    return pol1
-
-
-def cond_mean_v() -> Poly:
-    """Conditional mean of volatility
-
-    :return: poly with ``keyfor`` =
-     ('mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho')
-    :rtype: Poly
-    """
-    kf = ['mu', 'e^{kh}', 'h', 'v0', 'k^{-}', 'theta', 'sigma', 'rho']
-    pol2 = Poly()
-    pol2.set_keyfor(kf)
-    k1 = (0, -1, 0, 1, 0, 0, 0, 0)
-    v1 = Fraction(1, 1)
-    k2 = (0, 0, 0, 0, 0, 1, 0, 0)
-    k3 = (0, -1, 0, 0, 0, 1, 0, 0)
     pol2.add_keyval(k1, v1)
-    pol2.add_keyval(k2, v1)
-    pol2.add_keyval(k3, -v1)
+    pol2.add_keyval(k2, v2)
+    pol2.add_keyval(k3, v3)
+    pol2.add_keyval(k4, v4)
+    pol2.add_keyval(k5, v5)
+    pol2.add_keyval(k6, v6)
     return pol2
 
 

@@ -285,14 +285,14 @@ def recursive_ieii_ieziziz(n1, n2, n3, n4, n5, n6, ieii_ieziziz):
 
 
 def moment_ieii_ieziziz(n1, n2, n3, n4, n5, n6):
-    """joint conditional moment of :math:`IE_t,I_t,I_t^{*},IEZ_t,IZ_t,IZ_t^{*}|v_0`
+    """Conditional joint moment of :math:`IE_t,I_t,I_t^{*},IEZ_t,IZ_t,IZ_t^{*}|v_0`
 
-    :param integer n1: order of :math:`IE_t`
-    :param integer n2: order of :math:`I_t`
-    :param integer n3: order of :math:`I_t^{*}`
-    :param integer n4: order of :math:`IEZ_t`
-    :param integer n5: order of :math:`IZ_t`
-    :param integer n6: order of :math:`IZ_t^{*}`
+    :param int n1: order of :math:`IE_t`
+    :param int n2: order of :math:`I_t`
+    :param int n3: order of :math:`I_t^{*}`
+    :param int n4: order of :math:`IEZ_t`
+    :param int n5: order of :math:`IZ_t`
+    :param int n6: order of :math:`IZ_t^{*}`
     :return: poly with ``keyfor`` = ('e^{kt}','t','k^{-}','v0-theta','theta','sigma',
       'lmbd','mu_v','mu_s','sigma_s')
     :rtype: Poly
