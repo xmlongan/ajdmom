@@ -374,10 +374,8 @@ def moment_IEII(n3, n4, n5):
     #
     # special poly constants, analog to 0 and 1
     #
-    P0 = Poly({(0, 0, 0, 0, 0, 0, 0, 0): Frac(0, 1)})
-    P0.set_keyfor(kf)
-    P1 = Poly({(0, 0, 0, 0, 0, 0, 0, 0): Frac(1, 1)})
-    P1.set_keyfor(kf)
+    P0 = Poly.const_zero(kf) # repaired a bug
+    P1 = Poly.const_one(kf)
     #
     # n3 + n4 + n5 = 0: special case
     #
