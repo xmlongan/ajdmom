@@ -59,7 +59,7 @@ def moment_ie(n):
     :param integer n: order of the moment
 
     :return: poly with ``keyfor`` =
-      ('e^{kt}', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'lmbd', 'mu_v')
+      ('e^{kt}', 'k^{-}', 'v0-E[v]', 'E[v]', 'sigma', 'lmbd', 'mu_v')
     :rtype: Poly
     """
     if n < 0:
@@ -92,6 +92,7 @@ def moment_ie(n):
         (2, 1, 0, 1, 0, 0, 0): Fraction(1, 2),
         (0, 1, 0, 1, 0, 0, 0): Fraction(-1, 2)
     })
+    P2.set_keyfor(kf)
     IE[2] = P2
     #
     if n <= 2:
@@ -165,9 +166,9 @@ def cmoment_ie_iez(n1, n2):
     :rtype: Poly
     """
     if not (n1 >= 0 and n2 >= 0):
-        raise ValueError(f'moment_ie_iez({n1}, {n2}) is called!')
+        raise ValueError(f'cmoment_ie_iez({n1}, {n2}) is called!')
     #
-    # IE_IEZ: a dict of moments of E[IE^{n1} IEZ^{n2}]
+    # IE_IEZ: a dict of moments of E[IE^{n1} \overline{IEZ}^{n2}]
     #
     IE_IEZ = {}
     #
@@ -213,6 +214,52 @@ def cmoment_ie_iez(n1, n2):
     poly.remove_zero()
     return poly
 
+def cmoment_ie_iez_to(m):
+    if m < 0:
+        raise ValueError(f'm must be nonnegative, however {m} is supplied.')
+    #
+    # IE_IEZ: a dict of moments of E[IE^{n1} \overline{IEZ}^{n2}]
+    #
+    IE_IEZ = {}
+    #
+    kf = ['e^{kt}', 'k^{-}', 'v0-E[v]', 'E[v]', 'sigma', 'lmbd', 'mu_v']
+    #
+    # special poly constants, analog to 0 and 1
+    #
+    P0 = Poly({(0, 0, 0, 0, 0, 0, 0): Fraction(0, 1)})
+    P0.set_keyfor(kf)
+    P1 = Poly({(0, 0, 0, 0, 0, 0, 0): Fraction(1, 1)})
+    P1.set_keyfor(kf)
+    #
+    # n1 + n2 = 0: special case
+    #
+    IE_IEZ[(0, 0)] = P1  # equiv to constant 1
+    #
+    if m == 0: return IE_IEZ
+    # n1 + n2 = 1
+    #
+    IE_IEZ[(1, 0)] = P0  # equiv to constant 0
+    IE_IEZ[(0, 1)] = iez_to_ie_iez(cmoment_IEZ(1))
+    #
+    if m == 1: return IE_IEZ
+    # n1 + n2 = 2
+    #
+    IE_IEZ[(2, 0)] = moment_ie(2)
+    IE_IEZ[(1, 1)] = P0
+    IE_IEZ[(0, 2)] = iez_to_ie_iez(cmoment_IEZ(2))
+    #
+    if m == 2: return IE_IEZ
+    #
+    # m >= 3: typical cases
+    #
+    for n in range(3, m + 1):
+        for i in range(n + 1):
+            poly = recursive_ie_iez(i, n - i, IE_IEZ)
+            poly.remove_zero()
+            IE_IEZ[(i, n - i)] = poly
+        # seems almost all polys should be reserved
+    return IE_IEZ
+
 def poly2num(poly, par):
     # 'e^{kt}', 'k^{-}', 'v0-E[v]', 'E[v]', 'sigma', 'lmbd', 'mu_v'
     v0, k, theta, sigma = par['v0'], par['k'], par['theta'], par['sigma']
@@ -256,3 +303,6 @@ if __name__ == '__main__':
     print(f"\ncmoment_ie_iez(n1, n2) returns a poly with keyfor = \n{kf}\n")
     print(f'cmoment_ie_iez({n1}, {n2}) = ')
     pprint(cmoment_ie_iez(n1, n2))
+
+    IE_IEZ = cmoment_ie_iez_to(2)
+    pprint(IE_IEZ)
