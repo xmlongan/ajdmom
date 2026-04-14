@@ -380,8 +380,8 @@ class Poly(UserDict):
         #
         sub1 = ['l' + str(j) for j in range(1, len(l) + 1)]
         sub2 = ['o' + str(j) for j in range(1, len(l) + 1)]
-        title = ','.join(self.keyfor[:i]) + ',' + ','.join(sub1 + sub2) + ','
-        if len(self.keyfor) > i + 2: title += ','.join(self.keyfor[i + 2:])
+        title = ','.join(self.keyfor[:i]) + ',' + ','.join(sub1 + sub2)
+        if len(self.keyfor) > i + 2: title += ',' + ','.join(self.keyfor[i + 2:])
         title += ',num,den\n'
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(title)
