@@ -126,9 +126,9 @@ def poly2num(poly, par):
     return f
 
 
-def joint_mom_to(n, par):
+def joint_mom_to(order_sum, par):
     """Conditional joint moments to order (n, n)"""
-    return [[poly2num(joint_mom(i, j), par) for j in range(n + 1)] for i in range(n + 1)]
+    return [[poly2num(joint_mom(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
 
 
 if __name__ == '__main__':

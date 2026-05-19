@@ -118,7 +118,7 @@ def dbfactorial(n):
     :param int n: number :math:`n`
     :return: value of :math:`n!! = n(n-2)(n-4)\cdots 4 \cdot 2` for
       even :math:`n`, :math:`n!! = n(n-2)(n-4)\cdots 3 \cdot 1` for odd :math:`n`
-    :rtype: float
+    :rtype: int
     """
     if n == 0 or n == 1:
         return (1)
@@ -310,6 +310,79 @@ def fZ(l, o, k, s, J):
     return val
 
 
+def fZ_dp(l, o, k, s, J):
+    r"""
+    Efficiently evaluate the function f_{Z_t}(l, o) using Dynamic Programming.
+    Time Complexity: O(n * N), where n = len(l) and N = len(J).
+
+    :param tuple l: vector l (corresponding to l_p in the formula)
+    :param tuple o: vector o (corresponding to o_p in the formula)
+    :param float k: model parameter k
+    :param tuple s: sorted jump time points (s_1, s_2, ..., s_N)
+    :param tuple J: corresponding jump sizes (J_1, J_2, ..., J_N)
+    :return: function value
+    :rtype: float
+    """
+    n_steps = len(l)
+    # Case 1: Continuous part only (no CPP product)
+    if n_steps == 0:
+        return 1.0
+
+    N = len(J)
+    # Case 2: Jump part exists but no jumps occurred in the path
+    if N == 0:
+        return 0.0
+
+    # 1. Pre-calculate base terms A_j = exp(k * s_j) * J_j
+    A = [math.exp(k * s_j) * J_j for s_j, J_j in zip(s, J)]
+
+    # 2. Pre-calculate prefix sums of A: prefix_sum_A[j] = sum_{i=0}^{j-1} A[i]
+    # We use size N+1 to easily handle sum_{i<=j} A_i as prefix_sum_A[j+1]
+    prefix_sum_A = [0.0] * (N + 1)
+    for i in range(N):
+        prefix_sum_A[i + 1] = prefix_sum_A[i] + A[i]
+
+    # 3. Initialize DP state: S[j] represents the sum of paths
+    # where the max index is exactly j at step p=1.
+    # S[j] = A[j] * B[0, j]
+    S = [0.0] * N
+    for j in range(N):
+        B_0j = math.exp(l[0] * k * s[j]) * (s[j] ** o[0])
+        S[j] = A[j] * B_0j
+
+    # 4. State Transition: Iterate from step p=2 to n (index 1 to n_steps-1)
+    for p in range(1, n_steps):
+        next_S = [0.0] * N
+
+        # sum_S_prev tracks the prefix sum of the previous layer: sum_{m=0}^{j-1} S[m]
+        # This is used for the "Upward Jump" case (Case B)
+        sum_S_prev = 0.0
+
+        for j in range(N):
+            # Case A: Previous max index was already j.
+            # Current index i_{p+1} can be any index <= j.
+            term_A = S[j] * prefix_sum_A[j + 1]
+
+            # Case B: Previous max index was some m < j.
+            # Current index i_{p+1} must be exactly j to update the max to j.
+            term_B = sum_S_prev * A[j]
+
+            # Evaluate the contribution term B_{p, j} for the current step
+            B_pj = math.exp(l[p] * k * s[j]) * (s[j] ** o[p])
+
+            # Update state for current j
+            next_S[j] = (term_A + term_B) * B_pj
+
+            # Accumulate sum_S_prev for the next j in the same layer
+            sum_S_prev += S[j]
+
+        # Move to the next layer
+        S = next_S
+
+    # 5. Final Result: Sum of all possible max indices at the final step n
+    return sum(S)
+
+
 def simplify_rho(poly, n):
     """expand the term 'sqrt(1-rho^2)'
 
@@ -355,3 +428,18 @@ if __name__ == "__main__":
     for i in range(7):
         print(f"cmnorm({i}) = ")
         pprint(cmnorm(i))
+
+    # Test fZ
+    k_val = 0.5
+    s_points = (0.03427, 0.08219, 0.84038)
+    J_sizes = (0.10062, 0.00598, 0.04065)
+
+    # Example moment parameters (n=6)
+    l_vec = (1, 2, 3, 1, 1, 1)
+    o_vec = (0, 1, 3, 1, 1, 1)
+
+    val = fZ_dp(l_vec, o_vec, k_val, s_points, J_sizes)
+    print(f"Evaluated fZ: {val}")
+
+    val = fZ(l_vec, o_vec, k_val, s_points, J_sizes)
+    print(f'Evaluated fZ: {val}')

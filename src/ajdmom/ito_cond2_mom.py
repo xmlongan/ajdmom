@@ -136,12 +136,12 @@ vector :math:`\boldsymbol{j} \equiv (j_1,\dots,j_6)`,
    \boldsymbol{l} \equiv
    \begin{cases}
    (l_1,\dots,l_n) & \text{if } n \ge 1,\\
-    & \text{otherwise},
+   () & \text{otherwise},
    \end{cases}
    \quad \boldsymbol{o} \equiv
    \begin{cases}
    (o_1,\dots,o_n) & \text{if } n \ge 1,\\
-   & \text{otherwise},
+   () & \text{otherwise},
    \end{cases}
 
 :math:`n` denotes the number of :abbr:`CPPs(Compound Poisson Processes)`
