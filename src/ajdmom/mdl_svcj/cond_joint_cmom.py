@@ -170,11 +170,13 @@ def align(poly, keyfor):
     return poln
 
 
-def joint_cmom(n, m):
-    """Conditional joint central moment of volatility and return
+def joint_cmom_intermediate(n, m):
+    r"""Conditional joint central moment of intermediate terms
 
-    :param int n: power of :math:`\bar{v}_t`
-    :param int m: power of :math:`\bar{y}_t`
+    :param int n: power of :math:`\sigma_ve^{-kt} I\!E_t + e^{-kt} I\!E\!Z_t`
+    :param int m: power of :math:`\frac{\sigma_v}{2k} e^{-kt} I\!E_t +
+     (\rho - \frac{\sigma_v}{2k})I_t + \sqrt{1-\rho^2} I_t^* + \frac{1}{2k}e^{-kt} I\!E\!Z_t
+     + (\rho_J - \frac{1}{2k}) I\!Z_t + I\!Z_t^*`
     :return: Poly object with ``keyfor`` =
      ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'rho',
      'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s')
@@ -207,6 +209,42 @@ def joint_cmom(n, m):
     return simplify_rho(poly, 7)  # expand sqrt(1-rho^2)
 
 
+def joint_cmom(n, m):
+    r"""Conditional joint central moment of volatility and return
+
+    :param int n: power of :math:`\bar{v}_t`
+    :param int m: power of :math:`\bar{y}_t`
+    :return: Poly object with ``keyfor`` =
+     ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'rho',
+     'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s')
+    :rtype: Poly
+    """
+    kf = ('e^{kt}', 't', 'k^{-}', 'v0-theta', 'theta', 'sigma', 'rho',
+     'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s')
+    mean_1 = Poly({(0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0) : Fraction(1, 1),
+                   (-1,0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0) : Fraction(-1,1)})
+    mean_1.set_keyfor(kf)
+
+    mean_2 = Poly({(0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0) : Fraction(1, 2),
+                   (-1,0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0) : Fraction(-1,2),
+                   (0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0) : Fraction(1, 1),
+                   (0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0) : Fraction(-1,2),
+                   (0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0) : Fraction(1, 1)})
+    mean_2.set_keyfor(kf)
+
+    poly = Poly()
+    poly.set_keyfor(kf)
+    for i in range(n + 1):
+        for j in range(m + 1):
+            bino = math.comb(n, i) * math.comb(m, j)
+            sign = (-1) ** (n - i + m - j)
+            poln = joint_cmom_intermediate(i, j)
+            poln = sign * bino * (poln * (mean_1 ** (n - i)) * (mean_2 ** (m -j)))
+            poly.merge(poln)
+    poly.remove_zero()
+    return poly
+
+
 def poly2num(poly, par):
     """Evaluate poly to numerical value"""
     # kf = ['e^{kt}', 't', 'k^{-}',
@@ -230,8 +268,7 @@ def poly2num(poly, par):
 
 def joint_cmom_to(order_sum, par):
     """Conditional joint central moments to order (n, n)"""
-    # return [[poly2num(joint_cmom(i, j), par) for j in range(n + 1)] for i in range(n + 1)]
-    return [[poly2num(joint_cmom(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
+    return [[poly2num(joint_cmom_intermediate(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
 
 
 if __name__ == '__main__':
@@ -248,4 +285,4 @@ if __name__ == '__main__':
     print(poly)
 
     print(r'Conditional joint moment E[\bar{v}_t^1 \bar{y}_t^2|v_0]: ')
-    print(joint_cmom(1, 2))
+    print(joint_cmom_intermediate(1, 2))

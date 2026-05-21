@@ -9,7 +9,7 @@ from fractions import Fraction
 from pathlib import Path
 
 from ajdmom import Poly
-from ajdmom.mdl_svcj.cond_joint_cmom import joint_cmom
+from ajdmom.mdl_svcj.cond_joint_cmom import joint_cmom_intermediate
 
 
 def cond_mean_v():
@@ -96,7 +96,7 @@ def joint_mom(n, m):
             bino = math.comb(n, i) * math.comb(m, j)
             pol1 = mean_v ** (n - i)
             pol2 = mean_y ** (m - j)
-            pol3 = joint_cmom(i, j)
+            pol3 = joint_cmom_intermediate(i, j)
             #  ('e^{kt}', 't', 'k^{-}',
             # 'v0-theta', 'theta', 'sigma', 'rho',
             # 'lmbd', 'mu_v', 'rhoJ', 'mu_s', 'sigma_s')
