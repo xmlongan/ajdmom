@@ -267,8 +267,8 @@ def poly2num(poly, par):
 
 
 def joint_cmom_to(order_sum, par):
-    """Conditional joint central moments to order (n, n)"""
-    return [[poly2num(joint_cmom_intermediate(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
+    """Conditional joint central moments to order (n, m) where n + m = order_sum"""
+    return [[poly2num(joint_cmom(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
 
 
 if __name__ == '__main__':
