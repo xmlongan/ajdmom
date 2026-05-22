@@ -91,8 +91,7 @@ def poly2num(poly, par):
 
 
 def joint_cmom_to(order_sum, par):
-    """Conditional joint moments to order (n, n)"""
-    # return [[poly2num(joint_cmom(i, j), par) for j in range(n + 1)] for i in range(n + 1)]
+    """Conditional joint moments to order (n, m) where n + m = order_sum"""
     return [[poly2num(joint_cmom(n, i), par) for i in range(order_sum - n + 1)] for n in range(order_sum + 1)]
 
 
